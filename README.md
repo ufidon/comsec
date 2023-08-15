@@ -1,8 +1,19 @@
 # Computer Security
 
-
+Tentative topics: chapter 1-9
+- [Overview](./mod1/README.md)
+- [Cryptographic Tools](./mod2/README.md)
+- [User Authentication](./mod3/README.md)
+- [Access Control](./mod4/README.md)
+- [Database and Data Center Security](./mod5/README.md)
+- [Malicious Software](./mod6/README.md)
+- [Denial-of-Service Attacks](./mod7/README.md)
+- [Intrusion Detection](./mod8/README.md)
+- [Firewalls and Intrusion Prevention Systems](./mod9/README.md)
 
 # Reference textbooks
+- [Computer Security: Principles and Practice, 4e](https://www.pearson.com/en-us/subject-catalog/p/computer-security-principles-and-practice/P200000003493/9780137502875)
+  - [5e](https://www.pearson.com/en-us/subject-catalog/p/computer-security-principles-and-practice/P200000010333/9780138091712)
 - [Introduction to Computer Security](https://www.pearson.com/en-us/subject-catalog/p/introduction-to-computer-security/P200000003191/9780321512949)
 - [Computer & Internet Security: A Hands-on Approach](https://www.handsonsecurity.net/)
 - [Practical Cryptography for Developers](https://cryptobook.nakov.com/)
