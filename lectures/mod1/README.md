@@ -3,6 +3,7 @@ ch1
 
 Information Assurance and Cybersecurity
 ---
+Concentration courses and career path:
 - CIS 4367 - Computer Security Credits: 3
   - Security Analyst
 - CIS 4362 - Applied Cryptography Credits: 3
@@ -46,12 +47,10 @@ Prepare for the competitions
 
 The 6 components of [information system](https://en.wikipedia.org/wiki/Information_system)
 ---
-- Hardware
-- Software
-- Data
+- Hardware, Software, Data
+- Internet
 - Procedure
 - People
-- Internet
 
 
 Practice 🖊️
@@ -71,7 +70,7 @@ What is computer security?
 
 Information security attributes and protection
 ---
-- ![isap](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/CIAJMK1209-en.svg/220px-CIAJMK1209-en.svg.png)
+- ![isap](https://upload.wikimedia.org/wikipedia/commons/c/c5/CIAJMK1209-en.svg)
 - the CIA composed in hardware, software and communication
 - protection and prevention at three layers: physical, personal and organizational
 
