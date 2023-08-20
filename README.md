@@ -1,15 +1,15 @@
 # Computer Security
 
 Tentative topics: chapter 1-9
-- [Overview](./lectures/mod1/README.md)
-- [Cryptographic Tools](./lectures/mod2/README.md)
-- [User Authentication](./lectures/mod3/README.md)
-- [Access Control](./lectures/mod4/README.md)
-- [Database and Data Center Security](./lectures/mod5/README.md)
-- [Malicious Software](./lectures/mod6/README.md)
-- [Denial-of-Service Attacks](./lectures/mod7/README.md)
-- [Intrusion Detection](./lectures/mod8/README.md)
-- [Firewalls and Intrusion Prevention Systems](./lectures/mod9/README.md)
+- [Module 1: Introduction to computer security](./lectures/mod1/README.md)
+- [Module 2: Cryptographic Tools](./lectures/mod2/README.md)
+- [Module 3: User Authentication](./lectures/mod3/README.md)
+- [Module 4: Access Control](./lectures/mod4/README.md)
+- [Module 5: Database and Data Center Security](./lectures/mod5/README.md)
+- [Module 6: Malicious Software](./lectures/mod6/README.md)
+- [Module 7: Denial-of-Service Attacks](./lectures/mod7/README.md)
+- [Module 8: Intrusion Detection](./lectures/mod8/README.md)
+- [Module 9: Firewalls and Intrusion Prevention Systems](./lectures/mod9/README.md)
 
 # Reference textbooks
 - [Computer Security: Principles and Practice, 4e](http://williamstallings.com/ComputerSecurity/)

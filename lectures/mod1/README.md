@@ -296,6 +296,11 @@ Practice 🖊️
 - Explore the Cybersecurity Standards and Frameworks above
 
 
+Basic Linux and Windows commands
+---
+- [basic commands](./cmd.md)
+
+
 # References
 - [FIPS 200: Minimum Security Requirements for Federal Information and Information Systems](https://csrc.nist.gov/pubs/fips/200/final)
 - [Fundamental Security Design Principles](https://binaryterms.com/fundamental-security-design-principles.html)
