@@ -114,7 +114,65 @@ Calculation steps
 - years needed = $2^{keyLength-1}/exhaustiveSpeed/10^6/60/60/24/365$
 
 
+Triple DES: [Triple DES](https://en.wikipedia.org/wiki/Triple_DES)
+---
+- published in several standard documents
+- widely used but start deprecation in 2017
+  - complete deprecation by the end of 2023
+- repeats DES algorithm three times using either two or three unique keys
+  - two unique keys: $56×2=112$
+  - three unique keys: $56×3=168$
+- strong key length against brute-force attack, but
+- data block size is still 64bits
+
+
+AES: [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+---
+- a replacement for 3DES
+- established by the U.S. National Institute of Standards and Technology (NIST) in 2001
+  - U.S. Federal Information Processing Standards (FIPS) PUB 197
+- stronger and more efficient than t3DES
+- block size: 128bits; key sizes: 128, 192, 256bits
+
+
+How to apply block cipher on data much big than one block?
+---
+- divide data into multiple blocks of input size: 64 or 128 bits
+  - then apply cipher on each block in multiple ways
+  - called [block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
+- Electronic CodeBook (ECB) mode is the simplest approach
+  - Each block of plaintext is encrypted using the same key independently
+  - Regularities in the plaintext could occur in the cyphertext
+    - can be overcomed with chained mode or counter mode
+
+
+Popular [block cipher modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
+---
+- Electronic codebook (ECB)
+- Cipher block chaining (CBC), Propagating cipher block chaining (PCBC)
+- Cipher feedback (CFB), Output feedback (OFB), Counter (CTR)
+
+
+Block cipher vs. stream cipher
+---
+- [Block cipher](https://en.wikipedia.org/wiki/Block_cipher)
+  - input is processed block-wise
+  - an output block is produced for each input block
+  - can reuse keys
+- [Stream cipher](https://en.wikipedia.org/wiki/Stream_cipher)
+  - input is processed element-wise
+    - bit by bit, or byte by byte
+  - an output element is produced for each input element
+  - almost always faster and use far less code than block cipher
+  - a pseudorandom stream (key stream) is generated with the input key
+    - unpredictable without knowledge of the input key
+    - bit-wise xor-ed with plaintext to get ciphertext
+
+
+
 ## Message authentication and hash function
+
+
 
 
 ## Authentication and non-repudiation with asymmetric ciphers
