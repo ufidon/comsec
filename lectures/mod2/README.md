@@ -427,5 +427,65 @@ Digital envolop creation and openning
 ## Random and pseudorandom numbers
 
 
+Applications of random numbers
+---
+Generation of 
+- key for asymmetric cipher
+- stream key for stream cipher
+- temporary session key
+- secret key in digital envolope
+- handshaking to prevent replay attacks
+
+
+Random number requirements
+---
+- Randomness criteria
+  - uniform distribution
+    - occurrence frequency of each number should be approximately the same
+  - independence
+    - no one value in the sequence can be inferred from the others
+- Unpredictability
+  - statistically independence between numbers in the sequence
+  - future elements of the sequence are not predictable
+
+
+Random vs. Pseudorandom
+---
+- True random number generator (TRNG)
+  - use nondeterministic sources
+  - Most operate by measuring unpredictable natural processes
+    - e.g. capacitor leakage, gas discharge, radiation
+    - increasingly provided on modern processors
+- Pseudorandom number generator (PRNG or DRNG)
+  - satisfy statistical randomness tests
+  - likely to be predictable
+- random numbers generated from cryptographic algorithms are not statistically random
+  - due to the deterministic algorithms
+
+
+Practical application: encryption of stored data
+---
+- Common to encrypt transmitted data
+  - HTTPS
+- Much less common for stored data
+  - little protection beyond domain authentication and access controls
+  - data are archived for indefinite periods
+  - data are recoverable even though erased until disk sectors are reused
+- Approaches to encrypt stored data
+  - available encryption packages
+    -  Pretty Good Privacy (PGP), VeraCrypt
+   - back-end appliance
+     -  hardware device that sits between servers and storage systems and encrypts/decrypts all passing data
+  - library-based tape encryption
+    - a cryptographic co-processor embedded in the tape drive and tape library hardware
+  - background laptop and PC data encryption
+    - Windows BitLocker, MacOS FileVault
+
+
+💡 Demo:
+---
+- [Gpg4win](https://www.gpg4win.org/)
+
+
 # References
 - [The 11 Largest National Security Leaks in American History](https://www.saturdayeveningpost.com/2022/09/the-11-largest-national-security-leaks-in-american-history/)
