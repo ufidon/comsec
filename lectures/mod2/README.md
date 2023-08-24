@@ -285,8 +285,144 @@ Security of [Hash Functions](https://hashcat.net/wiki/doku.php?id=example_hashes
 
 ## Authentication and non-repudiation with asymmetric ciphers
 
+❓ What is the problem with the previous message authentication
+---
+- Both authentication and non-repudiation can be broken
+  - if the sender and receiver lack trust
+  - why?
+- can be solved with asymmetric ciphers
+
+
+Asymmetric cipher
+---
+- also called public-key cipher
+- based on methematical functions
+- asymmetric
+  - use two separate but related keys
+  - a public key and a private key
+  - private key is never released
+  - public key is made public for others to use
+    - it is a chellenge to distribute public keys
+
+
+Public-key cryptography
+---
+- public key is used for encryption
+  - the generated ciphertext can only be decrypted with the related private key
+- the private key can also be used to encrypt message
+  - but this process is called signing the message instead of encryption
+  - the ciphertext can only be decrypted with the related public key
+    - but it is called signature verification instead of decryption
+
+
+Popular public-key cryptosystems
+---
+- [RSA (Rivest–Shamir–Adleman)](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
+  - Its security of RSA relies on the "factoring problem":
+    - the practical difficulty of factoring the product of two large prime numbers 
+  - widely accepted and implemented
+  - 
+- [Diffie-Hellman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
+  -  a mathematical method of securely exchanging cryptographic keys over a public channel
+- [DSS (Digital Signature Standard)](https://en.wikipedia.org/wiki/Digital_Signature_Standard)
+  - a FIPS specifying a suite of algorithms generating signatures
+- [ECC (Elliptic-curve cryptography)](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)
+  - based on the algebraic structure of elliptic curves over finite fields
+  - smaller keys compared to non-EC cryptography to provide equivalent security
+
+
+Applications for public-key cryptosystems
+---
+| Algorithm | Digital signature | Public key exchange | Encryption |
+| --- | --- | --- | --- |
+| RSA | Y | Y | Y |
+| Diffie-Hellman | N | Y | N |
+| DSS | Y | N | N |
+| ECC | Y | Y | Y |
+
+
+Requirements for Public-Key Cryptosystems
+---
+- Efficiency
+  - Efficient to create key pairs
+  - Efficient for sender knowing public key to encrypt messages
+  - Efficient for receiver knowing private key to decrypt ciphertext
+- Security
+  - Computationally infeasible for opponent to derive private key from public key
+  - Computationally infeasible for opponent to recover original message
+
 
 ## Digital signatures and key management
+
+Digital signatures
+---
+- defined in NIST FIPS PUB 186-4
+  - the result of a cryptographic transformation of data
+  - with properly implementation, provides a mechanism for verifying 
+    - origin authentication, 
+    - data integrity 
+    - signatory non-repudiation
+- FIPS 186-4 specified three digital signature algorithms:
+  - Digital Signature Algorithm (DSA)
+  - RSA Digital Signature Algorithm
+  - Elliptic Curve Digital Signature Algorithm (ECDSA)
+
+
+Sign a message and verify the signature
+---
+- Sign a message $M$
+  - the signature $S$ on $M$ is the ciphertext of a hash code $h$ of $M$
+  - encrypted with signer's private key $K_{pri}: S=E_{K_{pri}}(h)$
+  - $M$ and $S$ are sent out
+- Verify the signaure $S'$ for $M'$ by the receiver
+  - generate the hash code $h'$ of $M'$
+  - decrypt $S'$ with signer's public key $P_{pub}$ to get $h''=D_{K_{pub}}(S')$
+  - if $h' = h''$, the signature is valid
+
+
+Public key certificate
+---
+- public key is vulnerable to spoofing (impersonation)
+  - can be overcomed with public key certifcate
+- a public key certifcate binds 
+  - the unsigned certificate which contains
+    - the public key, 
+    - its owner's identity  
+    - the certificate authority (CA) 's information
+  - and the CA's signature for the unsigned certificate
+    - can be verified with CA's public key
+  - most saved in the format specified in the the [X.509 standard](https://en.wikipedia.org/wiki/X.509)
+
+
+💡 Demo
+---
+- Show a sample public key certificate
+
+
+Symmetric key exchange using public-key encryption
+---
+- symmetric cipher is efficient for large data
+- public-key encryption is suitable for small chunk of data
+  - e.g. the *secret key* used in symmetric cipher
+- two popular ways of symmetric key exchange
+  - Diffie–Hellman key exchange
+    -  no authentication of the two communicating partners
+   - public-key encryption with public key certificate
+     - referred to as a *digital envelope*
+
+
+Digital envolop creation and openning
+---
+- for the sender:
+  - generate a random symmetric key $K_s$
+  - encrypt a message $M$ with $K_s$ using a symmetric cipher to get the encrypted message $C_M$
+  - encrypt $K_s$ with receiver's public key $K_{pub}$ to get $C_{K_s}$
+  - the digital envolope = $C_M + C_{K_s}$ is sent to the receiver
+- for the receiver:
+  - decrypt $C_{K_s}$ with her private key $K_{pri}$ to get $K_s$
+  - decrypt $C_M$ with $K_s$ to get $M$
+
+
 
 ## Random and pseudorandom numbers
 
