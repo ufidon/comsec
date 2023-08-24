@@ -172,7 +172,115 @@ Block cipher vs. stream cipher
 
 ## Message authentication and hash function
 
+Message authentication
+---
+- assure data integrity against data tampering
+- verify received message is authentic
+  - contents have not been altered
+  - from authentic source
+  - timely and in correct sequence
+- can use conventional encryption
+  - sender and receiver need to share the key
+  - sender and receiver must trust mutually
 
+
+Message Authentication Without Confidentiality
+---
+- Message encryption only does not provide a secure form of authentication
+- authentication and confidentiality combined in a single algorithm is desired
+  - message authentication is provided as a separate function from message encryption
+- applicable situations
+  - message in plaintext is desired, such as broadcast
+  - it is a burden to decrypt incoming message
+  - authentication in plaintext is desired
+
+
+Message Authentication Using a Message Authentication Code (MAC)
+---
+- for the sender
+  - generate $MAC$ from the message $M$ and a key $K$ with a *MAC algorithm*
+  - send out $MAC + M$
+- for the receiver
+  - recalculate the $MAC'$ from the received message $M'$ and the key $K$
+  - compare the recalculated $MAC'$ with the received $MAC''$
+    - if $MAC'=MAC''$, message is authentic
+- the MAC algorithm is usually a *cryptographic hash function + cipher*
+
+
+Message Authentication using a [hash function](https://en.wikipedia.org/wiki/Hash_function) and a cipher
+---
+- for the sender
+  - get the hash tag $H$ of the message $M: Hash(M)$
+  - encrypt $H$ with a key $K$ to get $MAC$
+    - a shared key for symmetric encryption
+    - a public key for asymmetric encryption
+  - send out: $M + MAC$
+- for the receiver
+  - recalculate the hash tag $H'$ of the received message $M': Hash(M')$
+  - decrypt the received $MAC'$ to get $H''$ with key $K$
+  - compare $H'$ with $H''$
+    - if $H'=H''$, message is authentic
+
+
+Message Authentication using a hash function and a shared key
+---
+- for the sender
+  - get the hash tag $H$ of the combination of the message $M$ and the shared key $K: Hash(K+M+K)$
+  - send out: $M + H$
+- for the receiver
+  - recalculate the hash tag $H'$ of the received message $M': Hash(K+M'+K)$
+  - compare $H'$ with the received $H''$
+    - if $H'=H''$, message is authentic
+
+
+[Hash function properties](https://en.wikipedia.org/wiki/Cryptographic_hash_function)
+---
+- universality:
+  - accept input of any sizes
+  - generate a fixed-length output
+- efficiency: 
+  - $∀x: H(x)$ can be computed efficiently
+- One-way or pre-image resistant:
+  - Computationally infeasible to find $x$ such that $H(x)=h$
+- Second pre-image resistance:
+  - Computationally infeasible to find a pair $x≠y$ such that $H(x)=H(y)$
+- Collision resistant or strong collision resistance:
+  - Computationally infeasible to find any pair $x≠y$ such that $H(x)=H(y)$
+
+
+💡 Demo
+---
+- Explore [popular hash functions](https://en.wikipedia.org/wiki/List_of_hash_functions)
+  - MD5: message digist
+  - SHA: secure hash algorithm
+- Generate hash code for any file
+- On Linux,
+  ```bash
+  # get MD5 of a string
+  echo "hello" | md5sum
+
+  # get SHA1 of typed input, end by CTRL+D
+  sha1sum
+
+  # get SHA256 of program sha256sum
+  sha256sum `which sha256sum`
+  ```
+- On Windows, use PowerShell commandlet [Get-FileHash](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash)
+  ```powershell
+  Get-FileHash myFile
+  ```
+
+
+Security of [Hash Functions](https://hashcat.net/wiki/doku.php?id=example_hashes)
+---
+- two ways attacking secure hash functions
+  - cryptanalysis attack
+    - exploit logical weekness in the algorithm
+  - brute-force attack
+    - strength of hash function depends solely on the length of the hash code
+- applications
+  - save the hashes of passwords instead in plaintext
+  - intrusion detection by saving the hash of each file securely
 
 
 ## Authentication and non-repudiation with asymmetric ciphers
