@@ -169,6 +169,36 @@ Block cipher vs. stream cipher
     - bit-wise xor-ed with plaintext to get ciphertext
 
 
+💡 Demo
+---
+- Encrypt & decrypt a file
+  ```bash
+  # see the list under the 'Cipher commands' heading
+  openssl -h
+
+  # or get a long list, one cipher per line
+  openssl list-cipher-commands
+
+  # encrypt file.txt to file.enc using 256-bit AES in CBC mode
+  openssl enc -aes-256-cbc -salt -in file.txt -out file.enc
+
+  # the same, only the output is base64 encoded for, e.g., e-mail
+  openssl enc -aes-256-cbc -a -salt -in file.txt -out file.enc
+
+  # decrypt binary file.enc
+  openssl enc -d -aes-256-cbc -in file.enc
+
+  # decrypt base64-encoded version
+  openssl enc -d -aes-256-cbc -a -in file.enc
+
+  # provide password on command line
+  openssl enc -aes-256-cbc -salt -in file.txt \
+  -out file.enc -pass pass:mySillyPassword
+
+  # provide password in a file
+  openssl enc -aes-256-cbc -salt -in file.txt \
+  -out file.enc -pass file:/path/to/secret/password.txt
+  ```
 
 ## Message authentication and hash function
 
@@ -489,3 +519,5 @@ Practical application: encryption of stored data
 
 # References
 - [The 11 Largest National Security Leaks in American History](https://www.saturdayeveningpost.com/2022/09/the-11-largest-national-security-leaks-in-american-history/)
+- [OpenSSL Command-Line HOWTO](https://www.madboa.com/geek/openssl/)
+- [OpenSSL Cookbook](https://www.feistyduck.com/library/openssl-cookbook/online/)
