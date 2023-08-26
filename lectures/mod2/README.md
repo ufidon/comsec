@@ -171,7 +171,7 @@ Block cipher vs. stream cipher
 
 💡 Demo
 ---
-- Encrypt & decrypt a file
+- Encrypt & decrypt a file in Parrot Linux
   ```bash
   # see the list under the 'Cipher commands' heading
   openssl -h
@@ -441,7 +441,7 @@ Symmetric key exchange using public-key encryption
      - referred to as a *digital envelope*
 
 
-Digital envolop creation and openning
+Digital envolope creation and openning
 ---
 - for the sender:
   - generate a random symmetric key $K_s$
