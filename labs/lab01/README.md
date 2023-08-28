@@ -104,7 +104,7 @@ After installation, *make sure you can access Internet*, update and upgrade Parr
 ```bash
 # 1. update, upgrade Parrot then install several popular tools
 sudo apt update
-sudo apt full-upgrade -y
+sudo apt upgrade -y
 sudo apt install apt-transport-https dirmngr
 sudo apt install p7zip-full build-essential gcc perl cmake automake curl git geany okular vim
 ```
@@ -124,10 +124,10 @@ sudo apt install p7zip-full build-essential gcc perl cmake automake curl git gea
   * [How to check if Intel Virtualization is enabled without going to BIOS in Windows 10](https://stackoverflow.com/questions/49005791/how-to-check-if-intel-virtualization-is-enabled-without-going-to-bios-in-windows)
   * [How to Enable Intel VT-x in Your Computer’s BIOS or UEFI Firmware](https://www.howtogeek.com/213795/how-to-enable-intel-vt-x-in-your-computers-bios-or-uefi-firmware/)
   * [Virtualization (VT-x/AMD-V) - Enabling virtualization on your computer for running 2N® Access Commander](https://2nwiki.2n.cz/pages/viewpage.action?pageId=75202968)
-* *For Mac computers*
+* *For Mac computers with ARM processor such as m1/m1*
   * [Developer preview for macOS / Arm64 (M1/M2) hosts](https://www.virtualbox.org/wiki/Download_Old_Builds_7_0)
   * [How To Install Parrot OS on Mac M1?](https://minkcoregame.medium.com/how-to-install-parrot-os-on-mac-m1-c1f20438631)
-    * [Securely run operating systems on your Mac](https://mac.getutm.app/)
+    * [Securely run ANY operating systems on your Mac m1](https://mac.getutm.app/)
 * *VM manager*
   * [VMware Workstation Player](https://www.vmware.com/products/workstation-player.html)
     * [Promiscuous Mode by Default?](https://communities.vmware.com/t5/VMware-Workstation-Pro/Promiscuous-Mode-by-Default/td-p/2717392)
