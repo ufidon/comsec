@@ -281,7 +281,7 @@ Message Authentication using a hash function and a shared key
 💡 Demo
 ---
 - Explore [popular hash functions](https://en.wikipedia.org/wiki/List_of_hash_functions)
-  - MD5: message digist
+  - MD5: message digest
   - SHA: secure hash algorithm
 - Generate hash code for any file
 - On Linux,
@@ -305,7 +305,7 @@ Security of [Hash Functions](https://hashcat.net/wiki/doku.php?id=example_hashes
 ---
 - two ways attacking secure hash functions
   - cryptanalysis attack
-    - exploit logical weekness in the algorithm
+    - exploit logical weakness in the algorithm
   - brute-force attack
     - strength of hash function depends solely on the length of the hash code
 - applications
@@ -326,13 +326,13 @@ Security of [Hash Functions](https://hashcat.net/wiki/doku.php?id=example_hashes
 Asymmetric cipher
 ---
 - also called public-key cipher
-- based on methematical functions
+- based on mathematical functions
 - asymmetric
   - use two separate but related keys
   - a public key and a private key
   - private key is never released
   - public key is made public for others to use
-    - it is a chellenge to distribute public keys
+    - it is a challenge to distribute public keys
 
 
 Public-key cryptography
@@ -404,7 +404,7 @@ Sign a message and verify the signature
   - the signature $S$ on $M$ is the ciphertext of a hash code $h$ of $M$
   - encrypted with signer's private key $K_{pri}: S=E_{K_{pri}}(h)$
   - $M$ and $S$ are sent out
-- Verify the signaure $S'$ for $M'$ by the receiver
+- Verify the signature $S'$ for $M'$ by the receiver
   - generate the hash code $h'$ of $M'$
   - decrypt $S'$ with signer's public key $P_{pub}$ to get $h''=D_{K_{pub}}(S')$
   - if $h' = h''$, the signature is valid
@@ -413,8 +413,8 @@ Sign a message and verify the signature
 Public key certificate
 ---
 - public key is vulnerable to spoofing (impersonation)
-  - can be overcomed with public key certifcate
-- a public key certifcate binds 
+  - can be overcomed with public key certificate
+- a public key certificate binds 
   - the unsigned certificate which contains
     - the public key, 
     - its owner's identity  
@@ -441,13 +441,13 @@ Symmetric key exchange using public-key encryption
      - referred to as a *digital envelope*
 
 
-Digital envolope creation and openning
+Digital envelope creation and opening
 ---
 - for the sender:
   - generate a random symmetric key $K_s$
   - encrypt a message $M$ with $K_s$ using a symmetric cipher to get the encrypted message $C_M$
   - encrypt $K_s$ with receiver's public key $K_{pub}$ to get $C_{K_s}$
-  - the digital envolope = $C_M + C_{K_s}$ is sent to the receiver
+  - the digital envelope = $C_M + C_{K_s}$ is sent to the receiver
 - for the receiver:
   - decrypt $C_{K_s}$ with her private key $K_{pri}$ to get $K_s$
   - decrypt $C_M$ with $K_s$ to get $M$
@@ -463,7 +463,7 @@ Generation of
 - key for asymmetric cipher
 - stream key for stream cipher
 - temporary session key
-- secret key in digital envolope
+- secret key in digital envelope
 - handshaking to prevent replay attacks
 
 
