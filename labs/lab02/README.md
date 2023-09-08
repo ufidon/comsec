@@ -15,9 +15,12 @@ In this task, you will use Gpg4win to manage your private/public keys, certifica
 ## Task 1 (30%) Generate, import and manage OpenPGP certificates
 - (5%) Download and install [Gpg4win](https://www.gpg4win.org/)
 - (5%) Generate OpenPGP certificate using your school email
+  - **tick protect your private key with a passphrase**
 - (5%) Publish your OpenPGP certificate on a public keyserver
-- (5%) Backup your private key
-- (5%) Export your public key
+  - For any reason if you can't publish your OpenPGP certificate on a public keyserver,
+  - You can manually upload your exported penPGP certificate onto a keyserver like [keys.openpgp.org](https://keys.openpgp.org/). Follow the web prompts verify your email.
+- (5%) Backup your private (secret) key
+- (5%) Export your public key (penPGP certificate)
 - (5%) Find the OpenPGP certificate of one of your fiends or classmates, then import it
 
 ## Task 2 (20%) Data/program integrity assurance 
