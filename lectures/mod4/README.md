@@ -104,11 +104,6 @@ Access Control Policies
   - left-most column of subjects $s_i$
   - head row of resources $r_j$
   - cells of access rights $a_{s_i,r_j}$
-- can be extended to
-  - a general model [Graham–Denning model](https://en.wikipedia.org/wiki/Graham%E2%80%93Denning_model)
-  - associate capabilities with protection domains, such as
-    - user domain (user mode)
-    - kernel domain (kernel mode)
 
 
 A access matrix
@@ -147,6 +142,57 @@ Authorization table
 - can be easily implemented with relational database
 
 
+[Graham–Denning model](https://en.wikipedia.org/wiki/Graham%E2%80%93Denning_model)
+---
+- extended from DAC model to 
+  - a general model 
+  - associates capabilities with protection domains, such as
+    - user domain (user mode)
+    - kernel domain (kernel mode)
+- assumes
+  - a set of subjects
+  - a set of objects
+    - processes, devices, memory locations or regions, *subjects*
+  - a set of rules that govern the access of subjects to /objects
+- defines a protection state as a snapshot of the access control matrix $A$
+  - $A[S,X]$ : a string represents access attributes
+    - specify the access rights of subject $S$ to object $X$
+
+
+An access control matrix
+---
+- the star ⋆ is a copy flag, indicates the attribute can be transferred
+
+| S/A/O | S1 | S2 | S3 | File 1 | Process 1 | Device 1 |
+| --- | --- | --- | --- | --- | --- | --- |
+| S1 |  | control | own | read* | wakeup | owner |
+| S2 | control<br>own | |  | write |  | seek* |
+| S3 | control | |  | | stop | |
+
+
+Steps triggered by an access attempt
+---
+- A subject $S_0$ issues a request $R$ of type $T$ for object $X$
+- $R$ triggers the system to generate a message $(S_0, T, X)$ to the access controller
+- The controller lookup the access matrix $A$ to see if $T \in A[S_0,X]$ 
+  - Yes, access is granted
+    - $A$ may be updated by this access. e.g. copy an access right
+  - No, access is denied and the violation is recorded and reported
+
+8 access control system commands
+---
+| Rule | Command (by $S_0$) | Operation |
+| --- | --- | --- |
+| $R_1$ | transfer {$T^⋆, T$} to $S,X$ | store {$T^⋆, T$} in $A[S,X]$ | 
+| $R_2$ | grant {$T^⋆, T$} to $S,X$ | store {$T^⋆, T$} in $A[S,X]$ | 
+| $R_3$ | delete $T$ from $S,X$ | delete $T$ from $A[S,X]$ | 
+| $R_4$ |  $w ← read\ S,X$ | copy $A[S,X]$  into $w$ | 
+| $R_5$ | create object $X$ | add column for $X$ to $A$; store 'owner' in $A[S_0,X]$  | 
+| $R_6$ | destroy object $X$ | delete column of $X$ from $A$ |
+| $R_7$ | create subject $S$ | add row for $S$ to $A$; create object $S$; store 'control' in $A[S,S]$  | 
+| $R_8$ | destroy subject $S$ | delete row of $S$ from $A$; destroy object $S$; |
+
+
 💡 Demo 
 ---
 - [Traditional UNIX File Access Control](https://en.wikipedia.org/wiki/File-system_permissions)
@@ -169,6 +215,7 @@ chmod {options} filename
 🔭 Explore
 --- 
 - Explore [Access Control Lists (ACLs) in UNIX](https://help.ubuntu.com/community/FilePermissionsACLs)
+- Explore [Linux File Permissions: Understanding setuid, setgid, and the Sticky Bit](https://www.cbtnuggets.com/blog/technology/system-admin/linux-file-permissions-understanding-setuid-setgid-and-the-sticky-bit)
 
 
 [Role-Based Access Control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control)
@@ -185,6 +232,23 @@ chmod {options} filename
   - role access rights matrix specifies the access rights of each role on the resources
 
 
+Access Control Matrix Representation of RBAC
+---
+- role assignment matrix
+
+| U\R | Role 1 | Role 2 | Role 3 |
+| --- | --- | --- | --- |
+| User 1 | ✅ |  | ✅ |
+| User 2 |  | ✅ | ✅ |
+
+- role access rights matrix
+
+| R/A/O | R1 | R2 | R3 | File 1 | Process 1 | Device 1 |
+| --- | --- | --- | --- | --- | --- | --- |
+| R1 |  | control | own | read* | wakeup | owner |
+| R2 | control<br>own | |  | write |  | seek* |
+| R3 | control | |  | | stop | |
+
 ### RBAC Reference Models
 
 RBAC models
@@ -197,14 +261,15 @@ R((Roles))
 subgraph OPO
 Op((Operations))
 Ob((Objects))
-Op <-->|Permissions| Ob
+Op <-->|"Permissions: : M:M"| Ob
 end
-U <-->|user_sessions| S
-S <-->|session_roles|R
-U <-->|"User assignments (UA) "|R
-R <-->|"Role hierarchy (RH)"| R
-R <-->|"Permission assignment (PA)"| OPO
+U <-->|"user_sessions: 1:M"| S
+S <-->|"session_roles: 1:M"|R
+U <-->|"User assignments (UA): M:M "|R
+R <-->|"Role hierarchy (RH): M:M"| R
+R <-->|"Permission assignment (PA): M:M"| OPO
 ```
+
 
 Relationship among RBAC models
 ---
@@ -223,6 +288,17 @@ flowchart LR
   R1---R0
   R0---R2
 ```
+
+Scope RBAC Models
+---
+| Models | Hierarchies | Constraints |
+| --- | --- | --- |
+| $RBAC_0$ | No | No |
+| $RBAC_1$ | Yes | No |
+| $RBAC_2$ | No | Yes |
+| $RBAC_3$ | Yes | Yes |
+
+
 
 
 ## Attribute-Based Access Control

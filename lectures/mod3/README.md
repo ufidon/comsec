@@ -306,6 +306,7 @@ Smart Tokens
 
 🖊️ Practice
 ---
+- [Explore the eID Card for citizens of the EU and the EEA](https://www.personalausweisportal.de/Webs/PA/EN/citizens/id-card-for-eu-and-eea/eID-card-for-eu-and-eea-node.html)
 - [Explore smart card application protocol data unit](https://en.wikipedia.org/wiki/Smart_card_application_protocol_data_unit)
 
 
