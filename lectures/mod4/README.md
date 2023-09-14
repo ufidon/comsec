@@ -273,6 +273,13 @@ R <-->|"Permission assignment (PA): M:M"| OPO
 
 Relationship among RBAC models
 ---
+-  A Family of Role-Based Access Control Models 
+   - $RBAC_0$ is the minimum requirement for an RBAC system
+     - contains four types of entities: user, role, permission, session
+   - $RBAC_1$ adds role hierarchies
+     - reflect the hierarchical structure of roles in an organization
+   - $RBAC_2$ adds constraints
+   - $RBAC_3$ includes RBAC 1 and RBAC 2
 ```mermaid
 flowchart LR
   R0("RBAC0 
@@ -299,6 +306,18 @@ Scope RBAC Models
 | $RBAC_3$ | Yes | Yes |
 
 
+RBAC Constraints 
+---
+- Means of adapting RBAC to the specifics of administrative and security policies of an organization
+- Relationships among roles or conditions related to roles
+- Types:
+- Mutually exclusive roles
+  - A user can only be assigned to one role in the set (either during a session or statically)
+  - Any permission (access right) can be granted to only one role in the set
+- Cardinality
+  - Setting a maximum number of users, permissions for roles
+- Prerequisite roles
+  - A user can only be assigned to a particular role if it is already assigned to some other specified roles
 
 
 ## Attribute-Based Access Control
