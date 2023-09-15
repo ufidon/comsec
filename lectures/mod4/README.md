@@ -153,7 +153,7 @@ Authorization table
   - a set of subjects
   - a set of objects
     - processes, devices, memory locations or regions, *subjects*
-  - a set of rules that govern the access of subjects to /objects
+  - a set of rules that govern the access of subjects to subjects/objects
 - defines a protection state as a snapshot of the access control matrix $A$
   - $A[S,X]$ : a string represents access attributes
     - specify the access rights of subject $S$ to object $X$
@@ -320,30 +320,161 @@ RBAC Constraints
   - A user can only be assigned to a particular role if it is already assigned to some other specified roles
 
 
-## Attribute-Based Access Control
+[Attribute-Based Access Control (ABAC)](https://csrc.nist.gov/pubs/sp/800/162/upd2/final)
+---
+- defines authorizations conditioning on attributes of subjects ($S$), objects ($O$), operations $T$, and environment $E$
+- flexible and expressive
+  - Allows an unlimited number of attributes to be combined to satisfy any access control rule
+- capable of enforcing DAC, RBAC, and MAC concepts
+- adoption obstacles in real systems:
+  - inefficient to evaluate $Predicate(S,O,T,E)$ for each access
+- Web services implemented ABAC by the [eXtensible Access Control Markup Language (XAMCL)](http://xml.coverpages.org/xacml.html)
+- cloud services welcome ABAC
 
-### Attributes
 
-### ABAC Logical Architecture
+Basic ABAC Scenario
+---
+- ![NIST SP 800-162 Figure 2](../../figs/ABAC.png)
+- three ABAC key elements
+  - attributes: defined for entities in a configuration
+  - a policy model: defines the ABAC policies
+  - an architecture model: applies to policies that enforce access control
 
-### ABAC Policies
 
-## Identity, Credential, and Access Management
+ABAC Logical Architecture: ACL vs. ABAC
+---
+- ACL: the root of trust is with the object owner
+- ![NIST SP 800-162 Figure 7](../../figs/ACLTrustChain.png)
+- ABAC: the root of trust is derived from many sources
+- ![NIST SP 800-162 Figure 8](../../figs/ABACTrustChain.png)
 
-### Identity Management
 
-### Credential Management
+ABAC Policies
+---
+- predefined attributes: $SA_k (1≤ k≤K), OA_m (1≤ m≤ M), EA_n (1≤ n≤ N)$
+- attribute assignment relations for subject $s$, object $o$, and environment $e$:
+  - $ATTR(s) ⊆ SA_1× SA_2× ⋯ × SA_K$
+  - $ATTR(o) ⊆ OA_1× OA_2× ⋯ × OA_K$
+  - $ATTR(e) ⊆ EA_1× EA_2× ⋯ × EA_K$
+- function notation for the value assignment of individual attributes
+  - $Role(s) = "Student"$
+- a general *policy rule* is a boolean function
+  - $canAccess(s,o,e) ⟵ f(ATTR(s), ATTR(o), ATTR(e))$
+-  A policy rule base or policy store may consist of a number of policy rules
 
-### Access Management
 
-### Identity Federation
+🖊️ Practice
+---
+Given the access control policy below
 
-## Trust Frameworks
+| Movie rating | Users allowed access |
+| --- | --- |
+| R | $Age ≥ 17$ |
+| PG-13 | $Age ≥ 13$ |
+| G | Everyone |
 
-### Traditional Identity Exchange Approach
+Construct the access control models with RBAC and ABAC.
+- RBAC: 
+  - three roles of Adult, Juvenile and Child
+  - three permissions: can view R movies, can view PG-13 movies, can view G movies
+  - access control
 
-### Open Identity Trust Framework
+| R\V\M | R | PG-13 | G |
+| --- | --- | --- | --- |
+| Adult | ✅ | ✅ | ✅ | 
+| Juvenile  |  | ✅ | ✅ | 
+| Child  |  |  | ✅ | 
+
+- ABAC
+  - $canAccess(u,m,e) ⟵$
+  - $(Age(u)≥17 ∩ Rating(m)∈ \{R, PG-13, G\}) ∪$
+  - $Age(u)≥13 ∩ (Age(u)<17 ∩ Rating(m)∈ \{PG-13, G\}) ∪$
+  - $(Age(u)<13 ∩ Rating(m)∈ \{G\})$
+
+
+Identity, Credential, and Access Management (ICAM)
+---
+- A comprehensive approach developed by the U.S. government
+- Designed to 
+  - Create trusted digital identity representations of individuals and nonperson entities (NPEs)
+  - Bind those identities to credentials that may serve as a proxy for the individual of NPE in access transaction
+    - A credential is an object or data structure that authoritatively binds an identity to a token possessed and controlled by a subscriber
+  - Use the credentials to provide authorized access to an agency’s resources
+
+
+Identity Management
+---
+- Assigns digital identity (DI) to an individual or NPE
+  - assigns attributes to a DI
+- establish a trustworthy DI independent of a specific context
+  - to use applications
+- maintain and protect DIs
+  - Mechanisms, policies, and procedures for protecting personal identity information
+  - Controlling access to identity data
+  - Techniques for sharing authoritative identity data with applications that need it
+  - Revocation of an enterprise identity
+
+
+Credential Management
+---
+- manages life cycle of credentials such as digital certificates, smart cards
+  - biographic and biometric info verification, enrollment, generation, issuance, revocation
+  - replacement, re-enrollment, expiration, PIN reset, suspension, or reinstatement
+
+
+Access Management
+---
+- manages and controls the ways entities are granted access to resources
+- ensures proper identity verification and permission grant
+- Three elements for an enterprise-wide access control facility:
+  - Resource management
+  - Privilege management
+  - Policy management
+
+
+
+Identity Federation
+---
+- describes the technology, standards, policies, and processes that 
+  - allow an organization to trust digital identities, identity attributes, and credentials created and issued by another organization
+- Addresses two questions:
+- How do you trust identities of individuals from external organizations who need access to your systems?
+- How do you vouch for identities of individuals in your organization when they need to collaborate with external organizations?
+
+
+Traditional Identity Exchange Approach
+---
+```mermaid
+flowchart LR
+  I(Identity service provider)
+  R(Relying party)
+  U(Users)
+  I <-->|"Possible contract"|R
+  I <-->|"TOS agreement"|U
+  U <-->|"TOS agreement"|R
+```
+- TOS: terms of service
+- Both parties need to have a level of trust about security and privacy issues
+
+
+🖊️ Practice: Explore Open Identity Trust Frameworks
+---
+- [Open ID](https://openid.net/)
+  - [OIDF](https://openid.net/foundation/): OpenID Foundation
+- [OIX](https://openidentityexchange.org/): Open Identity Exchange
+- [AXN](https://docs.iddataweb.com/): Attribute Exchange Network
+
+
+💡 Practice: explore and register on open ID websites
+---
+- [ID.me](https://www.id.me/)
+- [ORCID iD](https://orcid.org/)
+- [🛡️ Login.gov](https://secure.login.gov/)
+
 
 # References
 - [CS 509U: Access Control: Theory and Practice](https://www.cs.purdue.edu/homes/ninghui/courses/Spring06/)
+- [Single sign-on](https://en.wikipedia.org/wiki/Single_sign-on)
+- [User Management](https://ubuntu.com/server/docs/security-users)
+  - [Ubuntu User Management](https://linuxhint.com/ubuntu-user-management/)
 - [Competitive Programming Courses at Purdue Computer Science](https://www.cs.purdue.edu/homes/ninghui/courses/cpx_index.html)
