@@ -12,7 +12,7 @@ Tentative topics: chapter 1-9
 - [Module 9: Firewalls and Intrusion Prevention Systems](./lectures/mod9/README.md)
 
 # Reference textbooks
-- [Computer Security: Principles and Practice, 4e](http://williamstallings.com/ComputerSecurity/)
+- [CSPP4e: Computer Security: Principles and Practice, 4e](http://williamstallings.com/ComputerSecurity/)
   - [5e](https://www.pearson.com/en-us/subject-catalog/p/computer-security-principles-and-practice/P200000010333/9780138091712)
 - [Introduction to Computer Security](https://www.pearson.com/en-us/subject-catalog/p/introduction-to-computer-security/P200000003191/9780321512949)
 - [Computer & Internet Security: A Hands-on Approach](https://www.handsonsecurity.net/)
