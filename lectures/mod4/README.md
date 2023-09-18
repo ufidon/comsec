@@ -461,6 +461,8 @@ flowchart LR
 ---
 - [Open ID](https://openid.net/)
   - [OIDF](https://openid.net/foundation/): OpenID Foundation
+- [OAuth](https://oauth.net): Open Authorization
+  - [List of OAuth providers](https://en.wikipedia.org/wiki/List_of_OAuth_providers)
 - [OIX](https://openidentityexchange.org/): Open Identity Exchange
 - [AXN](https://docs.iddataweb.com/): Attribute Exchange Network
 
@@ -475,6 +477,7 @@ flowchart LR
 # References
 - [CS 509U: Access Control: Theory and Practice](https://www.cs.purdue.edu/homes/ninghui/courses/Spring06/)
 - [Single sign-on](https://en.wikipedia.org/wiki/Single_sign-on)
+  - [List of single sign-on implementations](https://en.wikipedia.org/wiki/List_of_single_sign-on_implementations)
 - [User Management](https://ubuntu.com/server/docs/security-users)
   - [Ubuntu User Management](https://linuxhint.com/ubuntu-user-management/)
 - [Competitive Programming Courses at Purdue Computer Science](https://www.cs.purdue.edu/homes/ninghui/courses/cpx_index.html)
