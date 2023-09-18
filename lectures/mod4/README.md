@@ -388,7 +388,7 @@ Construct the access control models with RBAC and ABAC.
 - ABAC
   - $canAccess(u,m,e) ⟵$
   - $(Age(u)≥17 ∩ Rating(m)∈ \{R, PG-13, G\}) ∪$
-  - $Age(u)≥13 ∩ (Age(u)<17 ∩ Rating(m)∈ \{PG-13, G\}) ∪$
+  - $(Age(u)≥13 ∩ (Age(u)<17 ∩ Rating(m)∈ \{PG-13, G\}) ∪$
   - $(Age(u)<13 ∩ Rating(m)∈ \{G\})$
 
 
@@ -438,8 +438,8 @@ Identity Federation
 - describes the technology, standards, policies, and processes that 
   - allow an organization to trust digital identities, identity attributes, and credentials created and issued by another organization
 - Addresses two questions:
-- How do you trust identities of individuals from external organizations who need access to your systems?
-- How do you vouch for identities of individuals in your organization when they need to collaborate with external organizations?
+  - How do you trust identities of individuals from external organizations who need access to your systems?
+  - How do you vouch for identities of individuals in your organization when they need to collaborate with external organizations?
 
 
 Traditional Identity Exchange Approach
