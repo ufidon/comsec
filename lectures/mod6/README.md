@@ -341,30 +341,149 @@ Payload—System Corruption
 
 Payload—Attack Agent—Zombie, Bots
 ---
-- Uses of Bots
-- Remote Control Facility
+- Takes over an Internet attached computer and uses that computer to launch or manage attacks
+  - the victim computer is called a zombie or a bot
+  - collection of bots, called Botnet, can launch attack coordinately
+- Uses of botnet:
+  - Distributed denial-of-service (DDoS) attacks
+  - Spamming
+  - Sniffing traffic
+  - Keylogging
+  - Spreading new malware
+  - Installing advertisement add-ons and browser helper objects (BHOs)
+  - Attacking IRC chat networks
+  - Manipulating online polls/games
 
 
-Payload—Information Theft—Keyloggers, Phishing, Spyware
+Remote Control Facility
 ---
-- Credential Theft, Keyloggers, and Spyware
-- Phishing and Identity Theft
-- Reconnaissance, Espionage, and Data Exfiltration
+- Botnet is controlled by a command-and-control (C&C) center 
+  - typically implemented on an [IRC (Internet Relay Chat) server](https://en.wikipedia.org/wiki/Internet_Relay_Chat)
+  - fuzzles law enforcement agencies with DNS names generated dynamically
+  - or with fast-flux DNS where the address associated with a given server name is frequently changed
+- Bots join a specific channel on this server and treat incoming messages as commands
+- More recent botnets use covert communication channels via protocols such as HTTP
+- Distributed control mechanisms use peer-to-peer protocols to avoid a single point of failure
+  - stroke by international coordination between law enforcement agencies 
 
 
-Payload—Stealthing—Backdoors, Rootkits
+Payload—Information Theft—Keyloggers, Spyware
 ---
-- Backdoor
-- Rootkit
-  - Kernel Mode Rootkits
-  - Virtual Machine and Other External Rootkits
+- [Keylogger](https://en.wikipedia.org/wiki/Keystroke_logging)
+  - Captures keystrokes in realtime
+  - Typically uses filter to return sensitive information such as user id and password
+- [Spyware](https://en.wikipedia.org/wiki/Spyware)
+  - monitors browsing history and content
+  - Redirects certain Web page requests to fake sites
+  - modifies data flow between the browser and Web sites
+
+
+[Phishing](https://en.wikipedia.org/wiki/Phishing) and Identity Theft
+---
+- Exploits social engineering to leverage the user’s trust by masquerading as communication from a trusted source
+  - Include a URL in a spam e-mail that links to a fake Web site that mimics the login page of a banking, gaming, or similar site
+  - Suggests that urgent action is required by the user to authenticate their account
+  - Attacker exploits the account using the captured credentials
+- Spear phishing
+  - Recipients are carefully researched by the attacker
+  - E-mail is crafted to specifically suit its recipient, often quoting a range of information to convince them of its authenticity
+
+
+
+Payload—Stealthing—[Backdoors](https://en.wikipedia.org/wiki/Backdoor_(computing))
+---
+- Also known as a trapdoor
+- Secret entry point into a program allowing the attacker to gain access and bypass the security access procedures
+- Maintenance hook is a backdoor used by Programmers to debug and test programs
+- Difficult to implement operating system controls for backdoors in applications
+
+
+Payload—Stealthing—[Rootkits](https://en.wikipedia.org/wiki/Rootkit)
+---
+- Set of hidden programs installed on the victim machine to maintain covert access 
+- Hide by subverting the monitoring and protection mechanisms 
+- Give administrator (or root) privileges to attacker
+  - allow to do anything on the victim machine
+
+
+Rootkit Classification Characteristics
+---
+- Persistent: 
+  - Activates each time the system boots
+- Memory based:
+  - resides in memory and hart to detect
+  - cannot survive a reboot
+- User mode:
+  - Intercepts calls to APIs (application program interfaces) 
+- Kernel mode:
+  -  intercepts calls to native APIs in kernel mode
+- Virtual machine based:
+  - sits between hardware and OS as  a lightweight virtual machine hypervisor
+  - such as [Blue Pill](https://en.wikipedia.org/wiki/Blue_Pill_(software))
+- External mode:
+  - outside the normal operation mode of the targeted system
+  - in BIOS or system management mode
 
 
 Malware Countermeasure Approaches
 ---
-- Host-Based Scanners and Signature-Based Anti-Virus
-- Perimeter Scanning Approaches
-- Distributed Intelligence Gathering Approaches
+- Ideal solution to the threat of malware is prevention
+- Four main elements of prevention:
+  - Policy
+  - Awareness
+  - Vulnerability mitigation
+  - Threat mitigation
+- If prevention fails, technical mechanisms can be used to support the following threat mitigation options:
+  - Detection
+  - Identification
+  - Removal
+
+
+[Generations of Anti-Virus Software](https://en.wikipedia.org/wiki/Antivirus_software)
+---
+- First generation: simple scanners
+  - Requires a malware signature to identify the malware
+  - Limited to the detection of known malware
+- Second generation: heuristic scanners
+  - Uses heuristic rules to search for probable malware instances
+  - Another approach is integrity checking
+- Third generation: activity traps
+  - Memory-resident programs that identify malware by its actions rather than its structure in an infected program
+- Fourth generation: full-featured protection
+  - Packages consisting of a variety of anti-virus techniques used in conjunction
+  - Include scanning and activity trap components and access control capability
+
+
+[Sandbox Analysis](https://en.wikipedia.org/wiki/Sandbox_(computer_security))
+---
+- Running potentially malicious code in an emulated sandbox or on a virtual machine
+- Allows the code to execute in a controlled environment where its behavior can be closely monitored without threatening the security of a real system
+- Running potentially malicious software in such environments enables the detection of complex encrypted, polymorphic, or metamorphic malware
+- The most difficult design issue with sandbox analysis is to determine how long to run each interpretation
+
+
+Host-Based Behavior-Blocking Software
+---
+- Integrates with the operating system of a host computer and monitors program behavior in real time for malicious action 
+  - Blocks potentially malicious actions before they have a chance to affect the system
+  - Blocks software in real time so it has an advantage over anti-virus detection techniques such as fingerprinting or heuristics
+- Limitations
+  - Because malicious code must run on the target machine before all its behaviors can be identified, it can cause harm before it has been detected and blocked
+
+
+Perimeter Scanning Approaches
+---
+- Anti-virus software typically included in e-mail and Web proxy services running on an organization’s firewall and IDS
+- May also be included in the traffic analysis component of an IDS
+- May include intrusion prevention measures, blocking the flow of any suspicious traffic
+- Approach is limited to scanning malware
+- Two types of monitoring software
+  - Ingress monitors
+    - Located at the border between the enterprise network and the Internet 
+    - One technique is to look for incoming traffic to unused local I P addresses
+  - Egress monitors
+    - Located at the egress point of individual L A Ns as well as at the border between the enterprise network and the Internet 
+    - Monitors outgoing traffic for signs of scanning or other suspicious behavior
 
 
 Terminology for malware
