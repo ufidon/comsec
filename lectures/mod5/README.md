@@ -80,7 +80,7 @@ sequenceDiagram
   participant B as Browser
   participant W as WebApp
   participant D as Database
-  B-)W: browes web site with user inputs
+  B-)W: browse web site with user inputs
   W-)D: constructs SQL statements using user inputs and sends them to Database
   D--)W: executes SQL statements and sends data back to WebApp
   W--)B: generates webpages with data and sends them back to Browser
@@ -339,7 +339,7 @@ Data Center Security Model
 | --- | --- |
 | data | Encryption, Password policy, secure IDs, Data Protection (ISO 27002), Data masking, Data retention, etc. |
 | network | Firewalls, Anti-virus, Intrusion detection/prevention, authentication, etc. |
-| buildings<br>(physical security) | Surveillance, Mantraps, Two/three factor authentication, Security zones, ISO 27001/27002, etc. |
+| buildings<br>(physical security) | Surveillance, Mantraps, multifactor authentication, Security zones, ISO 27001/27002, etc. |
 | site | Setbacks, Redundant utilities Landscaping, Buffer zones, Crash barriers, Entry points, etc. |
 
 
