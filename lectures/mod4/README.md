@@ -86,6 +86,7 @@ Access Control Policies
     - by the requestor's volition
   - Mandatory access control (MAC)
     - by the requestor's clearance
+    - required for military information security
   - Role-based access control (RBAC)
     - by the requestor's roles
   - Attribute-based access control (ABAC)
