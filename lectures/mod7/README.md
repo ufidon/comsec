@@ -40,20 +40,43 @@ Flooding attack with ping command
 - Network performance is noticeably affected
 
 
-Source Address Spoofing
+Source Address Spoofing in Flooding attacks
 ---
-- Forge random and different source addresses in flooding IP packets
+- Forge large volumes of IP packets with random source addresses different from the attacker $A$
   - Usually via the raw socket interface on operating systems
-  - Makes attacking systems harder to be identified
-- set the destination address to be the target system  
-- Congestion would result in the router connected to the final, lower capacity link
-- Requires network engineers to specifically query flow information from their routers
-- Backscatter traffic
-  - Advertise routes to unused IP addresses to monitor attack traffic
+  - Makes $A$ harder to be identified
+  - The destination address is set to be the target system $T$
+- The ICMP echo responses from $T$ will not be reflected back to $A$
+  - For the forged addresses, 
+    - some correspond to real systems, they respond with error packets to $T$
+    - some not used or unreachable, then ICMP destination unreachable packets might be sent back to $T$ or discarded
+    - These returned packets form a second wave of attack on $T$
+    - Congestion could occur in the router connected to $T$
 
 
-SYN Spoofing
-Flooding Attacks
+Countermeasures against flooding attacks
+---
+- require flow information along the path from $A$ to $T$
+  - it takes time and effort to organize
+- this vulnerability born with TCP/IP 
+  - which assumes a cooperative, trusting environment
+  - no assurance about the source address in a packet really corresponds with the sender $S$
+    - impose filtering on routers to ensure this, needs to be imposed
+       - as close to $S$ as possible
+       - at the borders of the ISP’s providing this connection 
+         - unfortunately, many ISPs do not implement such filtering
+- [Honeypot](https://en.wikipedia.org/wiki/Honeypot_(computing)) exploits a useful side effect of this scattering of response packets
+  - monitors attack traffic for unused IP addresses in backscatter traffic
+  - gives valuable information on the type and scale of attacks 
+
+---
+
+## Flooding Attacks
+
+[SYN Flood](https://en.wikipedia.org/wiki/SYN_flood)
+---
+
+
 ICMP Flood
 UDP Flood
 TCP SYN Flood
