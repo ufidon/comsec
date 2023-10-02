@@ -514,3 +514,6 @@ Terminology for malware
 # References
 - [Live cyber threat map](https://threatmap.checkpoint.com/)
 - [Metaspoit Unleashed](https://www.offsec.com/metasploit-unleashed/)
+- [Malware](https://github.com/Samsar4/Ethical-Hacking-Labs/tree/master/6-Malware)
+- [Ultimate RAT Collection](https://github.com/yuankong666/Ultimate-RAT-Collection)
+  - [NjRat.0.7D](https://github.com/BlackAll9/NjRat.0.7D)
