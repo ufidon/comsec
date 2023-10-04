@@ -480,9 +480,9 @@ Perimeter Scanning Approaches
 - Two types of monitoring software
   - Ingress monitors
     - Located at the border between the enterprise network and the Internet 
-    - One technique is to look for incoming traffic to unused local I P addresses
+    - One technique is to look for incoming traffic to unused local IP addresses
   - Egress monitors
-    - Located at the egress point of individual L A Ns as well as at the border between the enterprise network and the Internet 
+    - Located at the egress point of individual LANs as well as at the border between the enterprise network and the Internet 
     - Monitors outgoing traffic for signs of scanning or other suspicious behavior
 
 
