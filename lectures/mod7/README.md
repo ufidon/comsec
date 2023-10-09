@@ -448,3 +448,5 @@ Responding to Denial-of-Service Attacks
 - [Configure IIS Web Server on Windows Server 2019](https://computingforgeeks.com/install-and-configure-iis-web-server-on-windows-server/)
 - [Ethical-Hacking-Labs/9-Denial-of-Service](https://github.com/Samsar4/Ethical-Hacking-Labs/tree/master/9-Denial-of-Service)
 - [Ethical-Hacking-Labs/8-Social-Engineering](https://github.com/Samsar4/Ethical-Hacking-Labs/tree/master/8-Social-Engineering)
+- [ddos-attack-tools](https://github.com/topics/ddos-attack-tools)
+- [8 Best DDoS Attack Tools](https://www.softwaretestinghelp.com/ddos-attack-tools/)
