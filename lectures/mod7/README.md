@@ -284,7 +284,7 @@ server
 ---
 - [DDoS attack using HOIC](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/2-DDoS-using-HOIC.md)
 - Attack Parrot from Windows server
-  - On Windows server, download and install [High Orbit Ion Cannon](https://en.wikipedia.org/wiki/ High_Orbit_Ion_Cannon) on Windows Server
+  - On Windows server, download and install [High Orbit Ion Cannon](https://en.wikipedia.org/wiki/High_Orbit_Ion_Cannon) on Windows Server
     - Run HOIC and add the target as Parrot
       - URL: http://ParrotIP
       - Power: high
