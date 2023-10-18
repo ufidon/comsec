@@ -248,7 +248,7 @@ How to increase DoS attack effect?
 - SIP flood attacks a SIP proxy with numerous INVITE requests with spoofed IP addresses
   - deplete the proxy's capability of processing the INVITE requests
   - exhaust the network bandwith
-- Even worse, VoIP server has the INVITE of Death vulnerability (https://en.wikipedia.org/wiki/INVITE_of_Death)
+- Even worse, VoIP server has the [INVITE of Death vulnerability](https://en.wikipedia.org/wiki/INVITE_of_Death)
   - can be crashed completely with a single malformed packet
 
 
