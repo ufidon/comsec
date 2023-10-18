@@ -365,7 +365,7 @@ changing attack profiles
 
 IETF Intrusion Detection Working Group
 ---
-- define data formats and exchange procedures for sharing information of interest to intrusion detection, response systems and management systems
+- defines data formats and exchange procedures for sharing information of interest to intrusion detection, response systems and management systems
   - [Intrusion Detection Exchange Format (IDMEF)](https://en.wikipedia.org/wiki/Intrusion_Detection_Message_Exchange_Format) defined in [RFC 4765](https://www.ietf.org/rfc/rfc4765.txt)
   - The Intrusion Detection Exchange Protocol (IDXP) defined in [RFC 4767](https://www.ietf.org/rfc/rfc4767.txt)
   - Intrusion Detection Message Exchange Requirements defined in [RFC 4766](https://www.ietf.org/rfc/rfc4766.txt)
@@ -373,20 +373,61 @@ IETF Intrusion Detection Working Group
 
 Intrusion Detection Message Exchange Requirements
 ---
-- Document defines requirements for the Intrusion Detection Message Exchange Format (IDMEF)
-- Also specifies requirements for a communication protocol for communicating IDMEF
+- defines requirements for the Intrusion Detection Message Exchange Format (IDMEF)
+- specifies requirements for a communication protocol for IDMEF
 
 
 The Intrusion Detection Message Exchange Format
 ---
-- Document describes a data model to represent information exported by intrusion detection systems and explains the rationale for using this model
-- An implementation of the data model in the Extensible Markup Language (XML) is presented, and XML Document Type Definition is developed, and examples are provided
-s
+- describes a data model to represent the information exported by IDS 
+  - explains the rationale for using this model
+- presents an implementation of the data model in Extensible Markup Language (XML)
+  - develops XML Document Type Definition (DTD), 
+  - provides examples
+
 
 The Intrusion Detection Exchange Protocol
 ---
-- Document describes the Intrusion Detection Exchange Protocol (IDXP), an application level protocol for exchanging data between intrusion detection entities
+- describes the Intrusion Detection Exchange Protocol (IDXP), 
+  - an application level protocol for exchanging data between intrusion detection entities
 - IDXP supports mutual authentication, integrity, and confidentiality over a connection oriented protocol
+
+
+A general model for IDME
+---
+```mermaid
+  flowchart LR
+  DS((Data<br>source))
+  S1((Sensor))
+  S2((Sensor))
+  AN((Analyzer))
+  AD(Administrator)
+  M((Manager))
+  O(Operator)
+  DS-->|Activity|S1
+  DS-->|Activity|S2
+  S1-->|Event|AN
+  S2-->|Event|AN
+  AN-->|Alert|M
+  M-->|Notification|O
+  O<-->|Response|M
+  AD-->|Security<br>policy|S2
+  AD-->|Security<br>policy|M
+  AD-->|Security<br>policy|AN
+```
+- Data source
+  - network packets, OS/application audit logs, etc.
+- Sensor
+  - Collects data from the data source
+  - forwards events to the analyzer
+- Analyzer
+  - analyze data for signs of intrusion
+- Administrator
+  - The human with overall responsibility for setting the security policy of the organization
+- Manager
+  - The IDS component or process from which the operator manages the various components of the IDS
+- Operator
+  - The human that is the primary user of the IDS manager
 
 
 🔭 Explore
@@ -397,6 +438,28 @@ The Intrusion Detection Exchange Protocol
 
 Honeypots
 ---
+- Decoy systems designed to
+  - Lure a potential attacker away from critical systems
+  - Collect information about the attacker’s activity
+  - Encourage the attacker to stay on the system long enough for administrators to respond
+- Systems are filled with fabricated information that a legitimate user of the system wouldn’t access
+- Resources that have no production value
+  - Therefore incoming communication is most likely a probe, scan, or attack
+  - Initiated outbound communication suggests that the system has probably been compromised
+- usually deployed at the edge of corporation network
+
+
+Honeypot Classifications
+---
+- Low interaction honeypot
+  - Consists of a software package that emulates particular I T services or systems well enough to provide a realistic initial interaction, but does not execute a full version of those services or systems
+  - Provides a less realistic target
+  - Often sufficient for use as a component of a distributed I D S to warn of imminent attack
+- High interaction honeypot
+  - A real system, with a full operating system, services and applications, which are instrumented and deployed where they can be accessed by attackers
+  - Is a more realistic target that may occupy an attacker for an extended period
+  - However, it requires significantly more resources
+  - If compromised could be used to initiate attacks on other systems
 
 
 🔭 Explore
@@ -405,12 +468,6 @@ Honeypots
 - [Honeypots: 30 low-high level honeypots in a single PyPI package](https://github.com/qeeqbox/honeypots)
 - [T-Pot: The All In One Multi Honeypot Platform](https://github.com/telekom-security/tpotce)
 
-
-Example System: Snort
----
-- Snort Architecture
-- integrates Statistical Packet Anomaly Detection Engine (SPADE)
-- Snort Rules
 
 
 🔭 Explore popular open-source IDS/IPS
@@ -425,6 +482,12 @@ Example System: Snort
 - [Sagan:  an open source high performance, real-time log analysis & correlation engine](https://github.com/quadrantsec/sagan)
 
 
+💡 Demo
+---
+- Play with [Snort: the foremost Open Source Intrusion Prevention System (IPS)](https://www.snort.org/)
+- Snort Architecture
+- integrates Statistical Packet Anomaly Detection Engine (SPADE)
+- Snort Rules
 
 # References
 - [Windows API tutorial](https://zetcode.com/gui/winapi/)

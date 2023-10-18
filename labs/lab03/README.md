@@ -9,17 +9,18 @@ DoS attacks are typically classified into [two categories](https://github.com/Sa
 
 In this lab, both the Windows Server and Parrot Linux are required.
 
+*Please don't follow any references blindly*
 
 ## 2. Tasks: 
 ### (50%) Task 1: [SYN Flooding Windows web service](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/1-SYN-Flooding.md)
 - On Windows server
-  - Turn off 
+  - [Turn off](https://samsclass.info/123/proj10/123p2win.htm) 
     - (5%) firewall and 
     - (5%) antivirus protection
-  - Install IIS and show the default website can be accessed both 
+  - [Install IIS](https://computingforgeeks.com/install-and-configure-iis-web-server-on-windows-server/) and show the default website can be accessed both 
     - (5%) locally and 
     - (5%) from Parrot Linux
-  - Install Wireshark
+  - Install [Wireshark](https://www.wireshark.org/)
     - (5%) run Wireshark and start capturing packets
 - On Parrot Linux
   - (5%) Launch SYN flooding attack on Windows web service using hping3
