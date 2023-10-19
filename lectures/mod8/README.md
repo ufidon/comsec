@@ -436,7 +436,7 @@ A general model for IDME
 - [10 Open Source SIEM Tools](https://logz.io/blog/open-source-siem-tools/)
 
 
-Honeypots
+[Honeypots](https://en.wikipedia.org/wiki/Honeypot_(computing))
 ---
 - Decoy systems designed to
   - Lure a potential attacker away from critical systems
@@ -446,7 +446,10 @@ Honeypots
 - Resources that have no production value
   - Therefore incoming communication is most likely a probe, scan, or attack
   - Initiated outbound communication suggests that the system has probably been compromised
-- usually deployed at the edge of corporation network
+- typical deployment locations relative to corporation network
+  - outside the external firewall
+  - the DMZ (demilitarized zone) for outward services such as web and mail
+  - inside the corporate network
 
 
 Honeypot Classifications
@@ -482,14 +485,115 @@ Honeypot Classifications
 - [Sagan:  an open source high performance, real-time log analysis & correlation engine](https://github.com/quadrantsec/sagan)
 
 
+[Snort: the foremost Open Source Intrusion Prevention System (IPS)](https://www.snort.org/)
+---
+- a libpcap-based packet sniffer/logger
+  - features rules-based logging
+- can be used as a lightweight network intrusion detection system
+  - can perform content searching/matching in addition to  detecting a variety of other attacks and probe, such as 
+    - buffer overflows, stealth port scans, 
+    - CGI attacks, SMB probes, and much more
+- has a real-time alerting capability, with alerts being sent to
+  - syslog, a separate "alert" file, or even to a Windows computer via Samba
+
+
+Snort Architecture
+---
+```mermaid
+flowchart LR
+  PS{{network<br>packet stream}}
+  PS-->Snort
+  subgraph Snort
+    PD>Packet<br>decoder]
+    DE>Detection<br>engine]
+    PD-->DE
+  L[(Logger)]
+  A[[Alerter]]
+  DE-->L
+  DE-->A
+  end
+```
+- set NIC to *promiscuous* mode to capture all passing packets
+- Packet decoder
+  - decodes captured packet to get protocol headers of each network layer
+- Detection engine
+  - analyzes each packet based on a set of rules
+  - determine if the packet matches the characteristics defined by a rule
+- Logger
+  - the rule specifies what logging and alerting options are to be taken for matched packets
+- Alerter
+  - generates alerts for matched packets
+  - what information is included in the event notification is specified by the rule
+
+
+🔭 Explore
+---
+- [Snort 2 vs. Snort 3](https://www.snort.org/snort3)
+- [Use Snort 3](https://docs.snort.org/)
+
+
+[Snort 2 rule formats](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node27.html)
+---
+```snort
+[action][protocol][sourceIP][sourcePort]->[destIP][destPort]([Rule options])
+```
+- A sample Snort rule
+  ```snort
+  alert tcp any any -> 10.0.2.0/24 100 \
+  (content:"|00 01 86 a5"; msg:"mountd access";)
+  ```
+- Most Snort rules are written in a single line
+  - rules may span multiple lines by adding a backslash \ to the end of the line
+- Consists of two logical sections: rule header ( zero or more rule options)
+  - [the rule header](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node29.html) contains
+    - the rule's action
+      - 3 default actions: alert, log, pass
+      - 3 inline mode actions: drop, reject, sdrop
+    - protocol such as TCP, UDP, ICMP and IP
+    - source and destination IP addresses
+    - the source and destination ports  
+  - [the rule options](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node30.html) contains
+    - in the format of: keyword:"value";
+    - alert messages 
+    - information on which parts of the packet should be inspected to determine if the rule action should be taken
+    - the options form a logical AND statement
+- the various rules in Snort rules library files form a large logical OR statement
+
+
+Snort rule actions
+---
+| action | description |
+| --- | --- |
+| alert | generate an alert using the selected alert method, and then log the packet |
+| log | log the packet |
+| pass | ignore the packet |
+| drop | block and log the packet |
+| reject | block the packet, log it, and then send a TCP reset if the protocol is TCP or an ICMP port | unreachable message if the protocol is UDP |
+| sdrop | block the packet but do not log it |
+
+
+🔭 Explore
+---
+- [Snort rule options](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node30.html)
+
+
 💡 Demo
 ---
 - Play with [Snort: the foremost Open Source Intrusion Prevention System (IPS)](https://www.snort.org/)
-- Snort Architecture
-- integrates Statistical Packet Anomaly Detection Engine (SPADE)
-- Snort Rules
+  - Go through Snort 2 Users Manual
+  - Go through Snort 3 Users Manual
+
+
+🖊️ Practice
+---
+- Play with [Suricata](https://suricata.io/)
+
 
 # References
+- [Writing Snort Rules with Examples and Cheat Sheet](https://cyvatar.ai/write-configure-snort-rules/)
+- [Tcpdump & libpcap](https://www.tcpdump.org/)
+- [WinPcap: The industry-standard windows packet capture library](https://www.winpcap.org/)
+- [Npcap: Packet capture library for Windows](https://npcap.com/)
 - [Windows API tutorial](https://zetcode.com/gui/winapi/)
   - [Winprog: premier Windows Programming](http://www.winprog.org/)
 - [Windows API Hooking](https://www.ired.team/offensive-security/code-injection-process-injection/how-to-hook-windows-api-using-c++)
