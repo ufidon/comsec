@@ -47,6 +47,14 @@ Cyber criminals
 - meet in underground forums, [dark webs](https://en.wikipedia.org/wiki/Dark_web) hosted on [darknet](https://en.wikipedia.org/wiki/Darknet) through [Tor](https://en.wikipedia.org/wiki/Tor_(network))
 
 
+🔭 Explore
+---
+- Install [Tor browser](https://www.torproject.org/) on Parrot Linux or Windows and surf
+  - [The 25 Best Dark Web Sites in 2023](https://privacysavvy.com/security/safe-browsing/best-dark-web-sites/)
+  - [Dark web websites](https://darkwebfans.com/)
+  - [Hidden Wiki – TheHiddenWiki.org](https://thehiddenwiki.org/)
+
+
 [Hacktivists](https://en.wikipedia.org/wiki/Hacktivism)
 ---
 - motivated by social or political causes
@@ -590,6 +598,11 @@ Snort rule actions
 
 
 # References
+- [Anonymous P2P](https://en.wikipedia.org/wiki/Anonymous_P2P)
+  - [I2P: the invisible internet project](https://geti2p.net/)
+  - [Onion routing](https://www.onion-router.net/)
+  - [How HTTPS and Tor Work Together to Protect Your Anonymity and Privacy](https://www.eff.org/pages/tor-and-https)
+  - [How Do Tor Onion Addresses Actually Work?](https://www.makeuseof.com/how-tor-addresses-work/)
 - [Writing Snort Rules with Examples and Cheat Sheet](https://cyvatar.ai/write-configure-snort-rules/)
 - [Tcpdump & libpcap](https://www.tcpdump.org/)
 - [WinPcap: The industry-standard windows packet capture library](https://www.winpcap.org/)
