@@ -599,8 +599,8 @@ Snort rule actions
 💡 Demo
 ---
 - Play with [Snort: the foremost Open Source Intrusion Prevention System (IPS)](https://www.snort.org/)
-  - Go through Snort 2 Users Manual
-  - Go through Snort 3 Users Manual
+  - Go through [Snort 2 Users Manual](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/)
+  - Go through [Snort 3 Users Manual](https://docs.snort.org/)
 
 
 🖊️ Practice
