@@ -478,6 +478,12 @@ Honeypot Classifications
 - [A list of awesome honeypots](https://github.com/paralax/awesome-honeypots)
 - [Honeypots: 30 low-high level honeypots in a single PyPI package](https://github.com/qeeqbox/honeypots)
 - [T-Pot: The All In One Multi Honeypot Platform](https://github.com/telekom-security/tpotce)
+  ```bash
+  # add a web user
+  sudo systemctl stop tpot
+  sudo htpasswd -c /data/nginx/conf/nginxpasswd username
+  sudo systemctl start tpot
+  ```
 
 
 💡 Demo
