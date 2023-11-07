@@ -56,7 +56,7 @@ Firewall Access Policy
 - refined to detail the network traffic filters
 
 
-Network traffic ingredients used by firewall filters
+Network traffic characteristics used by firewall filters
 ---
 - IP address and protocol values
   - used by packet filter and stateful inspection firewalls
@@ -67,6 +67,64 @@ Network traffic ingredients used by firewall filters
   - Typically for inside users who identify themselves using some form of secure authentication technology
 - Network activity
   - such as request timestamp, request rate, or other activity patterns
+
+
+Firewall Capabilities And Limits
+---
+- Capabilities:
+  - Defines a single choke point
+    - Provides a location for monitoring security events
+    - Integrates several Internet functions that are not security related
+  - Can serve as the platform for IPSec and VPN
+- Limitations:
+  - Cannot protect against attacks bypassing firewall
+  - May not protect fully against internal threats
+  - Improperly secured wireless LAN can be accessed from outside the organization
+  - Infected laptop, PDA, or portable storage device may be used internally
+
+
+Types of Firewalls
+---
+- packet filtering firewall
+- stateful inspection firewall
+- application proxy firewall
+- circuit-level proxy firewall
+
+
+[Packet Filtering Firewall](https://en.wikipedia.org/wiki/Berkeley_Packet_Filter)
+---
+- Applies rules to each incoming and outgoing IP packet
+  - Typically a list of rules based on matches in the IP or TCP header
+  - Forwards or discards the packet based on rules match
+- Filtering rules are based on information contained in a network packet
+  - Source and destination IP address
+  - Source and destination port number
+  - IP protocol fields
+  - mac address specified interface
+- Two default policies:
+  - Discard - prohibit unless expressly permitted
+    - More conservative, controlled, visible to users
+  - Forward - permit unless expressly prohibited
+    - Easier to manage and use but less secure
+
+
+🖊️ Practice
+---
+- [How to Use UFW (Uncomplicated Firewall)?](https://www.baeldung.com/linux/uncomplicated-firewall)
+- [UFW](https://help.ubuntu.com/community/UFW)
+
+
+Packet Filter Advantages And Weaknesses
+---
+- Advantages
+  - Simplicity
+  - Typically transparent to users and are very fast
+- Weaknesses
+  - Cannot prevent attacks that employ application specific vulnerabilities or functions
+  - Limited logging functionality
+  - Do not support advanced user authentication
+  - Vulnerable to attacks on TCP/IP protocol bugs
+  - Improper configuration can lead to breaches
 
 
 🦮 Guide
