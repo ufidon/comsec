@@ -608,8 +608,12 @@ Snort rule actions
   - Go through [Snort 2 Users Manual](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/)
   - [A simple configuration of Snort 2](https://www.securityarchitecture.com/learning/intrusion-detection-systems-learning-with-snort/configuring-snort/)
     ```bash
+    # install snort 2
+    sudo apt install snort
+
     # add a simple test rule to /etc/snort/rules/local.rules
-    # alert icmp any any -> any any (msg:"someone is pinging"; sid:12345678; rev:1;)
+    # substitute parrotIP with the ip address of your Parrot Linux
+    # alert icmp any any -> parrotIP any (msg:"someone is pinging me"; sid:12345678; rev:1;)
 
     # use /etc/snort/snort.conf
     sudo snort -A console -i enp0s3 -dev -l ./snortlog/ -c /etc/snort/snort.conf
