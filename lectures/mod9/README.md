@@ -136,8 +136,19 @@ Two types of filters
 
 🏃 Exercise
 ---
-- Allow web service only on Windows server
-- Allow ssh service only in Parrot Linux
+- Allow *web* service only on Windows server
+- Allow *ssh* service only in Parrot Linux
+  ```bash
+  # setup openssh-server
+  # it is already installed with Parrot Linux
+  sudo apt install openssh-server
+
+  # generate host keys
+  sudo ssh-keygen -A
+
+  # start the service
+  sudo /usr/sbin/service ssh start
+  ```
 
 
 Packet Filter Advantages And Weaknesses
@@ -487,3 +498,4 @@ Digital Immune System (DIS)
   - [MicroSocks - multithreaded, small, efficient SOCKS5 server](https://github.com/rofl0r/microsocks)
   - [GoProxy](https://github.com/snail007/goproxy)
 - [Textbook uses terminology like Double/Single Bastion Inline/T to describe firewall architectures. Are these terms used in professional environments?](https://security.stackexchange.com/questions/240540/textbook-uses-terminology-like-double-single-bastion-inline-t-to-describe-firewa)
+- [sshd: no hostkeys available -- exiting](https://support.tools/post/wsl-ssh-server-keys/)
