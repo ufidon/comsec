@@ -483,7 +483,7 @@ Digital Immune System (DIS)
   - [x] CIS 4367 - Computer Security Credits: 3
   - [ ] CIS 4204 - Ethical Hacking Credits: 3
   - [ ] CIS 4203 - Digital Forensics Credits: 3
-- Explore *electives courses* of [Information Assurance and Cyber Security](http://catalog.floridapoly.edu/preview_program.php?catoid=31&poid=1351)
+- Explore *elective courses* of [Information Assurance and Cyber Security](http://catalog.floridapoly.edu/preview_program.php?catoid=31&poid=1351)
   - [ ] CIS 4369 - Web Application Security Credits: 3
   - [ ] CNT 4409 - Network Security Credits: 3
   - [ ] CEN 4088 - Software Security Testing Credits: 3

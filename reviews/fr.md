@@ -31,4 +31,15 @@ Module 8
 
 Module 9
 ---
-
+- What is a firewall?
+- Compare (describe their definition, advantages and disadvantages) the types of firewalls based on 
+  - inspected network levels
+  - basing or deployed location
+- Describe attacks on packet filter and countermeasures
+- Compare the two types of gateways
+  - application-level gateway
+  - circuit-level gateway
+    - socks circuit-level gateway
+- List firewall capabilities and limitations
+- What is a Unified threat management (UTM) system?
+- How to use hping3 and HOIC to launch DoS or DDoS attacks? (Review Lab3)
