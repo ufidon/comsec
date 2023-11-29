@@ -463,9 +463,9 @@ A general model for IDME
 Honeypot Classifications
 ---
 - Low interaction honeypot
-  - Consists of a software package that emulates particular I T services or systems well enough to provide a realistic initial interaction, but does not execute a full version of those services or systems
+  - Consists of a software package that emulates particular IT services or systems well enough to provide a realistic initial interaction, but does not execute a full version of those services or systems
   - Provides a less realistic target
-  - Often sufficient for use as a component of a distributed I D S to warn of imminent attack
+  - Often sufficient for use as a component of a distributed IDS to warn of imminent attack
 - High interaction honeypot
   - A real system, with a full operating system, services and applications, which are instrumented and deployed where they can be accessed by attackers
   - Is a more realistic target that may occupy an attacker for an extended period
