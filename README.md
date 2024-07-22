@@ -23,6 +23,7 @@ Tentative topics: chapter 1-9
 
 
 # Online resources
+- [pwn.college - Learn to hack!](https://pwn.college/) 
 - [SecML: Secure and Explainable Machine Learning in Python](https://github.com/pralab/secml)
 - [Python for cybersecurity](https://github.com/hposton/python-for-cybersecurity)
 - *Python libraries for cybersecurity*
@@ -38,6 +39,7 @@ Tentative topics: chapter 1-9
 - [DHS cybersecurity](https://www.dhs.gov/topics/cybersecurity)
 - [NIST cybersecurity](https://www.nist.gov/cybersecurity)
 - [National Centers of Academic Excellence in Cybersecurity (NCAE-C)](https://public.cyber.mil/ncae-c/)
+
 
 # Certification
 - [List of computer security certifications](https://en.wikipedia.org/wiki/List_of_computer_security_certifications)
