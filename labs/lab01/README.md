@@ -1,18 +1,16 @@
 # Setup lab environment
 
 ## 1.Description
-**In this lab, we will build our own computer security environment using Parrot Security Linux and Windows server 2019**
+**In this lab, we will build our own virtual computer security environment managed with VirtualBox, which consists of Parrot Security Linux and Windows server 2019**
 
-* Install  [VirtualBox](https://www.virtualbox.org/) on your own PC or laptop. The physical computer you use is called a "Host". The virtual machines that run on it are called "Guests". 
-* Create a NAT network and attach all VMs to it.
-* Create a virtual machine for Windows server 2019
-
+* The physical computer you use is called a "Host". The virtual machines that run on it are called "Guests". 
 
 **Prerequisite:**
 
 Your PC must support virtualization which is popular today, following the section 'Check virtualization availability' in the reference to find its availability and enable it.
 
-* Your own PC or laptop needs more than 100GB free space for these VMs
+* Your own PC or laptop needs more than 100GB free disk space for these VMs
+  * no less than 8GB RAM
 * If you don't have sufficient free space, you may buy an external USB **3.0+** Flash drive or SSD, for example
   * _USB 3.0+ Flash drive_
     * [Samsung BAR Plus 256GB - 300MB/s USB 3.1 Flash Drive Titan Gray (MUF-256BE4/AM)](https://www.amazon.com/Samsung-BAR-Plus-32GB-MUF-32BE4/dp/B07BPKL2D2?ref\_=fsclp\_pl\_dp\_2&th=1)
@@ -22,97 +20,183 @@ Your PC must support virtualization which is popular today, following the sectio
     * [Samsung (MU-PA500B/AM)T5 Portable SSD - 500GB - USB 3.1 External SSD , Blue ](https://www.amazon.com/Samsung-T5-Portable-SSD-MU-PA500B/dp/B073GZBT36?ref\_=fsclp\_pl\_dp\_3&th=1)
 
 ## 2.Steps
-1. (25%) Create a virtual machine for Windows server
-   * NAT network settings:
-     * Create a NAT network in VirtualBox
-     * ![create a NAT network](../../figs/natnetwork.png)
-   * VM settings:
-     * *2GB to 4GB memory* (Your laptop needs at least 8GB memory)
-     * Connect to the NAT network
-     * Enable network promiscuous mode
-       * Allow communication between all VMs
-     * ![attach to NAT network](../../figs/attach2nat.png)
-   * Demo video: [Create virtual machines for Ubuntu & Windows Server 2019 in VirtualBox 6](https://youtu.be/3PbnBVNWXpk)
+To set up the lab using a `VirtualBox image for Parrot Linux` and a `VHD image for Windows Server 2019`, follow the steps below. This approach skips the installation process by using pre-configured virtual disk images.
 
-2. (20%)Install Parrot Security Linux
-Follow the steps below to setup Parrot Security Linux in its VM:
+### **1. Install VirtualBox**
 
-   * (10%) Go to its official website [Parrot Security Linux](https://www.parrotsec.org/download/), download its 64-bit Virtual machine in VirtualBox format - virtualbox (amd64).
-   * (10%) Import this VM into VirtualBox. For further information, refer to [its official document](https://www.parrotsec.org/docs/).
-     * From menu: File ➡️ Import Appliance
-   ```bash
-   default username: parrot
-   default password: parrot
-   ```
+If you haven't already installed VirtualBox, download and install it from the [VirtualBox website](https://www.virtualbox.org/).
+
+### **2. Download the VirtualBox and VHD Images**
+
+- **Parrot Linux**: Download the Parrot Linux VirtualBox image from the [Parrot OS official website](https://www.parrotsec.org). Ensure you choose the `.ova` format, which is a pre-configured VirtualBox appliance.
+- **Windows Server 2019**: Download the VHD image from the [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019).
+
+### **3. Import the Parrot Linux VirtualBox Image**
+
+1. **Open VirtualBox**.
+2. Go to **File** > **Import Appliance**.
+3. Browse and select the Parrot Linux `.ova` file you downloaded.
+4. Follow the prompts to import the appliance. You can adjust the settings during the import if necessary 
+   1. e.g., allocate more RAM or change the virtual disk size
+   2. A suggested allocation: 2GB RAM, 60GB disk
+5. After the import completes, you should see the Parrot Linux VM listed in VirtualBox.
+
+### **4. Create the Windows Server 2019 VM Using the VHD Image**
+
+1. **Create a New VM**:
+   - In VirtualBox, click on **"New"**.
+   - Name the VM (e.g., `WindowsServer2019`), select **Type**: Microsoft Windows, and **Version**: Windows 2019 (64-bit).
+   - Allocate memory (e.g., 4096 MB).
+
+2. **Attach the VHD Image**:
+   - In the **Hard disk** section of the VM creation wizard, choose **Use an existing virtual hard disk file**.
+   - Click on the folder icon and browse to select the downloaded Windows Server 2019 `.vhd` file.
+   - Finish creating the VM.
+
+### **5. Create and Configure the NAT Network**
+
+1. **Create NAT Network**:
+   - Go to **File** > **Preferences** > **Network** > **NAT Networks**.
+   - Click the **"+"** button to create a new NAT network.
+   - Edit the NAT Network to ensure it is enabled, and note the IP range (e.g., `10.0.2.0/24`).
+
+2. **Attach VMs to the NAT Network**:
+   - For each VM (Parrot Linux and Windows Server 2019), go to **Settings** > **Network**.
+   - Set **Adapter 1** to **Attached to**: NAT Network.
+   - Select the NAT Network you just created.
+
+### **6. Start the VMs**
+
+1. **Start the Parrot Linux VM** by selecting it in VirtualBox and clicking **Start**.
+2. **Start the Windows Server 2019 VM** similarly.
+
+### **7. Verify Network Configuration**
+
+Once both VMs are running:
+
+#### **Find the IP Addresses**
+
+- **Windows Server 2019**: Open a command prompt and run:
+  ```bash
+  ipconfig
+  ```
+  This will display the IP address assigned to the VM.
+
+- **Parrot Linux**: Open a terminal and run:
+  ```bash
+  ip addr
+  ```
+  This will display the IP address assigned to the VM.
+
+#### **Test Communication Between VMs**
+
+- From **Parrot Linux**:
+  ```bash
+  ping <Windows Server 2019 IP>
+  ```
+- From **Windows Server 2019**:
+  ```bash
+  ping <Parrot Linux IP>
+  ```
 
 
-1. (25%)Install Windows server
+### **8. Install VirtualBox Guest Additions**
 
-   * (5%)Download [Windows Server 2019 VHD](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2019)
-   * (20%)Create a VM and add this Windows server VHD to the VM
-   * ![attach vhd](../../figs/attachvhd.png)
-   * Extending the Trial Period (If you have an old one)
-     In Powershell, execute this command to see how many days you have left in your trial:
+Guest Additions need to be installed on both VMs to enable bidirectional copy-paste and shared folders. The steps differ slightly for Parrot Linux and Windows Server 2019.
 
-     slmgr -dlv
+#### **For Parrot Linux**
 
-     Execute this command to extend the trial for another 180 days:
+1. **Start the Parrot Linux VM**.
+2. **Insert the Guest Additions CD**:
+   - In VirtualBox, with the VM running, go to **Devices** > **Insert Guest Additions CD Image**.
+3. **Install Required Packages**:
+   - Open a terminal in Parrot Linux and run:
+     ```bash
+     sudo apt update
+     sudo apt install build-essential dkms linux-headers-$(uname -r)
+     ```
+4. **Mount and Install Guest Additions**:
+   - In the terminal, run:
+     ```bash
+     sudo mkdir /mnt/cdrom
+     sudo mount /dev/cdrom /mnt/cdrom
+     sudo /mnt/cdrom/VBoxLinuxAdditions.run
+     ```
+5. **Reboot the VM**:
+   - After installation completes, reboot the VM:
+     ```bash
+     sudo reboot
+     ```
 
-     slmgr -rearm
+#### **For Windows Server 2019**
 
-     You can extend the trial six times, for up to three years.
+1. **Start the Windows Server 2019 VM**.
+2. **Insert the Guest Additions CD**:
+   - In VirtualBox, with the VM running, go to **Devices** > **Insert Guest Additions CD Image**.
+3. **Install Guest Additions**:
+   - When the CD is detected, run the installer (`VBoxWindowsAdditions.exe`) from the CD drive.
+   - Follow the prompts to install Guest Additions.
+   - Reboot the VM after installation.
 
-2. (30%) Show the NAT network is working
-	 * On the Windows Server VM, find its ip configuration of the Ethernet adapter connected to the NAT: 	
-    ```cmd
-    ipconfig /all
-    :: take a note of your Windows VM IP address
-    ```
-	 * On the Parrot Security Linux VM, find its ip configuration of the Ethernet adapter connected to the NAT: 	
-    ```bash
-    ifconfig -a
-    :: take a note of your Parrot Security Linux VM IP address
-    ```
-	 * from the Windows server VM ping the Parrot Security VM
-    ```cmd
-    ping Parrot // the Parrot ip address noted before
-    ```
-	 * from the Parrot VM ping the Windows server VM
-    ```bash
-    ping WindowsIP // the Windows ip address noted before
-    ```
+### **9. Enable Bidirectional Copy-Paste**
 
-**Note**
+1. **With the VM Powered On**:
+   - Go to **Devices** > **Shared Clipboard**.
+   - Select **Bidirectional**.
+   - Go to **Devices** > **Drag and Drop**.
+   - Select **Bidirectional**.
 
-Please fully update your Parrot at home, it takes a long time.
+Repeat these steps for both the Parrot Linux and Windows Server 2019 VMs.
 
-```bash
-sudo apt update
-sudo apt upgrade
-```
+### **10. Create Shared Folders**
+
+Shared folders allow you to share files between your host system and the guest VMs.
+
+#### **Set Up Shared Folders in VirtualBox**
+
+1. **With the VM Powered Off**:
+   - Go to **Settings** > **Shared Folders**.
+   - Click the **"+"** icon on the right to add a new shared folder.
+   - Choose a folder path on your host machine.
+   - Set the **Folder Name** (this is how it will appear in the VM).
+   - Check **Auto-mount** and optionally **Make Permanent**.
+
+   Repeat this for both the Parrot Linux and Windows Server 2019 VMs.
+
+#### **Access Shared Folders in Parrot Linux**
+
+1. **After Booting the VM**:
+   - The shared folder should automatically appear in the `/media/sf_<folder_name>` directory.
+   - If it doesn't appear, add the user to the `vboxsf` group:
+     ```bash
+     sudo usermod -aG vboxsf $USER
+     ```
+   - Log out and log back in, or reboot the VM to apply the changes.
+
+#### **Access Shared Folders in Windows Server 2019**
+
+1. **After Booting the VM**:
+   - Open **File Explorer**.
+   - The shared folder should be listed as a network drive under **This PC**.
+   - You can now access the shared folder directly from Windows Explorer.
+
+### **11. Final Verification**
+
+After setting up the shared folders and enabling bidirectional copy-paste:
+
+- **Copy-Paste Test**: Try copying text or files between the host and the guest VMs to verify that bidirectional copy-paste is working.
+- **Shared Folders Test**: Place files in the shared folder on the host and verify that they appear in both VMs.
+
+### **Conclusion**
+
+By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Windows Server 2019, you save time on OS installation and quickly set up a virtual lab. After importing the images and configuring the NAT network, the VMs should be able to communicate with each other, which you can verify using ping commands. You've enabled bidirectional copy-paste and configured shared folders for easy file transfer between the host and the guest VMs, improving the usability of your virtual environment.
 
 
-## 3. (10%) Extra credits
-- [Join the Cybersecurity Club](https://floridapoly.campuslabs.com/engage/organization/cybersecurity-club)
-
----
-
-*Optional*
-
-After installation, *make sure you can access Internet*, update and upgrade Parrot, then install the following tools. Open a terminal window, run the following commands:
-
-```bash
-# 1. update, upgrade Parrot then install several popular tools
-sudo apt update
-sudo apt upgrade -y
-sudo apt install apt-transport-https dirmngr
-sudo apt install p7zip-full build-essential gcc perl cmake automake curl git geany okular vim
-```
-
-* Install [VirtualBox Guest Additions in the guest Parrot Linux](https://www.parrotsec.org/docs/virtualization/virtualbox-guest-additions).
 
 
 ## References
+* Demo video: [Create virtual machines for Ubuntu & Windows Server 2019 in VirtualBox 6](https://youtu.be/3PbnBVNWXpk)
+* [Install the guest additions using the provided ISO from VirtualBox](https://www.parrotsec.org/docs/virtualization/virtualbox-guest-additions)
 * *Projects from samsclass*
   * [Project 1: Kali Virtual Machine](https://samsclass.info/152/proj/123p1kali.htm)
     * [katoolin3](https://github.com/s-h-3-l-l/katoolin3)

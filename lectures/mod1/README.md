@@ -38,7 +38,8 @@ Explore Cybersecurity competitions
 Practice 🖊️
 ---
 Prepare for the competitions
-- [Join the Cybersecurity Club](https://floridapoly.campuslabs.com/engage/organization/cybersecurity-club)
+- [How to start a student organization](https://floridapoly.edu/student-affairs/student-development/clubs-organizations/index.php)
+  - [Join the Cybersecurity Club](https://floridapoly.edu/news/articles/2021/10/102521-cybersecurityclub.php)
 - *Hone your skills*
   - [TryHackMe](https://tryhackme.com/)
   - [picoCTF](https://picoctf.org/)
