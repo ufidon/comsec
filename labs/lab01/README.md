@@ -227,8 +227,8 @@ By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Window
 * [Windows Server evaluation center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server)
 * *command line basics*
   * [Linux journey](https://linuxjourney.com/)
-  * [Windows commands cheatsheet](./commandCheatsheets/CommandPromptCheatsheet.pdf)
-  * [Linux commands cheatsheet](./commandCheatsheets/LinuxCommandMemento.pdf)
+  * [Windows commands cheatsheet](https://github.com/ufidon/script/tree/master/lectures/module01)
+  * [Linux commands cheatsheet](https://bootlin.com/doc/legacy/command-line/)
 * _old os_
   * [WinWorld](https://winworldpc.com/library/operating-systems)
   * [Old versions of Linux](https://soft.lafibre.info/)
