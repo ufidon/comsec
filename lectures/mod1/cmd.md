@@ -37,7 +37,7 @@ Move around in the tree
 | command | purpose |
 | --- | --- |
 | pwd | print working directory |
-| cd< | go to the home folder of current user |
+| cd | go to the home folder of current user |
 | cd folder | go to folder |
 
 
@@ -51,7 +51,7 @@ Commands operating on folders
 | rmdir dir | remove empty directory |
 | rm -rf dir | remove non-empty directory |
 | cp file1 file2 ... filen dir | copy multiple files to dir |
-| ○ cp -r source_dir dest_dir<br> ○ rsync -s source_dir dest_dir | copy directories recursively |
+| ○ cp -r source_dir dest_dir<br> ○ rsync  source_dir dest_dir | copy directories recursively |
 
 
 Look for files
@@ -88,7 +88,7 @@ Commands show file content
 | --- | --- |
 | cat file1 file2 ... filen | concatenate and display file contents |
 | more file1 file2 ... filen | display the contents of multiple files page by page |
-| more file1 file2 ... filen | similar to more but with more features |
+| less file1 file2 ... filen | similar to more but with more features |
 | head -n file | show the first n lines |
 | tail -n file | show the last n lines |
 

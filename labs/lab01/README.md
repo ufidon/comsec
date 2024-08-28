@@ -65,6 +65,7 @@ If you haven't already installed VirtualBox, download and install it from the [V
    - For each VM (Parrot Linux and Windows Server 2019), go to **Settings** > **Network**.
    - Set **Adapter 1** to **Attached to**: NAT Network.
    - Select the NAT Network you just created.
+   - Enable **Promiscuous** mode: `All all` or `Allow VMs`.
 
 ### **6. Start the VMs**
 
