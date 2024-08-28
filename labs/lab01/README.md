@@ -56,7 +56,8 @@ If you haven't already installed VirtualBox, download and install it from the [V
 ### **5. Create and Configure the NAT Network**
 
 1. **Create NAT Network**:
-   - Go to **File** > **Preferences** > **Network** > **NAT Networks**.
+   - For VirtualBox v6, go to **File** > **Preferences** > **Network** > **NAT Networks**.
+     - For VirtualBox v7, this is on the toolbar
    - Click the **"+"** button to create a new NAT network.
    - Edit the NAT Network to ensure it is enabled, and note the IP range (e.g., `10.0.2.0/24`).
 
@@ -92,6 +93,9 @@ Once both VMs are running:
 
 - From **Parrot Linux**:
   ```bash
+  # To enable ping without sudo
+  setcap cap_net_raw+p $(which ping)
+
   ping <Windows Server 2019 IP>
   ```
 - From **Windows Server 2019**:
@@ -107,6 +111,16 @@ Guest Additions need to be installed on both VMs to enable bidirectional copy-pa
 #### **For Parrot Linux**
 
 1. **Start the Parrot Linux VM**.
+   - Guest additions may be already installed.
+     ```bash
+     # check whether the Guest additions are installed
+     lsmod | grep vboxguest
+     # skip the following steps if you see output like
+     # vboxguest 219348  6 vboxsf
+
+     # or check with
+     sudo /usr/sbin/VBoxService -V
+     ```
 2. **Insert the Guest Additions CD**:
    - In VirtualBox, with the VM running, go to **Devices** > **Insert Guest Additions CD Image**.
 3. **Install Required Packages**:
@@ -197,6 +211,7 @@ By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Window
 ## References
 * Demo video: [Create virtual machines for Ubuntu & Windows Server 2019 in VirtualBox 6](https://youtu.be/3PbnBVNWXpk)
 * [Install the guest additions using the provided ISO from VirtualBox](https://www.parrotsec.org/docs/virtualization/virtualbox-guest-additions)
+* [Linux Capabilities and Ping](https://unixetc.co.uk/2016/05/30/linux-capabilities-and-ping/)
 * *Projects from samsclass*
   * [Project 1: Kali Virtual Machine](https://samsclass.info/152/proj/123p1kali.htm)
     * [katoolin3](https://github.com/s-h-3-l-l/katoolin3)
