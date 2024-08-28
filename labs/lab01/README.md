@@ -91,14 +91,17 @@ Once both VMs are running:
 
 #### **Test Communication Between VMs**
 
-- From **Parrot Linux**:
+- From **Parrot Linux**, ping **indows Server 2019**:
   ```bash
   # To enable ping without sudo
   setcap cap_net_raw+p $(which ping)
 
   ping <Windows Server 2019 IP>
   ```
-- From **Windows Server 2019**:
+  - By default, Windows server 2019 disabled its ping echo service. Following this [link](https://kb.iu.edu/d/aopy) to turn on its echo services
+    - File and Printer Sharing (Echo Request - ICMPv4-In), and
+    - File and Printer Sharing (Echo Request - ICMPv6-In)
+- From **Windows Server 2019**, ping **Parrot Linux**:
   ```bash
   ping <Parrot Linux IP>
   ```
