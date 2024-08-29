@@ -56,7 +56,7 @@ If you haven't already installed VirtualBox, download and install it from the [V
 ### **5. Create and Configure the NAT Network**
 
 1. **Create NAT Network**:
-   - For VirtualBox v6, go to **File** > **Preferences** > **Network** > **NAT Networks**.
+   - For VirtualBox v6 (obsolete since 2024), go to **File** > **Preferences** > **Network** > **NAT Networks**.
      - For VirtualBox v7, this is on the toolbar
    - Click the **"+"** button to create a new NAT network.
    - Edit the NAT Network to ensure it is enabled, and note the IP range (e.g., `10.0.2.0/24`).
@@ -95,7 +95,7 @@ Once both VMs are running:
 - From **Parrot Linux**, ping **indows Server 2019**:
   ```bash
   # To enable ping without sudo
-  setcap cap_net_raw+p $(which ping)
+  sudo setcap cap_net_raw+p $(which ping)
 
   ping <Windows Server 2019 IP>
   ```
