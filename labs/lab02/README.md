@@ -1,69 +1,69 @@
 # Application of Cryptography
 
 ## 1. Description
-The combination of modern symmetric cryptography, asymmetric cryptography and hash functions form the basis of secure Internet, secure Intranet, secure system and service as well as Blockchain, etc. by assuring their confidentiality, integrity, authenticity and nonrepudiation, which leads to availability.
+Modern symmetric cryptography, asymmetric cryptography, and hash functions form the foundation of secure communication on the Internet, Intranet, secure systems and services, as well as Blockchain technology. These technologies ensure confidentiality, integrity, authenticity, and non-repudiation, all of which contribute to overall availability.
 
-This lab is supposed to be done on the Windows server virtual machine.
+This lab is designed to be completed on a Windows server virtual machine.
 
-_Note: you may do this lab on your host system if it's Windows_
+_Note: You may also complete this lab on your host system if it runs Windows._
 
-**You need a friend or classmate to complete this lab**
+**Collaboration Requirement**: You will need a friend or classmate to complete this lab.
 
-## 2. Tasks: Secure e-mails and files using Gpg4win
-In this task, you will use Gpg4win to manage your private/public keys, certificates and your friends' certificates. By which, you can secure e-mails, files and folders.
+## 2. Tasks: Secure Emails and Files Using Gpg4win
+In this lab, you will use Gpg4win to manage your private/public keys, certificates, and your friend's certificates, enabling you to secure emails, files, and folders.
 
-## Task 1 (30%) Generate, import and manage OpenPGP certificates
-- (5%) Download and install [Gpg4win](https://www.gpg4win.org/)
-- (5%) Generate OpenPGP certificate using your school email
-  - **tick protect your private key with a passphrase**
-- (5%) Publish your OpenPGP certificate on a public keyserver
-  - For any reason if you can't publish your OpenPGP certificate on a public keyserver,
-  - You can manually upload your exported penPGP certificate onto a keyserver like [keys.openpgp.org](https://keys.openpgp.org/). Follow the web prompts verify your email.
-- (5%) Backup your private (secret) key
-- (5%) Export your public key (penPGP certificate)
-- (5%) Find the OpenPGP certificate of one of your fiends or classmates, then import it
+### Task 1: Generate, Import, and Manage OpenPGP Certificates
+1. Download and install [Gpg4win](https://www.gpg4win.org/).
+2. Generate an OpenPGP certificate using your school email.
+   - **Ensure you protect your private key with a passphrase.**
+3. Publish your OpenPGP certificate on a public keyserver.
+   - If you encounter issues publishing your certificate, manually upload your exported OpenPGP certificate to a keyserver like [keys.openpgp.org](https://keys.openpgp.org/) and follow the web prompts to verify your email.
+4. Backup your private (secret) key.
+5. Export your public key (OpenPGP certificate).
+6. Locate the OpenPGP certificate of a friend or classmate, then import it.
 
-## Task 2 (20%) Data/program integrity assurance 
-Take a photo with your smartphone and send it to your computer.
-- (5%) Create a checksum for this photo
-- (5%) Verify the checksum is valid
-- (5%) modify the photo a little bit then verify the old checksum becomes invalid
-- (5%) What is the checksum algorithms? What is the length of this checksum in bits? in bytes? in hex digits? Open the checksum file with Notepad.
+### Task 2: Data/Program Integrity Assurance
+1. Take a photo with your smartphone and transfer it to your computer.
+2. Create a checksum for this photo.
+3. Verify that the checksum is valid.
+4. Modify the photo slightly and confirm that the old checksum is now invalid.
+5. Answer the following questions:
+   - What checksum algorithm did you use?
+   - What is the length of this checksum in bits, bytes, and hexadecimal digits?
+   - Open the checksum file with Notepad and review its content.
 
+### Task 3: Privacy Assurance
+GnuPG can be used to protect data. Create a folder named "secrets" containing at least three image files, and use your OpenPGP key pair along with your friend's public key to complete the following subtasks:
 
-## Task 3 Privacy assurance (50%)
-GnuPG can be used to _protect data_. Create a folder 'secrets' containing at least three image files, use your OpenPGP key pair and your friend's public key (download from the GPG keyserver on which your friend published her/his public key) to complete the subtasks:
-	
-* Subtask 3.1 (20%): Send secrets to a friend
-  * Sign this folder with your private key and encrypt it with your friends public key. 
-  * Then send it to your friend through email, USB drive or sharing drive.
-	
-* Subtask 3.2 (20%): Read secrets from a friend
-  * Receive the signed and encrypted file from your friend through email, USB drive or sharing drive. 
-  * Decrypt this file with your private key and check it contents, and check your friend's signature is valid.
+**Subtask 3.1: Send Secrets to a Friend**
+- Sign the "secrets" folder with your private key and encrypt it with your friend's public key.
+- Send the signed and encrypted folder to your friend via email, USB drive, or a shared drive.
 
-* Subtask 3.3 (10%): Keep secrets for yourself
-  * Encrypt the folder only with your OpenPGP certificate
-  * Decrypt the encrypted file and check its contents
+**Subtask 3.2: Read Secrets from a Friend**
+- Receive the signed and encrypted file from your friend via email, USB drive, or a shared drive.
+- Decrypt the file using your private key, verify its contents, and confirm your friend's signature is valid.
 
-## 3. Extra credits (10%): Secure emails with Mailvelope
-Watch this video [Encrypt Your Gmail/Yahoo/Outlook/iCloud and Other Webmail](https://youtu.be/\-Hz40\_P6bVE), using [Mailvelope](https://www.mailvelope.com/) to 
-* (2%) import your private OpenPGP key exported from Kleopatra
-* (2%) import your partner's OpenPGP certificate exported from Kleopatra or a key server
-* (3%) send an encrypted and signed email to your partner, 
-* (3%) decrypt and verify his/her encrypted and signed email that sent to you 
- 
+**Subtask 3.3: Keep Secrets for Yourself**
+- Encrypt the "secrets" folder using only your OpenPGP certificate.
+- Decrypt the encrypted folder and verify its contents.
 
-## 4. Report
-Write a report about the process you complete the tasks above, key screen snapshots are needed as evidences.
+### Task 4: Secure Emails with Mailvelope
+Watch the video [Encrypt Your Gmail/Yahoo/Outlook/iCloud and Other Webmail](https://youtu.be/-Hz40_P6bVE) and use [Mailvelope](https://www.mailvelope.com/) to:
+1. Import your private OpenPGP key exported from Kleopatra.
+2. Import your partner's OpenPGP certificate exported from Kleopatra or a key server.
+3. Send an encrypted and signed email to your partner.
+4. Decrypt and verify your partner's encrypted and signed email.
 
-# References
-* [Pretty Good Privacy.](https://en.wikipedia.org/wiki/Pretty\_Good\_Privacy)
-  * [GNU Privacy Guard.](https://en.wikipedia.org/wiki/GNU\_Privacy\_Guard)
-  * [Gpg4win.](https://en.wikipedia.org/wiki/Gpg4win)
-  * [Gpg4win.](https://www.gpg4win.org)
-  * [The Gpg4win Compendium.](https://files.gpg4win.org/doc/gpg4win-compendium-en.pdf)
-* [Mailvelope Wiki.](https://en.wikipedia.org/wiki/Mailvelope)
-  * [Mailvelope official website.](https://www.mailvelope.com)
-  * [Mailvelope source code.](https://github.com/mailvelope/)
-  * [Encrypt Your Gmail/Yahoo/Outlook/iCloud and Other Webmail.](https://www.youtube.com/watch?v=\-Hz40\_P6bVE)
+## 3. Report
+Write a report detailing the steps you took to complete the tasks above. Include key screenshots as evidence.
+
+## References
+- [Pretty Good Privacy](https://en.wikipedia.org/wiki/Pretty_Good_Privacy)
+- [GNU Privacy Guard](https://en.wikipedia.org/wiki/GNU_Privacy_Guard)
+- [Gpg4win](https://en.wikipedia.org/wiki/Gpg4win)
+- [Gpg4win Official Site](https://www.gpg4win.org)
+- [The Gpg4win Compendium](https://files.gpg4win.org/doc/gpg4win-compendium-en.pdf)
+- [Mailvelope Wiki](https://en.wikipedia.org/wiki/Mailvelope)
+- [Mailvelope Official Site](https://www.mailvelope.com)
+- [Mailvelope Source Code](https://github.com/mailvelope/)
+- [Encrypt Your Gmail/Yahoo/Outlook/iCloud and Other Webmail](https://www.youtube.com/watch?v=-Hz40_P6bVE)
