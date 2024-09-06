@@ -177,19 +177,19 @@ Block cipher vs. stream cipher
   openssl -h
 
   # or get a long list, one cipher per line
-  openssl list-cipher-commands
+  openssl enc -list
 
   # encrypt file.txt to file.enc using 256-bit AES in CBC mode
   openssl enc -aes-256-cbc -salt -in file.txt -out file.enc
 
   # the same, only the output is base64 encoded for, e.g., e-mail
-  openssl enc -aes-256-cbc -a -salt -in file.txt -out file.enc
+  openssl enc -aes-256-cbc -a -salt -in file.txt -out file.asc
 
   # decrypt binary file.enc
   openssl enc -d -aes-256-cbc -in file.enc
 
   # decrypt base64-encoded version
-  openssl enc -d -aes-256-cbc -a -in file.enc
+  openssl enc -d -aes-256-cbc -a -in file.asc
 
   # provide password on command line
   openssl enc -aes-256-cbc -salt -in file.txt \
@@ -198,6 +198,10 @@ Block cipher vs. stream cipher
   # provide password in a file
   openssl enc -aes-256-cbc -salt -in file.txt \
   -out file.enc -pass file:/path/to/secret/password.txt
+
+  # new options for deriving the key
+  openssl enc -aes-256-cbc -iter 2  -salt -in file.txt -out file.eit -pass file:./pass.txt
+  openssl enc -aes-256-cbc -pbkdf2  -salt -in file.txt -out file.epb -pass file:./pass.txt
   ```
 
 ## Message authentication and hash function
@@ -231,8 +235,8 @@ Message Authentication Using a Message Authentication Code (MAC)
   - generate $MAC$ from the message $M$ and a key $K$ with a *MAC algorithm*
   - send out $MAC + M$
 - for the receiver
-  - recalculate the $MAC'$ from the received message $M'$ and the key $K$
-  - compare the recalculated $MAC'$ with the received $MAC''$
+  - recalculate the $MAC''$ from the received message $M'$ and the key $K$
+  - compare the recalculated $MAC''$ with the received $MAC'$
     - if $MAC'=MAC''$, message is authentic
 - the MAC algorithm is usually a *cryptographic hash function + cipher*
 
@@ -246,8 +250,8 @@ Message Authentication using a [hash function](https://en.wikipedia.org/wiki/Has
     - a public key for asymmetric encryption
   - send out: $M + MAC$
 - for the receiver
-  - recalculate the hash tag $H'$ of the received message $M': Hash(M')$
-  - decrypt the received $MAC'$ to get $H''$ with key $K$
+  - recalculate the hash tag $H''$ of the received message $M': Hash(M')$
+  - decrypt the received $MAC'$ to get $H'$ with key $K$
   - compare $H'$ with $H''$
     - if $H'=H''$, message is authentic
 
@@ -258,7 +262,7 @@ Message Authentication using a hash function and a shared key
   - get the hash tag $H$ of the combination of the message $M$ and the shared key $K: Hash(K+M+K)$
   - send out: $M + H$
 - for the receiver
-  - recalculate the hash tag $H'$ of the received message $M': Hash(K+M'+K)$
+  - recalculate the hash tag $H''$ of the received message $M': Hash(K+M'+K)$
   - compare $H'$ with the received $H''$
     - if $H'=H''$, message is authentic
 
@@ -288,6 +292,7 @@ Message Authentication using a hash function and a shared key
   ```bash
   # get MD5 of a string
   echo "hello" | md5sum
+  echo -n "hello" | md5sum
 
   # get SHA1 of typed input, end by CTRL+D
   sha1sum
@@ -503,7 +508,7 @@ Practical application: encryption of stored data
   - data are recoverable even though erased until disk sectors are reused
 - Approaches to encrypt stored data
   - available encryption packages
-    -  Pretty Good Privacy (PGP), VeraCrypt
+    -  [Pretty Good Privacy (PGP)](https://www.openpgp.org/), [VeraCrypt](https://veracrypt.fr)
    - back-end appliance
      -  hardware device that sits between servers and storage systems and encrypts/decrypts all passing data
   - library-based tape encryption
