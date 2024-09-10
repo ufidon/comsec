@@ -25,10 +25,17 @@ In this lab, you will use Gpg4win to manage your private/public keys, certificat
    - 💻 - search result of your certificate
 4. Backup your private (secret) key.
    1. 💻 - all components of your private key
-5. Export your public key (OpenPGP certificate).
+5. Export your public key from your OpenPGP certificate.
    1. 💻 - all components of your public key
-6. Locate the OpenPGP certificate of a friend or classmate, then import it.
+6. Search the OpenPGP certificate of a friend or classmate, download then import it.
    1. 💻 - all components of the certificate
+
+👉 Show all public/private key components
+
+```bash
+# open a powershell, command windows, or terminal from the folder contains the key file
+gpg --list-packets key_file
+```
 
 ### Task 2: Data/Program Integrity Assurance
 1. Take a photo with your smartphone and transfer it to your computer.
