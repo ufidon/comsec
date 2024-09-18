@@ -184,8 +184,8 @@ Steps triggered by an access attempt
 ---
 | Rule | Command (by $S_0$) | Operation |
 | --- | --- | --- |
-| $R_1$ | transfer {$T^⋆, T$} to $S,X$ | store {$T^⋆, T$} in $A[S,X]$ | 
-| $R_2$ | grant {$T^⋆, T$} to $S,X$ | store {$T^⋆, T$} in $A[S,X]$ | 
+| $R_1$ | transfer {$`T^⋆, T`$} to $S,X$ | store {$`T^⋆, T`$} in $A[S,X]$ | 
+| $R_2$ | grant {$`T^⋆, T`$} to $S,X$ | store {$`T^⋆, T`$} in $A[S,X]$ | 
 | $R_3$ | delete $T$ from $S,X$ | delete $T$ from $A[S,X]$ | 
 | $R_4$ |  $w ← read\ S,X$ | copy $A[S,X]$  into $w$ | 
 | $R_5$ | create object $X$ | add column for $X$ to $A$; store 'owner' in $A[S_0,X]$  | 
@@ -388,9 +388,9 @@ Construct the access control models with RBAC and ABAC.
 
 - ABAC
   - $canAccess(u,m,e) ⟵$
-  - $(Age(u)≥17 ∩ Rating(m)∈ \{R, PG-13, G\}) ∪$
-  - $(Age(u)≥13 ∩ (Age(u)<17 ∩ Rating(m)∈ \{PG-13, G\}) ∪$
-  - $(Age(u)<13 ∩ Rating(m)∈ \{G\})$
+  - $`(Age(u)≥17 ∩ Rating(m)∈ \{R, PG-13, G\}) ∪`$
+  - $`(Age(u)≥13 ∩ (Age(u)<17 ∩ Rating(m)∈ \{PG-13, G\}) ∪`$
+  - $`(Age(u)<13 ∩ Rating(m)∈ \{G\})`$
 
 
 Identity, Credential, and Access Management (ICAM)

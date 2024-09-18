@@ -37,7 +37,7 @@ User authentication
 A Model for Digital User Authentication
 ---
 - *Non-federated* [digital identity model](https://pages.nist.gov/800-63-4/sp800-63.html)
-- ![Non-federated Digital Identity Model Example](https://pages.nist.gov/800-63-4/sp800-63/media/Non-Federated.png)
+- ![Non-federated Digital Identity Model Example](../../figs/Non-Federated.png)
 - Subject is represented by one of the three roles:
   - Applicant
   - Subscriber
