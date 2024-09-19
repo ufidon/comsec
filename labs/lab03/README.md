@@ -49,7 +49,7 @@ Active Directory works with several components:
    - 💻 the new forest `university.local`
 
 2. **Configure Active Directory Users and Computers**
-   - After the server restarts, open **Active Directory Users and Computers** from the start menu.
+   - After the server restarts, open **Active Directory Users and Computers** from the right-top `Tools` menu of the `Server Manager`.
    - Create an organizational unit (OU) for the university:
      - Right-click the domain (e.g., `university.local`) > **New** > **Organizational Unit**.
      - Name it **University** and create sub-OUs for **Computer Science**, **Mathematics**, and **Engineering**.
@@ -69,6 +69,7 @@ Active Directory works with several components:
 2. **Edit the Default Domain Policy**
    - In the **Group Policy Management** window:
      - Navigate to **Forest** > **Domains** > your domain name (e.g., `university.local`).
+       - Expand `university.local`, under which, find `Default Domain Polic`.
      - Right-click on **Default Domain Policy**, then click **Edit**.
    
 3. **Navigate to Password Policy Settings**
@@ -336,6 +337,7 @@ These permission flags and access rights allow granular control over who can do 
 ## **Task 5: Verifying all settings**
 - 💻 Show that simple passwords won't be accepted
 - 💻 Login as `Provost`, `CS_Chair`, `CS_Faculty1`, and `CS_Student1` individually to test all folder permissions.
+  - ⚠️ These users must be `unlocked` first in their configuration in `Active Directory Users and Computers`.
 
 
 ### Lab Conclusion:
