@@ -156,8 +156,8 @@ By the end of this task, all users in your domain will be required to create mor
 3. **Create Security Groups**
    - For each department, create security groups for **Chairs**, **Faculty**, and **Students**.
      - Right-click the department OU > **New** > **Group**.
-     - Name the groups (e.g., `CS_Chair`, `CS_Faculty`, `CS_Students`).
-   - Add users to the respective groups (e.g., add the `CS_Chair` to the `CS_Chair` group, faculty to the `CS_Faculty` group, etc.).
+     - Name the groups (e.g., `gCSChair`, `gCSFaculty`, `gCSStudents`).
+   - Add users to the respective groups (e.g., add the `CS_Chair` to the `gCSChair` group, faculty to the `gCSFaculty` group, etc.).
    - 💻 all users for all groups for each department
 
 
@@ -338,7 +338,10 @@ These permission flags and access rights allow granular control over who can do 
 - 💻 Show that simple passwords won't be accepted
 - 💻 Login as `Provost`, `CS_Chair`, `CS_Faculty1`, and `CS_Student1` individually to test all folder permissions.
   - ⚠️ These users must be `unlocked` first in their configuration in `Active Directory Users and Computers`.
-  - try to create files / open files in the each testing folder as each logon user
+  - try to create files / open files in each folder (3*3+1=10 folders) as each logon user (4 users)
+    - Total # of tests: 40
+    - Could you automate these tests? or reduce the number of tests but cover all possibilities?
+  - To ease your work, try at least 2 most related folders for each logon user, i.e. at least 8 tests in total.
 
 
 ### Lab Conclusion:
