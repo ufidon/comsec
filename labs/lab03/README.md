@@ -338,6 +338,7 @@ These permission flags and access rights allow granular control over who can do 
 - 💻 Show that simple passwords won't be accepted
 - 💻 Login as `Provost`, `CS_Chair`, `CS_Faculty1`, and `CS_Student1` individually to test all folder permissions.
   - ⚠️ These users must be `unlocked` first in their configuration in `Active Directory Users and Computers`.
+  - try to create files / open files in the each testing folder as each logon user
 
 
 ### Lab Conclusion:
