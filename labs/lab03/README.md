@@ -197,7 +197,7 @@ foreach ($dept in $departments) {
    - Create a base directory for the university (e.g., `C:\University`).
    - For each department, create three folders:
      - **Announcements**: Faculty and Students have **read-only** access, Chair has **read/write** access.
-     - **Documents**: Only Faculty and Chair have access.
+     - **Documents**: Only Faculty and Chair have **read/write**  access.
      - **Shared**: Full access for all department members.
 
    - Example structure:
@@ -243,7 +243,7 @@ foreach ($dept in $departments) {
            icacls $announcementPath /grant "${dept}_Student$i:(OI)(CI)R"
        }
 
-       # Documents folder: Only Faculty and Chair have access
+       # Documents folder: Only Faculty and Chair have read/write access
        $documentsPath = "$deptPath\Documents"
        icacls $documentsPath /grant "${dept}_Chair:(OI)(CI)M"
        icacls $documentsPath /grant "${dept}_Faculty1:(OI)(CI)M" "${dept}_Faculty2:(OI)(CI)M" "${dept}_Faculty3:(OI)(CI)M"
@@ -351,3 +351,16 @@ By the end of this lab, you will have:
 - Configured folder permissions based on user roles and department.
 
 This exercise builds a solid foundation in managing Windows Server 2019, Active Directory, folder permissions, and security policies.
+
+
+# References
+## How to Delete a Protected OU in Windows Server 2019?
+ - Enable `advanced features` in `Active Directory Users and Computers` from its view menu
+ - Disable OU protection from its `Properties` panel to delete it
+ - or by Powershell
+  ```powershell
+   # 1. disable protection
+   Set-ADOrganizationalUnit -Identity "OU=YourOUName,DC=YourDomain,DC=com" -ProtectedFromAccidentalDeletion $false
+   # 2. delete the OU
+   Remove-ADOrganizationalUnit -Identity "OU=YourOUName,DC=YourDomain,DC=com" -Recursive
+  ```
