@@ -158,6 +158,8 @@ By the end of this task, all users in your domain will be required to create mor
      - Right-click the department OU > **New** > **Group**.
      - Name the groups (e.g., `gCSChair`, `gCSFaculty`, `gCSStudents`).
    - Add users to the respective groups (e.g., add the `CS_Chair` to the `gCSChair` group, faculty to the `gCSFaculty` group, etc.).
+   - 🎏 Create the `role assignment matrix` of `RBAC (Role-Based Access Control)`
+     - Treat security groups as roles
    - 💻 all users for all groups for each department
 
 
@@ -217,6 +219,8 @@ foreach ($dept in $departments) {
    ```
 
    - 💻 all folders with access rights for each department
+   - 🎏 Create the `role access rights matrix` of `RBAC (Role-Based Access Control)`
+     - Treat security groups as roles
 
 
 2. **Assign Folder Permissions Using PowerShell**
