@@ -341,7 +341,7 @@ These permission flags and access rights allow granular control over who can do 
 ## **Task 5: Verifying all settings**
 - 💻 Show that simple passwords won't be accepted
 - 💻 Login as `Provost`, `CS_Chair`, `CS_Faculty1`, and `CS_Student1` individually to test all folder permissions.
-  - ⚠️ These users must be `unlocked` first in their configuration in `Active Directory Users and Computers`.
+  - ⚠️ Follow the second reference to `enable local logon` on domain controller first.
   - try to create files / open files in each folder (3*3+1=10 folders) as each logon user (4 users)
     - Total # of tests: 40
     - Could you automate these tests? or reduce the number of tests but cover all possibilities?
@@ -368,3 +368,21 @@ This exercise builds a solid foundation in managing Windows Server 2019, Active 
    # 2. delete the OU
    Remove-ADOrganizationalUnit -Identity "OU=YourOUName,DC=YourDomain,DC=com" -Recursive
   ```
+
+## How to enable local logon of domain users onto the domain controller?
+- Right-click `Windows Start` to run `Windows PowerShell (Admin)`
+- In the opened PowerShell, type `gpme.msc` and press enter
+- dialog `Browse for a Group Policy Object` will show up, choose `Domain Controllers.university.local`, click `OK`
+ - then choose the only option `Default Domain Controllers Policy`, click `OK`
+ - dialog `Group Policy Management Editor` will popup
+
+- In the popup `Group Policy Management Editor`, from the left panel, choose
+ - Default Domain Policy -> Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Local Policies -> User Right Assignment
+ - Then click `User Right Assignment`, on the right panel, double-click `Allow log on locally`
+ - in the popup dialog `Allow log on locally Properties`, click button `Add Users or Group`, in the popup dialog `Add User or Group` type **Users** and click button `OK`
+ - click button `OK` of dialog `Allow log on locally Properties`
+ - close `Group Policy Management Editor`
+
+- In the previous PowerShell, type `gpupdate /force` to update the policy.
+
+- Then logout Administrator, now you should be able to login as domain users.
