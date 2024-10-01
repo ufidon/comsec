@@ -25,6 +25,7 @@ In a safe ethical hacking environment, you'll want to use **Virtual Machines (VM
   - 🖥️ Internal network
   - 🖥️ Parrot connected to the internal network
   - 🖥️ Windows connected to the internal network
+  - 🖥️ Make sure Windows can ping Parrot
 
 #### VirtualBox networking modes
 
@@ -52,6 +53,8 @@ The right network mode for your VirtualBox environment depends on your specific 
 On your attacker machine, if **Pupy** is not preinstalled, you'll install it, then configure it to generate payloads and control compromised systems.
 
 - **Pupy RAT** source code from its official repository: [Pupy GitHub](https://github.com/n1nj4sec/pupy).
+- Connect Parrot to NAT Network for this installation temporarily.
+  - Reconnect to the Internal Network after installation.
 
 #### **Steps to Install Pupy:**
 
