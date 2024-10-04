@@ -131,6 +131,13 @@ The Trojan we'll create will be a `reverse shell`, which will allow the Parrot L
 1. Open Metasploit in Parrot Linux:
    ```bash
    msfconsole
+
+   # (Optional) Familiarize yourself with basic commands such as:
+   search #(to find exploits)
+   use #(to select an exploit)
+   set #(to configure options)
+   exploit #(to run the exploit)
+   sessions #(to manage active sessions)   
    ```
 2. Generate a Windows executable payload:
    ```bash
