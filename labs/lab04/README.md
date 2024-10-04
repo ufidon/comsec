@@ -156,9 +156,10 @@ There are several ways to transfer the generated Trojan (`trojan.exe`) to the Wi
    cd folder_contains_the_trojan
    python3 -m http.server 8080
    ```
+   - 💻 the running HTTP server
 2. On the Windows VM, open a web browser and download the Trojan by navigating to:
    ```
-   http://<Parrot_VM_IP>:8080/trojan.exe
+   http://<Parrot_VM_IP>:8080
    ```
 3. Save the file to the Windows machine.
 
