@@ -2,7 +2,8 @@
 
 In this lab, we will set up a penetration testing environment where Parrot Linux serves as the attacker machine, and a Windows VM is the target. We'll use the Metasploit Framework to exploit the Windows VM by generating a Trojan, transferring it to the target, and performing post-exploitation tasks.
 
-- **Penetration Testing Environment**
+**Penetration Testing Environment**
+
 - **Parrot Linux (Attacker VM)**:
   - Install Parrot Security OS, which comes pre-installed with the Metasploit Framework.
 - **Windows (Target VM)**:
