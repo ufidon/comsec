@@ -65,7 +65,7 @@ In this lab, both the Windows Server and Parrot Linux are required.
 - Go back to Parrot Linux,
   - 💻 show the attack results in Wireshark
 
-## 3. Task 3: Raven-Storm
+## Task 3: Raven-Storm
 [Raven-Storm](https://github.com/Tmpertor/Raven-Storm) is a powerful DDoS toolkit for penetration tests. It can launch DoS attacks on several network layers through modules. In this extra task, attack Windows from the Parrot Linux.
 -  Install Raven-Storm on Parrot Linux
    -  💻 startup of Raven-Storm
@@ -79,7 +79,7 @@ In this lab, both the Windows Server and Parrot Linux are required.
   - 💻 the other on Windows shows the result 
 
 
-## 4. Report
+## 3. Report
 Write a report about the process you complete the tasks above, key screen snapshots are needed as evidences.
 
 # References
