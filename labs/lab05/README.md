@@ -56,7 +56,7 @@ In this lab, both the Windows Server and Parrot Linux are required.
   -  💻 Run Wireshark and start capturing packets
 -  On Windows server, 
   - download and install [High Orbit Ion Cannon](https://en.wikipedia.org/wiki/High_Orbit_Ion_Cannon) 
-  - 💻 Run HOIC and add the target as Parrot
+  - 💻 Run HOIC and `add the target` as Parrot
     - URL: http://ParrotIP
     - Power: high
     - Booster: GenericBoost.hoic
@@ -66,10 +66,15 @@ In this lab, both the Windows Server and Parrot Linux are required.
   - 💻 show the attack results in Wireshark
 
 ## Task 3: Raven-Storm
-[Raven-Storm](https://github.com/Tmpertor/Raven-Storm) is a powerful DDoS toolkit for penetration tests. It can launch DoS attacks on several network layers through modules. In this extra task, attack Windows from the Parrot Linux.
+[Raven-Storm](https://github.com/Tmpertor/Raven-Storm) is a powerful DDoS toolkit for penetration tests. It can launch DoS attacks on several network layers through modules. In this advanced task, attack Windows from the Parrot Linux.
 -  Install Raven-Storm on Parrot Linux
    -  💻 startup of Raven-Storm
 -  Launch the following modules to attack Windows
+   - 👉 Problem: missing module nmap 
+     ``` bash
+     # install the missing python module
+     sudo apt install python3-nmap
+     ```
   - l3 for ping
   - l4 for udp/tcp services
   - l7 for websites
