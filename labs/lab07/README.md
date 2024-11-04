@@ -1,4 +1,4 @@
-## Firewall
+## Intrusion Prevention
 
 In this lab, we learn configuring Windows firewall rules, monitoring firewall activity, and troubleshooting firewall-related issues.
 
