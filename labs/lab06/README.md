@@ -8,7 +8,7 @@ Both VMs (Ubuntu Server and Parrot Linux) will be connected through a VirtualBox
 ## **Lab Prerequisites**
 - VirtualBox installed and configured with a **NAT network** where both virtual machines (VMs) are connected.
 - **Ubuntu Linux** and **Parrot Linux** VMs installed and properly connected to the same NAT network.
-- A basic understanding of IDS/IPS concepts and network monitoring.
+- A basic understanding of IDS concepts and network monitoring.
 
 ## **Lab Objectives**
 By the end of this lab, you will:
@@ -267,23 +267,10 @@ By the end of this lab, you will:
 
 - Identify patterns in the traffic, false positives, or any missed attacks. This will help you tune Suricata’s rules.
 
----
-
-## **Task 5: Switching Suricata to IPS Mode**
-
-1. **[Switch to IPS Mode:](https://www.digitalocean.com/community/tutorials/how-to-configure-suricata-as-an-intrusion-prevention-system-ips-on-ubuntu-20-04)**
-   - Modify the Suricata configuration (`suricata.yaml`) to enable IPS functionality:
-     - 💻 configuration
-   - Restart Suricata and test again using Parrot Linux.
-     - 💻 test results
-
-2. **Testing IPS Functionality:**
-   - Re-run the malicious traffic tests from Parrot Linux and verify if Suricata not only detects but also actively blocks the traffic.
-   - 💻 detections and automatic blocks
 
 ---
 
 ## **Conclusion**
 In this lab, you have successfully installed and configured Suricata on a Ubuntu VM and tested its ability to detect various types of network traffic using Parrot Linux. By generating both normal and malicious traffic, you evaluated Suricata’s effectiveness in logging and alerting on security events. 
 
-This lab provided a solid foundation for understanding how IDS/IPS systems like Suricata work in real-world environments and how they can be used to strengthen network security.
+This lab provided a solid foundation for understanding how IDS systems like Suricata work in real-world environments and how they can be used to strengthen network security.
