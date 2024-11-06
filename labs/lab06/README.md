@@ -1,273 +1,250 @@
 # **Intrusion Detection**
 
 ## **Description**
-In this lab, we will configure Suricata, an open-source intrusion detection system (IDS), on a Windows Server 2019/2022 virtual machine. The lab will simulate a real-world scenario where a server is monitored for potential security breaches. Parrot Linux will act as an attacking machine to generate different types of network traffic. The goal is to test how effectively Suricata detects malicious activity, such as port scanning, brute force attacks, and exploitation attempts.
+In this lab, we will configure Suricata, an open-source intrusion detection system (IDS), on a Ubuntu virtual machine. The lab will simulate a real-world scenario where a server is monitored for potential security breaches. Parrot Linux will act as an attacking machine to generate different types of network traffic. The goal is to test how effectively Suricata detects malicious activity, such as port scanning, brute force attacks, and exploitation attempts.
 
-Both VMs (Windows Server and Parrot Linux) will be connected through a VirtualBox NAT network to simulate network traffic while retaining internet access. This lab also explores integrating Suricata with Windows Firewall and introduces the possibility of running Suricata in Intrusion Prevention System (IPS) mode.
+Both VMs (Ubuntu Server and Parrot Linux) will be connected through a VirtualBox NAT network to simulate network traffic while retaining internet access.
 
 ## **Lab Prerequisites**
 - VirtualBox installed and configured with a **NAT network** where both virtual machines (VMs) are connected.
-- **Windows Server 2019 or 2022** and **Parrot Linux** VMs installed and properly connected to the same NAT network.
+- **Ubuntu Linux** and **Parrot Linux** VMs installed and properly connected to the same NAT network.
 - A basic understanding of IDS/IPS concepts and network monitoring.
 
 ## **Lab Objectives**
 By the end of this lab, you will:
-1. Install and configure Suricata on a Windows Server VM.
-2. Install and configure SSH and enable RDP on the Windows Server.
-3. Generate both benign and malicious network traffic using Parrot Linux to test Suricata’s detection capabilities.
-4. Analyze and interpret Suricata logs for traffic detection.
-5. Optionally integrate Windows Firewall with Suricata to block detected threats.
-6. Explore Suricata’s potential as an Intrusion Prevention System (IPS).
+1. Install and configure Suricata on a Ubuntu Server VM.
+2. Generate both benign and malicious network traffic using Parrot Linux to test Suricata’s detection capabilities.
+3. Analyze and interpret Suricata logs for traffic detection.
 
 ---
 
-## **Task 1: Installing and Configuring Suricata on Windows Server 2019/2022**
+## **Task 1: Installing and Configuring Suricata on Ubuntu**
 
-### **Step 1: Install Suricata on Windows Server**
-1. **Download Suricata:**
-   - Visit the [Suricata website](https://suricata.io/download/) and download the latest version for Windows.
+### **Step 1: Install Ubuntu Server (SEED)**
+1. **Install SEED VM:**
+   - Visit the [SEED labs 2.0 website](https://seedsecuritylabs.org/labsetup.html) and choose option `Ubuntu 20.04 VM (for Intel/AMD Machines)`.
+   - Choose `Approach 1: Use a pre-built SEED VM`,
+     - Follow the VM manual to install the VM.
+     - default login: 
+       - user: seed
+       - pass: dees
+   - 💻 A running Ubuntu server
    
-2. **Install Suricata:**
-   - Run the installer. During the installation, you’ll be asked to select the components to install. Choose:
-     - Suricata executable
-     - Suricata Update (for downloading rules)
-   - 💻 A running instance of Suricata
-   
-3. **Configure Suricata’s initial settings:**
-   - After installation, navigate to the `C:\Program Files\Suricata\etc\suricata.yaml` file.
-   - Open `suricata.yaml` in a text editor like Notepad, Notepad++, or Visual Studio Code.
-   - **Define network interface:** Find the `af-packet` or `winpcap` section in the config. Change it to monitor the network interface linked to VirtualBox’s NAT network. Run `ipconfig` on the Windows VM to find the interface names.
-   - 💻 Setting updates
+2. **Install Simple-IDS - Suricata & EveBox Simply:**
+   - IDownload then install [Simple-IDS - Suricata & EveBox Simply](https://evebox.org/simple-ids/).
+   - **Choose network interface to monitor:**
+      ```bash
+      # 1. run simple-ids
+      ./simple-ids
+      # 2. Under the configure menu select the network interface to monitor
+      # 3. select "Start" from the main menu then point your browser at http://127.0.0.1:5636
+      ```
+   - 💻 simple-ids console interface
+   - 💻 simple-ids web interface
 
 
 ### **Step 2: Configure Suricata Rules**
 1. **Download Rule Sets:**
-   - Use Suricata Update to download default rule sets. Open a command prompt as Administrator and run:
-     ```
-     suricata-update
-     ```
+   - Select "stop" from the main menu to stop simple-ids
+   - Select "Update rules" from the main menu to update Suricata rules:
      - This will download and install the latest rules, including those from Emerging Threats.
      - 💻 update completed
 
-2. **Customizing Rules:**
-   - Open the `C:\Program Files\Suricata\rules` directory. You'll find several rule files here (e.g., `emerging-threats.rules`, `suricata.rules`).
+2. **[Basic setup](https://docs.suricata.io/en/latest/quickstart.html#basic-setup):**
+   - In main menu: `Other` → `Suricata Shell`
+     - `vi /etc/suricata/suricata.yaml`, setup HOME_NET
+   - Explore popular [rules](https://docs.suricata.io/en/latest/rules/index.html) in `/var/lib/suricata/rules/suricata.rules`.
    - You can edit or create custom rules to detect specific traffic. For example, add a rule to detect an ICMP ping:
      ```
-     alert icmp any any -> any any (msg:"ICMP Test Rule"; sid:1000001; rev:1;)
+     alert icmp any any -> any any (msg:"xxxxxxx ICMP Test Rule"; sid:1000001; rev:1;)
      ```
-   - Save the changes and reload Suricata by `restarting the service`.
+   - Save the changes and reload Suricata by start it again.
    - 💻 custom rules
-
-👉 To restart the Suricata service on Windows and apply updated rules, follow these steps:
-
-1. **Open Command Prompt as Administrator**
-   - Press `Win + S`, type "cmd," and right-click **Command Prompt**.
-   - Select **Run as administrator** to open the command prompt with elevated privileges.
-
-2. **Restart the Suricata Service**
-   - In the command prompt, enter the following commands to stop and start the Suricata service:
-
-     ```shell
-     net stop suricata
-     net start suricata
-     ```
-
-   - This will stop and then restart the Suricata service, applying any updated rule sets.
-
-- **Alternative: Restarting Through Services Manager**
-   1. Open the **Services** manager by pressing `Win + R`, typing `services.msc`, and pressing Enter.
-   2. Scroll down to find the **Suricata** service.
-   3. Right-click on **Suricata** and select **Restart**.
-
-- **Note**
-Some installations may have custom names for the Suricata service, like `SuricataService`. You can list all services with `sc query` to confirm the exact name if needed.
-
-- 💻 Suricata service is running
-
-### **Step 3: Start and Verify Suricata**
-1. **Start the Suricata Service:**
-   - Open Services (type `services.msc` in the Run window) and locate the Suricata service. Start it if it's not running.
-   
-2. **Verify Logs:**
-   - Suricata writes logs to `C:\Program Files\Suricata\log`. Open the `eve.json` file to view detected network events.
-   - Use a log viewer like [jq](https://jqlang.github.io/jq/) or [EveBox](https://evebox.org/) for easier reading of JSON logs.
-   - 💻 `eve.json` in `jq`.
 
 ---
 
-## **Task 2: Install SSH and Enable RDP on Windows Server 2019/2022**
+## **Task 2: Test Ubuntu SSH, ftp, and telnet servers from Parrot**
 
-### **Step 1: Install SSH on Windows Server**
-1. **Open Windows PowerShell as Administrator.**
-2. **Install the OpenSSH Server feature:**
-   ```powershell
-   Add-WindowsFeature -Name OpenSSH.Server
+### **Step 1: Test SSH on Ubuntu Server**
+1. **Check SSH service is available**
+   ```bash
+   # check sshd demon installed
+   which sshd
+   # check sshd is listening
+   ss -lt | grep ssh
    ```
-   💻 OpenSSH.Server installed
-3. **Start and configure the SSH service:**
-   - Start the SSH service:
-     ```powershell
-     Start-Service sshd
+   💻 SSH service is available
+2. **Start, stop, state the SSH service:**
+   - Stop the SSH service:
+     ```bash
+     sudo systemctl stop ssh
      ```
    - Set the service to automatically start on boot:
-     ```powershell
-     Set-Service -Name sshd -StartupType 'Automatic'
+     ```bash
+     sudo systemctl enable ssh
      ```
-   - Check OpenSSH.Server is running
-     ```powershell
-      Get-Service -Name sshd
+   - Start the SSH service:
+     ```bash
+     sudo systemctl start ssh
      ```
-   💻 OpenSSH.Server running
+   - Check SSH service is running
+     ```bash
+      sudo systemctl status ssh
+     ```
+   💻 SSH service running
 
-4. **Allow SSH through the Windows Firewall:**
-   ```powershell
-   New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
-   ```
-5. **Test SSH: login onto Windows From Parrot Linux**
+
+3. **Test SSH: login onto Ubuntu From Parrot Linux**
    - Open a terminal on Parrot Linux
    ```bash
-   # 1. find services on Windows server
-   nmap -A WindowsIP
-
-   # 2. login onto Windows
-   ssh username@windows_ip_address
+   # 1. login onto Ubuntu
+   # ssh username@Ubuntu_ip_address, e.g.
+   ssh seed@Ubuntu_ip
    ```
-   - 💻 Windows open ports
-   - 💻 login onto Windows
+   - 💻 login onto Ubuntu
 
-### **Step 2: Enable RDP on Windows Server**
-1. **Enable Remote Desktop:**
-   - Open the **Server Manager**, click **Local Server**, and look for the **Remote Desktop** field. Click the field to open the Remote Desktop settings.
-   - Check **Allow remote connections to this computer**.
-
-2. **Configure Windows Firewall for RDP:**
-   - Ensure that RDP is allowed through the firewall by running this command in PowerShell:
-     ```powershell
-     Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+### **Step 2: Test telnet on Ubuntu Server**
+1. **Check telnet service is available**
+   ```bash
+   # check inetd demon installed
+   which inetd
+   # check inetd is listening
+   ss -lt | grep telnet
+   ```
+   💻 telnet service is available
+2. **Start, stop, state the telnet service:**
+   - Stop the telnet service:
+     ```bash
+     sudo systemctl stop inetd
      ```
-3. **Test Windows RDP:**
-   - Ensure RDP is running from inside Windows
-      ```powershell
-      Get-Service -Name TermService
-      ```
-      💻 TermService is running
-   - Ensure RDP is running from outside Windows and accessible from Parrot Linux
-      ```bash
-      # 1. find services on Windows server
-      nmap -A WindowsIP
-      ```
-      💻 Windows RDP is ready for connection
-4. **Access Windows RDP:**
+   - Set the service to automatically start on boot:
+     ```bash
+     sudo systemctl enable inetd
+     ```
+   - Start the telnet service:
+     ```bash
+     sudo systemctl start inetd
+     ```
+   - Check telnet service is running
+     ```bash
+      sudo systemctl status inetd
+     ```
+   💻 telnet service running
 
-To access a Windows Remote Desktop from a Linux machine, you can use the **Remote Desktop Protocol (RDP)** client available on Linux. The most common RDP client for Linux is `Remmina`, but there are other tools like `rdesktop`, `xfreerdp`, and `Vinagre` that you can use. Here’s how to set it up:
 
-⚠️ Use **Option 1** only. Other options are for your further interest.
+3. **Test telnet: login onto Ubuntu From Parrot Linux**
+   - Open a terminal on Parrot Linux
+   ```bash
+   # 1. login onto Ubuntu
+   # telnet username@Ubuntu_ip_address, e.g.
+   telnet seed@Ubuntu_ip
+   ```
+   - 💻 login onto Ubuntu
 
-- **Option 1: Using Remmina (GUI Tool)**
-  1. **Install Remmina**:
-     - On Ubuntu or Debian-based systems:
-       ```bash
-       sudo apt update
-       sudo apt install remmina remmina-plugin-rdp -y
-       ```
-  2. **Open Remmina**:
-     - Launch Remmina from your application menu or by running `remmina` in the terminal.
+### **Step 3: Test ftp on Ubuntu Server**
+1. **Check ftp service is available**
+   ```bash
+   # check vsftpd demon installed
+   which vsftpd
+   # check vsftpd is listening
+   ss -lt | grep ftp
+   ```
+   💻 ftp service is available
+2. **Start, stop, state the ftp service:**
+   - Stop the ftp service:
+     ```bash
+     sudo systemctl stop vsftpd
+     ```
+   - Set the service to automatically start on boot:
+     ```bash
+     sudo systemctl enable vsftpd
+     ```
+   - Start the ftp service:
+     ```bash
+     sudo systemctl start vsftpd
+     ```
+   - Check ftp service is running
+     ```bash
+      sudo systemctl status vsftpd
+     ```
+   💻 ftp service running
 
-  3. **Set Up a New Connection**:
-     - Click on the **+** icon to create a new connection profile.
-     - Set the **Protocol** to **RDP - Remote Desktop Protocol**.
-     - Enter the **IP address** or **hostname** of your Windows machine in the **Server** field.
-     - Enter your **Windows username** and **password**.
-     - Save the connection profile if desired, and click **Connect**.
-     - 💻 Windows remote desktop
 
-- **Option 2: Using xfreerdp (Command Line Tool)**
-  1. **Install xfreerdp**:
-     - On Ubuntu or Debian-based systems:
-       ```bash
-       sudo apt update
-       sudo apt install freerdp2-x11 -y
-       ```
-  2. **Connect to Windows via RDP**:
-     - Use the following command to connect:
-       ```bash
-       xfreerdp /v:windows_ip_address /u:username /p:password
-       ```
-     - Replace `windows_ip_address` with your Windows machine’s IP address, `username` with your Windows username, and `password` with your password.
+3. **Test ftp: Access Ubuntu ftp From Parrot Linux**
+   - Open a terminal on Parrot Linux
+   ```bash
+   # 1. login onto Ubuntu ftp
+   # ftp username@Ubuntu_ip_address, e.g.
+   ftp seed@Ubuntu_ip
+   ```
+   - 💻 login onto Ubuntu ftp
 
-- **Option 3: Using rdesktop (Alternative CLI Tool)**
-  1. **Install rdesktop**:
-     - On Ubuntu or Debian-based systems:
-       ```bash
-       sudo apt update
-       sudo apt install rdesktop -y
-       ```
-
-  2. **Connect to Windows via RDP**:
-     - Run the following command:
-       ```bash
-       rdesktop windows_ip_address -u username -p password
-       ```
-     - Replace `windows_ip_address`, `username`, and `password` as appropriate.
 
 ---
 
 ## **Task 3: Testing Suricata with Baseline and Malicious Traffic**
 
 ### **Step 1: Generating Baseline Traffic (Normal)**
-1. **Ping the Windows Server from Parrot Linux:**
-   - From Parrot Linux, open the terminal and run a simple ping to the Windows VM's IP:
+1. **Ping the Ubuntu Server from Parrot Linux:**
+   - From Parrot Linux, open the terminal and run a simple ping to the Ubuntu VM's IP:
      ```
-     ping <Windows-VM-IP>
+     ping <Ubuntu-VM-IP>
      ```
      💻 ping output
    - Suricata should log this ICMP traffic in the `eve.json` file (assuming the test rule for ICMP is active).
       - 💻 logged ICMP traffic.
 
 2. **Perform File Transfer via SSH:**
-   - Use `scp` to transfer a file from Parrot to the Windows VM, assuming SSH is enabled on Windows.
+   - Use `scp` to transfer a file from Parrot to the Ubuntu VM, assuming SSH is enabled on Ubuntu.
      ```
-     scp file.txt user@<Windows-VM-IP>:/path/on/windows/
+     echo 'hello ubuntu.' > file.txt
+     scp file.txt user@<Ubuntu-VM-IP>:/home/seed/file.txt
      ```
-      💻 transferred file on both Parrot and Windows
+      💻 transferred file on both Parrot and Ubuntu
    - Monitor Suricata logs for this traffic. It should not generate an alert as it's benign.
       - 💻 logged scp traffic.
 
 ### **Step 2: Generating Malicious Traffic**
 1. **Perform a Port Scan Using Nmap:**
-   - From Parrot Linux, scan the Windows VM for open ports:
+   - From Parrot Linux, scan the Ubuntu VM for open ports:
      ```bash
      # TCP SYN scan (also known as a half-open scan)
      # You will learn more in Ethical Hacking
-     nmap -sS <Windows-VM-IP>
+     nmap -sS <Ubuntu-VM-IP>
      ```
      💻 Scan results
    - Suricata should trigger alerts for port scanning, as many default rules detect Nmap scans.
       - 💻 Alerts and logs
 
 2. **Brute Force Attack with Hydra:**
-   - Use the `hydra` tool on Parrot Linux to brute-force SSH or RDP login attempts (if RDP is enabled on Windows).
+   - Use the parallelized login cracker [hydra](https://www.kali.org/tools/hydra/) tool on Parrot Linux to brute-force SSH, telnet or ftp login attempts.
+   - Download the collection of popular passwords saved as [rockyou](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt)
      - SSH:
        ```
-       hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://<Windows-VM-IP>
+       hydra -l admin -P /path-to/rockyou.txt ssh://<Ubuntu-VM-IP>
        ```
        💻 Brute-forcing SSH login attempt result
-     - RDP:
+     - telnet:
        ```
-       hydra -l admin -P /usr/share/wordlists/rockyou.txt rdp://<Windows-VM-IP>
+       hydra -l admin -P /path-to/rockyou.txt telnet://<Ubuntu-VM-IP>
        ```
-       💻 Brute-forcing RDP login attempt results
+       💻 Brute-forcing telnet login attempt result
+     - ftp:
+       ```
+       hydra -l admin -P /path-to/rockyou.txt ftp://<Ubuntu-VM-IP>
+       ```
+       💻 Brute-forcing ftp login attempt results
    - Suricata will generate alerts for brute force attempts.
       - 💻 Alerts and logs
 
 3. **Exploit Vulnerabilities with Metasploit:**
-   - Use Metasploit on Parrot Linux to exploit a known vulnerability on the Windows VM (even if patched, Suricata should log the attempt).
-   - Example: Search for Windows SMB-related exploits in Metasploit:
+   - Use Metasploit on Parrot Linux to exploit a known vulnerability on the Ubuntu VM (even if patched, Suricata should log the attempt).
+   - Example: Search for Ubuntu samba related exploits in Metasploit:
      ```
      msfconsole
-     search smb
-     use exploit/windows/smb/ms17_010_eternalblue
-     set RHOSTS <Windows-VM-IP>
+     search name:samba platform:linux
+     use exploit/multi/samba/usermap_script
+     set RHOSTS <Ubuntu-VM-IP>
      exploit
      ```
    - 💻 Attack results on Parrot Linux
@@ -277,24 +254,13 @@ To access a Windows Remote Desktop from a Linux machine, you can use the **Remot
 ## **Task 4: Monitoring and Analyzing Suricata Logs**
 
 #### **Step 1: Viewing Logs**
-1. **Eve.json:**
-   - Open `C:\Program Files\Suricata\log\eve.json` to see the detected events in JSON format.
-   - You can use a tool like `jq` on Windows to format the output for easier readability:
-     ```
-     jq . < eve.json
-     ```
+1. **EReal-time Monitoring with EveBox:**
+   - Use Evebox to see the detected events in JSON format.
    - 💻 Highlight the logged attacks
-2. **Real-time Monitoring with EveBox:**
-   - Install EveBox for better visualization of Suricata logs.
-   - Download and install EveBox from the [official website](https://evebox.org/).
-   - Start EveBox and configure it to read the `eve.json` logs:
-     ```
-     evebox -r C:\Program Files\Suricata\log\eve.json
-     ```
-   - 💻 Logs in EveBox
+
 #### **Step 2: Analyzing the Traffic**
 - Look for the following in the logs:
-  - 💻 ICMP traffic from Parrot to Windows (from the ping).
+  - 💻 ICMP traffic from Parrot to Ubuntu (from the ping).
   - 💻 Port scanning alerts from Nmap.
   - 💻 Brute force detection from Hydra.
   - 💻 Exploit attempts from Metasploit.
@@ -303,79 +269,11 @@ To access a Windows Remote Desktop from a Linux machine, you can use the **Remot
 
 ---
 
-## **Task 5: Enhancing the Lab with Firewall and IPS Features**
+## **Task 5: Switching Suricata to IPS Mode**
 
-#### **Step 1: Integrating Windows Firewall with Suricata**
-1. **Create Firewall Rules:**
-   - Open Windows Defender Firewall with Advanced Security.
-   - Create a rule to block incoming traffic from the Parrot Linux IP if Suricata detects malicious activity.
-
-     - Method 1: Using Windows Defender Firewall GUI
-
-       1. **Open Windows Defender Firewall with Advanced Security**:
-          - Press `Win + S`, type "Windows Defender Firewall with Advanced Security," and open it.
-
-       2. **Create a New Inbound Rule**:
-          - In the left pane, click on **Inbound Rules**.
-          - In the right pane, click on **New Rule...** to open the New Inbound Rule Wizard.
-
-       3. **Select Rule Type**:
-          - Choose **Custom** and click **Next**.
-
-       4. **Select Program**:
-          - Choose **All programs** and click **Next**.
-
-       5. **Specify Protocol and Ports**:
-          - Choose **Any** to apply the rule to all protocols and ports, or configure it specifically if needed.
-          - Click **Next**.
-
-       6. **Specify the Scope**:
-          - Under **Which remote IP addresses does this rule apply to?**, select **These IP addresses**.
-          - Click **Add** and enter the IP address of your Parrot Linux machine.
-          - Click **OK**, then **Next**.
-
-       7. **Specify the Action**:
-          - Select **Block the connection** and click **Next**.
-
-       8. **Specify the Profile**:
-          - Choose the profiles where you want this rule to apply (Domain, Private, Public) based on your network type, then click **Next**.
-
-       9. **Name the Rule**:
-          - Enter a name (e.g., "Block Parrot Linux Incoming Traffic") and an optional description.
-          - Click **Finish**.
-
-     - Method 2: Using PowerShell
-
-         - Alternatively, you can create the rule using PowerShell with the following command:
-
-            ```powershell
-            New-NetFirewallRule -DisplayName "Block Parrot Linux Incoming Traffic" -Direction Inbound -Action Block -RemoteAddress parrot_linux_ip
-            ```
-
-         - Replace `parrot_linux_ip` with the actual IP address of your Parrot Linux machine.
-
-     - Verification
-       - Once the rule is created, test it by attempting to connect from your Parrot Linux machine to the Windows machine. The firewall should now block incoming traffic from that IP. You can view or modify the rule later in the **Windows Defender Firewall with Advanced Security** interface or by using `Get-NetFirewallRule` in PowerShell.
-       - 💻 Show the rule
-       - 💻 Show Parrot Linux can't connect to the Windows VM any more.
-
-2. **Optional: Automating Firewall Actions with Scripts:**
-   - Write a PowerShell script to monitor Suricata logs and automatically add the attacker’s IP to the Windows Firewall block list:
-     ```powershell
-     $log = "C:\Program Files\Suricata\log\eve.json"
-     $attackerIP = Get-Content $log | Select-String "src_ip" | ForEach-Object { $_.Matches.Groups[1].Value }
-     New-NetFirewallRule -DisplayName "Block Attacker" -Direction Inbound -RemoteAddress $attackerIP -Action Block
-     ```
-
-### **Step 2: Switching Suricata to IPS Mode**
-1. **Switch to IPS Mode:**
-   - Modify the Suricata configuration (`suricata.yaml`) to enable IPS functionality (if supported on Windows):
-     ```yaml
-     - drop:
-         src_ip: any
-         action: drop
-     ```
-     💻 configuration
+1. **[Switch to IPS Mode:](https://www.digitalocean.com/community/tutorials/how-to-configure-suricata-as-an-intrusion-prevention-system-ips-on-ubuntu-20-04)**
+   - Modify the Suricata configuration (`suricata.yaml`) to enable IPS functionality:
+     - 💻 configuration
    - Restart Suricata and test again using Parrot Linux.
      - 💻 test results
 
@@ -386,6 +284,6 @@ To access a Windows Remote Desktop from a Linux machine, you can use the **Remot
 ---
 
 ## **Conclusion**
-In this lab, you have successfully installed and configured Suricata on a Windows Server 2019/2022 VM and tested its ability to detect various types of network traffic using Parrot Linux. By generating both normal and malicious traffic, you evaluated Suricata’s effectiveness in logging and alerting on security events. Additionally, you explored integrating Suricata with Windows Firewall and took initial steps to enable Suricata as an IPS.
+In this lab, you have successfully installed and configured Suricata on a Ubuntu VM and tested its ability to detect various types of network traffic using Parrot Linux. By generating both normal and malicious traffic, you evaluated Suricata’s effectiveness in logging and alerting on security events. 
 
 This lab provided a solid foundation for understanding how IDS/IPS systems like Suricata work in real-world environments and how they can be used to strengthen network security.
