@@ -34,10 +34,15 @@ By the end of this lab, you will:
    - IDownload then install [Simple-IDS - Suricata & EveBox Simply](https://evebox.org/simple-ids/).
    - **Choose network interface to monitor:**
       ```bash
-      # 1. run simple-ids
+      # Go the the folder contains simple-ids
+      # 1. make it executable
+      chmod +x ./simple-ids
+
+      # 2. run simple-ids
+      # First time running, you are asked to select the network interface to monitor
       ./simple-ids
-      # 2. Under the configure menu select the network interface to monitor
-      # 3. select "Start" from the main menu then point your browser at http://127.0.0.1:5636
+      # 3. Under the configure menu select the network interface to monitor
+      # 4. select "Start" from the main menu then point your browser at http://127.0.0.1:5636
       ```
    - 💻 simple-ids console interface
    - 💻 simple-ids web interface
@@ -51,14 +56,19 @@ By the end of this lab, you will:
      - 💻 update completed
 
 2. **[Basic setup](https://docs.suricata.io/en/latest/quickstart.html#basic-setup):**
-   - In main menu: `Other` → `Suricata Shell`
+   - In main menu: `Other` → `Suricata Shell`, inside `Suricata Shell`,
+     - use command line editor [vi](https://bootlin.com/doc/legacy/command-line/vi_memento.pdf) to edit configuration and rule files
      - `vi /etc/suricata/suricata.yaml`, setup HOME_NET
    - Explore popular [rules](https://docs.suricata.io/en/latest/rules/index.html) in `/var/lib/suricata/rules/suricata.rules`.
    - You can edit or create custom rules to detect specific traffic. For example, add a rule to detect an ICMP ping:
      ```
      alert icmp any any -> any any (msg:"xxxxxxx ICMP Test Rule"; sid:1000001; rev:1;)
      ```
-   - Save the changes and reload Suricata by start it again.
+   - Save the changes, exit `vi`
+      ```bash
+      suricata -T -c /etc/suricata/suricata.yaml -v -d
+      ```
+   - reload Suricata by start it again.
    - 💻 custom rules
 
 ---
@@ -136,8 +146,8 @@ By the end of this lab, you will:
    - Open a terminal on Parrot Linux
    ```bash
    # 1. login onto Ubuntu
-   # telnet username@Ubuntu_ip_address, e.g.
-   telnet seed@Ubuntu_ip
+   # telnet Ubuntu_ip_address, e.g.
+   telnet Ubuntu_ip
    ```
    - 💻 login onto Ubuntu
 
@@ -174,8 +184,8 @@ By the end of this lab, you will:
    - Open a terminal on Parrot Linux
    ```bash
    # 1. login onto Ubuntu ftp
-   # ftp username@Ubuntu_ip_address, e.g.
-   ftp seed@Ubuntu_ip
+   # ftp Ubuntu_ip_address, e.g.
+   ftp Ubuntu_ip
    ```
    - 💻 login onto Ubuntu ftp
 
