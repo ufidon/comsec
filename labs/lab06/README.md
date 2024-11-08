@@ -322,13 +322,8 @@ By the end of this lab, you will:
    - 💻 logged exploit traffics.
 ---
 
-## **Task 4: Monitoring and Analyzing IDS Logs**
+## **Task 4: Analyzing IDS Logs**
 
-#### **Step 1: Viewing Logs**
-1. **Real-time Monitoring with format viewers:**
-   - 💻 Highlight the logged attacks in your logs.
-
-#### **Step 2: Analyzing the Traffic**
 - Look for the following in the logs:
   - 💻 ICMP traffic from Parrot to Ubuntu (from the ping).
   - 💻 Port scanning alerts from Nmap.
