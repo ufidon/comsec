@@ -38,6 +38,7 @@ By the end of this lab, you will:
        - pass: dees
    - 💻 A running Ubuntu server
 
+### **Step 2: Install an IDS**
 #### Option 1: Install WireShark
 - Already installed on SEED Ubuntu
 - 💻 A running WireShark
