@@ -66,7 +66,8 @@ By the end of this lab, you will:
      ```
    - Save the changes, exit `vi`
       ```bash
-      suricata -T -c /etc/suricata/suricata.yaml -v -d
+      # check configurations and rules
+      suricata -T -c /etc/suricata/suricata.yaml
       ```
    - reload Suricata by start it again.
    - 💻 custom rules
