@@ -253,6 +253,7 @@ By the end of this lab, you will:
 ---
 
 ## **Task 3: Testing IDS with Baseline and Malicious Traffic**
+⚠️ Keep your IDS running and capturing throughout this task.
 
 ### **Step 1: Generating Baseline Traffic (Normal)**
 1. **Ping the Ubuntu Server from Parrot Linux:**
