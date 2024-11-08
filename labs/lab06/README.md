@@ -264,7 +264,7 @@ By the end of this lab, you will:
 ## **Task 4: Monitoring and Analyzing Suricata Logs**
 
 #### **Step 1: Viewing Logs**
-1. **EReal-time Monitoring with EveBox:**
+1. **Real-time Monitoring with EveBox:**
    - Use Evebox to see the detected events in JSON format.
    - 💻 Highlight the logged attacks
 
@@ -284,3 +284,8 @@ By the end of this lab, you will:
 In this lab, you have successfully installed and configured Suricata on a Ubuntu VM and tested its ability to detect various types of network traffic using Parrot Linux. By generating both normal and malicious traffic, you evaluated Suricata’s effectiveness in logging and alerting on security events. 
 
 This lab provided a solid foundation for understanding how IDS systems like Suricata work in real-world environments and how they can be used to strengthen network security.
+
+# Reference
+- [Suricata Docker Image](https://github.com/jasonish/docker-suricata)
+- [How to set capabilities with setcap command?](https://unix.stackexchange.com/questions/389879/how-to-set-capabilities-with-setcap-command)
+- [Testing ping alert rule](https://forum.suricata.io/t/testing-ping-alert-rule/2666/2)
