@@ -1,7 +1,7 @@
 # **Intrusion Detection**
 
 ## **Description**
-In this lab, we will configure Suricata, an open-source intrusion detection system (IDS), on a Ubuntu virtual machine. The lab will simulate a real-world scenario where a server is monitored for potential security breaches. Parrot Linux will act as an attacking machine to generate different types of network traffic. The goal is to test how effectively Suricata detects malicious activity, such as port scanning, brute force attacks, and exploitation attempts.
+This lab will simulate a real-world scenario where a server is monitored for potential security breaches. Parrot Linux will act as an attacking machine to generate different types of network traffic. The goal is to test how effectively an `open-source intrusion detection system (IDS)` detects malicious activity, such as port scanning, brute force attacks, and exploitation attempts. 
 
 Both VMs (Ubuntu Server and Parrot Linux) will be connected through a VirtualBox NAT network to simulate network traffic while retaining internet access.
 
@@ -12,13 +12,21 @@ Both VMs (Ubuntu Server and Parrot Linux) will be connected through a VirtualBox
 
 ## **Lab Objectives**
 By the end of this lab, you will:
-1. Install and configure Suricata on a Ubuntu Server VM.
-2. Generate both benign and malicious network traffic using Parrot Linux to test Suricata’s detection capabilities.
-3. Analyze and interpret Suricata logs for traffic detection.
+1. Install and configure IDS on a Ubuntu Server VM.
+2. Generate both benign and malicious network traffic using Parrot Linux to test IDS detection capabilities.
+3. Analyze and interpret IDS logs for traffic detection.
+
+
+⚠️ For simplicity, you may choose one of the IDSes:
+
+- WireShark for manual detection
+- Native Suricata
+- Suricata in docker container
+
 
 ---
 
-## **Task 1: Installing and Configuring Suricata on Ubuntu**
+## **Task 1: Installing and Configuring IDS on Ubuntu**
 
 ### **Step 1: Install Ubuntu Server (SEED)**
 1. **Install SEED VM:**
@@ -29,9 +37,64 @@ By the end of this lab, you will:
        - user: seed
        - pass: dees
    - 💻 A running Ubuntu server
-   
-2. **Install Simple-IDS - Suricata & EveBox Simply:**
-   - IDownload then install [Simple-IDS - Suricata & EveBox Simply](https://evebox.org/simple-ids/).
+
+#### Option 1: Install WireShark
+- Already installed on SEED Ubuntu
+- 💻 A running WireShark
+
+#### Option 2: [Native Suricata](https://docs.suricata.io/en/suricata-7.0.7/quickstart.html)
+1. **Install Suricata**
+  ```bash
+  # add suricata repository
+  sudo apt-get install software-properties-common
+  sudo add-apt-repository ppa:oisf/suricata-stable
+  sudo apt-get update
+
+  # install suricata and jq
+  sudo apt-get install suricata jq
+
+  # update suricata rules
+  sudo suricata-update
+
+  # check suricata service is running
+  sudo systemctl status suricata.service
+  ```
+   - 💻 Suricata service status
+2. **Basic setup**
+  ```bash
+  # determine the interface(s) and IP address(es) on which Suricata should be inspecting network packets:
+  ip a
+
+  # set interface to be monitored, HOME_NET
+  sudo vim /etc/suricata/suricata.yaml
+
+  # sudo systemctl restart suricata
+  ```
+3. **Check Suricata is working**
+  ```bash
+  # open two terminals, one runs
+  sudo tail -f /var/log/suricata/fast.log
+
+  # the other runs
+  curl http://testmynids.org/uid/index.html
+  ```
+  
+  You should see something in the first terminal similar to
+  ```
+  [1:2100498:7] GPL ATTACK_RESPONSE id check returned root [**] [Classification: Potentially Bad Traffic] [Priority: 2] {TCP} 217.160.0.187:80 -> 10.0.2.15:41618
+  ```
+4. **View specific logs**
+  ```bash
+  # Alerts:
+  sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'
+
+  # Statistics:
+  sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="stats")'
+  ```
+
+#### Option 3:  **Docker Suricata**
+1. Install Simple-IDS
+   - Download then install [Simple-IDS - Suricata & EveBox Simply](https://evebox.org/simple-ids/).
    - **Choose network interface to monitor:**
       ```bash
       # Go the the folder contains simple-ids
@@ -45,17 +108,13 @@ By the end of this lab, you will:
       # 4. select "Start" from the main menu then point your browser at http://127.0.0.1:5636
       ```
    - 💻 simple-ids console interface
-   - 💻 simple-ids web interface
 
-
-### **Step 2: Configure Suricata Rules**
-1. **Download Rule Sets:**
+2. **Download Rule Sets:**
    - Select "stop" from the main menu to stop simple-ids
    - Select "Update rules" from the main menu to update Suricata rules:
      - This will download and install the latest rules, including those from Emerging Threats.
-     - 💻 update completed
 
-2. **[Basic setup](https://docs.suricata.io/en/latest/quickstart.html#basic-setup):**
+3. **[Basic setup](https://docs.suricata.io/en/latest/quickstart.html#basic-setup):**
    - In main menu: `Other` → `Suricata Shell`, inside `Suricata Shell`,
      - use command line editor [vi](https://bootlin.com/doc/legacy/command-line/vi_memento.pdf) to edit configuration and rule files
      - `vi /etc/suricata/suricata.yaml`, setup HOME_NET
@@ -70,7 +129,6 @@ By the end of this lab, you will:
       suricata -T -c /etc/suricata/suricata.yaml
       ```
    - reload Suricata by start it again.
-   - 💻 custom rules
 
 ---
 
@@ -193,7 +251,7 @@ By the end of this lab, you will:
 
 ---
 
-## **Task 3: Testing Suricata with Baseline and Malicious Traffic**
+## **Task 3: Testing IDS with Baseline and Malicious Traffic**
 
 ### **Step 1: Generating Baseline Traffic (Normal)**
 1. **Ping the Ubuntu Server from Parrot Linux:**
@@ -202,7 +260,7 @@ By the end of this lab, you will:
      ping <Ubuntu-VM-IP>
      ```
      💻 ping output
-   - Suricata should log this ICMP traffic in the `eve.json` file (assuming the test rule for ICMP is active).
+   - IDS should log this ICMP traffic.
       - 💻 logged ICMP traffic.
 
 2. **Perform File Transfer via SSH:**
@@ -212,7 +270,7 @@ By the end of this lab, you will:
      scp file.txt user@<Ubuntu-VM-IP>:/home/seed/file.txt
      ```
       💻 transferred file on both Parrot and Ubuntu
-   - Monitor Suricata logs for this traffic. It should not generate an alert as it's benign.
+   - IDS should log this SSH traffic. 
       - 💻 logged scp traffic.
 
 ### **Step 2: Generating Malicious Traffic**
@@ -224,32 +282,32 @@ By the end of this lab, you will:
      nmap -sS <Ubuntu-VM-IP>
      ```
      💻 Scan results
-   - Suricata should trigger alerts for port scanning, as many default rules detect Nmap scans.
-      - 💻 Alerts and logs
+   - IDS should log this TCP SYN scan.
+      - 💻 logged TCP SYN can
 
 2. **Brute Force Attack with Hydra:**
    - Use the parallelized login cracker [hydra](https://www.kali.org/tools/hydra/) tool on Parrot Linux to brute-force SSH, telnet or ftp login attempts.
-   - Download the collection of popular passwords saved as [rockyou](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt)
+   - Download and extract the collection of popular passwords [rockyou](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt)
      - SSH:
        ```
-       hydra -l admin -P /path-to/rockyou.txt ssh://<Ubuntu-VM-IP>
+       hydra -l admin -P ./rockyou.txt ssh://<Ubuntu-VM-IP>
        ```
        💻 Brute-forcing SSH login attempt result
      - telnet:
        ```
-       hydra -l admin -P /path-to/rockyou.txt telnet://<Ubuntu-VM-IP>
+       hydra -l admin -P ./rockyou.txt telnet://<Ubuntu-VM-IP>
        ```
        💻 Brute-forcing telnet login attempt result
      - ftp:
        ```
-       hydra -l admin -P /path-to/rockyou.txt ftp://<Ubuntu-VM-IP>
+       hydra -l admin -P ./rockyou.txt ftp://<Ubuntu-VM-IP>
        ```
        💻 Brute-forcing ftp login attempt results
-   - Suricata will generate alerts for brute force attempts.
-      - 💻 Alerts and logs
+   - IDS should log these brute force attempts.
+      - 💻 logged brute force attempts.
 
 3. **Exploit Vulnerabilities with Metasploit:**
-   - Use Metasploit on Parrot Linux to exploit a known vulnerability on the Ubuntu VM (even if patched, Suricata should log the attempt).
+   - Use Metasploit on Parrot Linux to exploit a known vulnerability on the Ubuntu VM (even if patched, IDS should log the attempt).
    - Example: Search for Ubuntu samba related exploits in Metasploit:
      ```
      msfconsole
@@ -259,15 +317,14 @@ By the end of this lab, you will:
      exploit
      ```
    - 💻 Attack results on Parrot Linux
-   - 💻 Alerts and logs
+   - 💻 logged exploit traffics.
 ---
 
-## **Task 4: Monitoring and Analyzing Suricata Logs**
+## **Task 4: Monitoring and Analyzing IDS Logs**
 
 #### **Step 1: Viewing Logs**
-1. **Real-time Monitoring with EveBox:**
-   - Use Evebox to see the detected events in JSON format.
-   - 💻 Highlight the logged attacks
+1. **Real-time Monitoring with format viewers:**
+   - 💻 Highlight the logged attacks in your logs.
 
 #### **Step 2: Analyzing the Traffic**
 - Look for the following in the logs:
@@ -276,15 +333,14 @@ By the end of this lab, you will:
   - 💻 Brute force detection from Hydra.
   - 💻 Exploit attempts from Metasploit.
 
-- Identify patterns in the traffic, false positives, or any missed attacks. This will help you tune Suricata’s rules.
-
+- Identify patterns in the traffic. This will help you understand and tune IDS’s rules.
 
 ---
 
 ## **Conclusion**
-In this lab, you have successfully installed and configured Suricata on a Ubuntu VM and tested its ability to detect various types of network traffic using Parrot Linux. By generating both normal and malicious traffic, you evaluated Suricata’s effectiveness in logging and alerting on security events. 
+In this lab, you have successfully installed and configured IDS on a Ubuntu VM and tested its ability to detect various types of network traffic using Parrot Linux. By generating both normal and malicious traffic, you evaluated IDS’s effectiveness in logging and alerting on security events. 
 
-This lab provided a solid foundation for understanding how IDS systems like Suricata work in real-world environments and how they can be used to strengthen network security.
+This lab provided a solid foundation for understanding how IDS systems work in real-world environments and how they can be used to strengthen network security.
 
 # Reference
 - [Suricata Docker Image](https://github.com/jasonish/docker-suricata)
