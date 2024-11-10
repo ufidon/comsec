@@ -269,7 +269,7 @@ By the end of this lab, you will:
    - Use `scp` to transfer a file from Parrot to the Ubuntu VM, assuming SSH is enabled on Ubuntu.
      ```
      echo 'hello ubuntu.' > file.txt
-     scp file.txt user@<Ubuntu-VM-IP>:/home/seed/file.txt
+     scp file.txt seed@<Ubuntu-VM-IP>:/home/seed/file.txt
      ```
       💻 transferred file on both Parrot and Ubuntu
    - IDS should log this SSH traffic. 
