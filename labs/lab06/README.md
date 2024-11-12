@@ -340,6 +340,7 @@ In this lab, you have successfully installed and configured IDS on a Ubuntu VM a
 This lab provided a solid foundation for understanding how IDS systems work in real-world environments and how they can be used to strengthen network security.
 
 # Reference
+- [How to Fix VirtualBox UUID already exists Errors](https://www.groovypost.com/howto/virtualbox-error-uuid-hard-disk/)
 - [Suricata Docker Image](https://github.com/jasonish/docker-suricata)
 - [How to set capabilities with setcap command?](https://unix.stackexchange.com/questions/389879/how-to-set-capabilities-with-setcap-command)
 - [Testing ping alert rule](https://forum.suricata.io/t/testing-ping-alert-rule/2666/2)
