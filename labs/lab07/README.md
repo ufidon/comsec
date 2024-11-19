@@ -86,12 +86,12 @@ In the wizard, choose the type of rule you want to create:
 - **Predefined**: Choose from predefined rules for services like **Remote Desktop** or **File Sharing**.
 - **Custom**: Create a custom rule based on specific conditions (protocol, program, port, IP address).
 
-For example, to allow HTTP traffic:
+For example, to allow HTTP/HTTPS traffic:
 - Select **Port** and click **Next**.
 
 #### **5. Configure Port**
-- Choose **TCP** or **UDP** based on your requirement (e.g., HTTP uses TCP).
-- Specify the port number (e.g., **80** for HTTP).
+- Choose **TCP** or **UDP** based on your requirement (e.g., HTTP/HTTPS uses TCP).
+- Specify the port number (e.g., **80** for HTTP, **443** for HTTPS).
 - Click **Next**.
 
 #### **6. Choose Action**
@@ -104,9 +104,9 @@ Choose **Allow the connection** and click **Next**.
 Select the profiles (Domain, Private, Public) to which this rule should apply, depending on the network environment. Typically, if you're running a web server, you might allow traffic on **Private** and **Public**.
 
 #### **8. Name the Rule**
-- Give the rule a descriptive name (e.g., **Allow HTTP Traffic**).
+- Give the rule a descriptive name (e.g., **Allow HTTP/HTTPS Traffic**).
 - Click **Finish** to create the rule.
-- 💻 the completed HTTP rule
+- 💻 the completed HTTP/HTTPS rule
 
 
 ### 🔭 Find methods online to create a rule to block ICMP traffic
@@ -114,7 +114,7 @@ Select the profiles (Domain, Private, Public) to which this rule should apply, d
 
 
 ③ **Configure Outbound Rules**:
-   - **Block All Traffic Except HTTP**: Create a rule that blocks all outbound traffic except on port 80 (HTTP) and port 443 (HTTPS).
+   - **Block All Traffic Except HTTP/HTTPS**: Create a rule that blocks all outbound traffic except on port 80 (HTTP) and port 443 (HTTPS).
 
 ### **Step-by-Step Guide to Configuring Outbound Rules**
 
@@ -127,7 +127,7 @@ Select the profiles (Domain, Private, Public) to which this rule should apply, d
 #### **3. Choose Rule Type**
 Select the appropriate type (e.g., **Port** or **Program**).
 
-For example, to block all traffic except HTTP:
+For example, to block all traffic except HTTP/HTTPS:
 - Select **Port** and click **Next**.
 
 #### **4. Configure Port**
@@ -194,8 +194,8 @@ After creating the outbound rule, try accessing external websites using HTTP (po
   - 🎏 Is it very each to find an HTTPS website? Why?
   - 🎏 What do you get when you try to access `http`://www.google.com
 
-1. **Switch Between Firewall Profiles**:
-   - 🎏 Test different profiles (Domain, Private, Public) to observe how firewall settings differ across network environments.
+1. **Optional: Switch Between Firewall Profiles**:
+   - Test different profiles (Domain, Private, Public) to observe how firewall settings differ across network environments.
 ---
 
 ## **Task 3: Monitor Firewall Activity on Windows Server**
@@ -228,8 +228,8 @@ After creating the outbound rule, try accessing external websites using HTTP (po
    - 🎏 **Block RDP Traffic**: Create a rule to block inbound RDP on port 3389.
    - 🎏 Attempt to connect via RDP from Parrot Linux, then troubleshoot and unblock the service.
 
-2. **Troubleshoot HTTP Service Unavailability**:
-   - 🎏 **Block HTTP Traffic**: Create a rule to block port 80.
+2. **Troubleshoot HTTP/HTTPS Service Unavailability**:
+   - 🎏 **Block HTTP/HTTPS Traffic**: Create a rule to block port 80 and 443.
    - 🎏 Try accessing the web service from Parrot Linux. Investigate using curl and remove the block to restore service.
 
 3. **Block C&C (Command & Control)**
@@ -260,7 +260,7 @@ Refer to [Manage Windows Firewall with the command line](https://learn.microsoft
      ```powershell
      netsh advfirewall export "C:\path\to\firewall_config.wfw"
      ```
-   - 🎏 Import firewall rules on another server:
+   - 🎏 (Optional) Import firewall rules on another server:
      ```powershell
      netsh advfirewall import "C:\path\to\firewall_config.wfw"
      ```
