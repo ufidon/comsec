@@ -191,7 +191,7 @@ After creating the outbound rule, try accessing external websites using HTTP (po
   - 🎏 Is it very hard to find an HTTP website? Why?
 - 💻 Find an HTTPS website and access it such as
   - `https`://www.google.com
-  - 🎏 Is it very each to find an HTTPS website? Why?
+  - 🎏 Is it very easy to find an HTTPS website? Why?
   - 🎏 What do you get when you try to access `http`://www.google.com
 
 1. **Optional: Switch Between Firewall Profiles**:
