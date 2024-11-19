@@ -66,6 +66,7 @@ In domain environments, firewall settings can be configured and enforced central
 ### **Initial Setup Done in Past Labs**
 - 💻 You are able to ping the Windows VM from the Parrot VM
 - 💻 You are able to access the website hosted on the Windows VM from the Parrot VM
+- ⚠️ Make sure you turned on Windows Firewall in `Server Manager` while keep real-time antivirus off.
 
 ### **Step-by-Step Guide to Configuring Inbound Rules**
 
