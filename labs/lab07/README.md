@@ -230,9 +230,13 @@ After creating the outbound rule, try accessing external websites using HTTP (po
 
 2. **Troubleshoot HTTP Service Unavailability**:
    - 🎏 **Block HTTP Traffic**: Create a rule to block port 80.
-   - 🎏 Try accessing the web service from Parrot Linux. Investigate using logs and remove the block to restore service.
+   - 🎏 Try accessing the web service from Parrot Linux. Investigate using curl and remove the block to restore service.
 
-3. **Resolve ICMP Block**:
+3. **Block C&C (Command & Control)**
+   - 🎏 With the rule of `blocking all outbound except HTTP/HTTPS` enabled, try the trojan created in Lab04, can you control the Windows VM? Why?
+   - 🎏 Disable the blocking all outbound rule, try the trojan again, you should be able to C&C the Windows VM now.
+   - 🎏 Enable the blocking all outbound rule and delete the trojan.
+4. **Resolve ICMP Block**:
    - 🎏 Disable the ICMP blocking rule temporarily, test with ping, and then reapply the rule to allow ICMP from a specific IP range containing your Parrot IP.
 
 ---
