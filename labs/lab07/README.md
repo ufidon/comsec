@@ -60,7 +60,7 @@ In domain environments, firewall settings can be configured and enforced central
    - Open **Windows Defender Firewall with Advanced Security**.
 
 ② **Configure Inbound Rules**:
-   - 🎏 **Allow HTTPH/HTTPS (Port 80/443)**: Create a rule to allow incoming web traffic.
+   - 🎏 **Allow HTTP/HTTPS (Port 80/443)**: Create a rule to allow incoming web traffic.
    - 🎏 **Block ICMP (Ping)**: Create a rule to block ICMP traffic.
 
 ### **Initial Setup Done in Past Labs**
@@ -244,7 +244,7 @@ After creating the outbound rule, try accessing external websites using HTTP (po
 ## **Task 5: Automate Firewall Configuration and Export Rules**
 
 1. **Automate Rule Creation with PowerShell**:
-   - Delete the `Allow HTTPH/HTTPS (Port 80/443)` rule
+   - Delete the `Allow HTTP/HTTPS (Port 80/443)` rule
    - Use PowerShell to [create and apply firewall rules](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps):
      ```powershell
      New-NetFirewallRule -DisplayName "Allow HTTP and HTTPS" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 80,443
