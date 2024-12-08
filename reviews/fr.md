@@ -42,4 +42,4 @@ Module 9
     - socks circuit-level gateway
 - List firewall capabilities and limitations
 - What is a Unified threat management (UTM) system?
-- How to use hping3 and HOIC to launch DoS or DDoS attacks? (Review Lab3)
+- How to use hping3 and HOIC to launch DoS or DDoS attacks? (Review the lab of Dos attacks)
