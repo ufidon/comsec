@@ -20,7 +20,11 @@ Tentative topics: chapter 1-9
 - [Cracking Codes with Python](https://inventwithpython.com/cracking/)
 - [Hands-On Machine Learning for Cybersecurity](https://github.com/PacktPublishing/Hands-on-Machine-Learning-for-Cyber-Security)
 
-
+# Reference classes
+- [CS 42600: Computer Security](https://www.cs.purdue.edu/homes/clifton/cs426/)
+  - [Introduction to Computer Security](https://nob.cs.ucdavis.edu/book/book-intro/index.html)
+  - [Computer Security: Art and Science, 2nd Edition](https://nob.cs.ucdavis.edu/book/book-aands2/index.html)
+- [Computer and Network Security](https://engineering.purdue.edu/kak/compsec/)
 
 # Online resources
 - [pwn.college - Learn to hack!](https://pwn.college/) 
