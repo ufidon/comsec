@@ -1,14 +1,14 @@
 # User authentication & authorization
 
 ### Lab Objective:
-In this lab, you will set up a domain using Active Directory on Windows Server 2019, create users with specific roles and folder permissions for a university structure, and enforce a complex password policy to enhance security.
+In this lab, you will set up a domain using Active Directory on Windows Server 2025, create users with specific roles and folder permissions for a university structure, and enforce a complex password policy to enhance security.
 
 
 
 ### Scenario:
 Imagine a university with three departments: **Computer Science**, **Mathematics**, and **Engineering**. Each department has one chairperson, three faculty members, and thirty-three students. The entire university has one provost.
 
-1. **Install and configure Active Directory** on Windows Server 2019.
+1. **Install and configure Active Directory** on Windows Server 2025.
 2. **Enforce a complex password policy** to ensure strong passwords for all users in the domain.
 3. **Create users** and organize them by department.
 4. **Set up folder permissions** for each department according to roles:
@@ -20,7 +20,7 @@ Imagine a university with three departments: **Computer Science**, **Mathematics
 
 
 ### Prerequisites:
-- Windows Server 2019 installed.
+- Windows Server 2025 installed.
 - Administrative access to the server.
 - Basic understanding of Active Directory.
 
@@ -59,7 +59,7 @@ Active Directory works with several components:
 
 ## **Task 2: Enable Complex Password Policy for All Users**
 
-**Objective:** Configure Windows Server 2019 to enforce complex password policies for all users in the domain.
+**Objective:** Configure Windows Server 2025 to enforce complex password policies for all users in the domain.
 
 
 1. **Open Group Policy Management**
@@ -132,7 +132,7 @@ Once enabled, Windows will enforce the following requirements:
 - Passwords cannot contain parts of the user's name or username.
 - The minimum password length is typically set to 8 characters (though you can adjust this).
 
-By the end of this task, all users in your domain will be required to create more secure, complex passwords, enhancing the overall security of your Windows Server 2019 environment.
+By the end of this task, all users in your domain will be required to create more secure, complex passwords, enhancing the overall security of your Windows Server 2025 environment.
 
 
 
@@ -354,11 +354,11 @@ By the end of this lab, you will have:
 - Enforced a complex password policy to improve domain security.
 - Configured folder permissions based on user roles and department.
 
-This exercise builds a solid foundation in managing Windows Server 2019, Active Directory, folder permissions, and security policies.
+This exercise builds a solid foundation in managing Windows Server 2025, Active Directory, folder permissions, and security policies.
 
 
 # References
-## How to Delete a Protected OU in Windows Server 2019?
+## How to Delete a Protected OU in Windows Server 2025?
  - Enable `advanced features` in `Active Directory Users and Computers` from its view menu
  - Disable OU protection from its `Properties` panel to delete it
  - or by Powershell

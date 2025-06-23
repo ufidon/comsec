@@ -7,7 +7,7 @@ In this lab, we will set up a penetration testing environment where Parrot Linux
 - **Parrot Linux (Attacker VM)**:
   - Install Parrot Security OS, which comes pre-installed with the Metasploit Framework.
 - **Windows (Target VM)**:
-  - Use Windows Server 2019 or 2022, or Windows 10 or 11 as the target. Ensure it has vulnerable software or weak defenses (e.g., disabled antivirus, outdated patches).
+  - Use Windows Server 2025 or 2022, or Windows 10 or 11 as the target. Ensure it has vulnerable software or weak defenses (e.g., disabled antivirus, outdated patches).
 
 - The two VMs are connected in the same NAT Networks. 
 

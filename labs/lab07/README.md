@@ -4,7 +4,7 @@ In this lab, we learn configuring Windows firewall rules, monitoring firewall ac
 
 ## **Windows Firewall Features and Capabilities**
 
-**Windows Defender Firewall with Advanced Security** is a powerful tool built into Windows operating systems, including Windows Server 2019/2022, to manage and control inbound and outbound network traffic. 
+**Windows Defender Firewall with Advanced Security** is a powerful tool built into Windows operating systems, including Windows Server 2025/2022, to manage and control inbound and outbound network traffic. 
 
 Windows Firewall offers flexibility, allowing you to finely control traffic flows both to and from your server, thus improving the server’s security posture.
 
@@ -45,7 +45,7 @@ In domain environments, firewall settings can be configured and enforced central
 ## **Lab Overview**
 
 - **Environment**: Two VMs connected in a NAT network in VirtualBox:
-  - Windows Server 2019/2022 with IIS installed and a website hosted **done in Lab05**
+  - Windows Server 2025/2022 with IIS installed and a website hosted **done in Lab05**
   - Parrot Linux
 - **Goals**: 
   1. Configure Windows Firewall.

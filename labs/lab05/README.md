@@ -50,7 +50,7 @@ In this lab, both the Windows Server and Parrot Linux are required.
     http://localhost
     #  3. 💻 access from Windows: http://ParotIP
     ```
-  - *In case you cannot access the HTTP server from Windows 2019*, you may try installing other Windows and connect them to the same NAT network as Parrot such as
+  - *In case you cannot access the HTTP server from Windows 2025*, you may try installing other Windows and connect them to the same NAT network as Parrot such as
     - [Windows server 2022](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2022)
     - [Windows 11 development environment](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
     - [Windows 10 Enterprise](https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise)    

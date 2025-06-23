@@ -1,7 +1,7 @@
 # Setup lab environment
 
 ## 1.Description
-**In this lab, we will build our own virtual computer security environment managed with VirtualBox, which consists of Parrot Security Linux and Windows server 2019**
+**In this lab, we will build our own virtual computer security environment managed with VirtualBox, which consists of Parrot Security Linux and Windows server 2025**
 
 * The physical computer you use is called a "Host". The virtual machines that run on it are called "Guests". 
 
@@ -20,7 +20,7 @@ Your PC must support virtualization which is popular today, following the sectio
     * [Samsung (MU-PA500B/AM)T5 Portable SSD - 500GB - USB 3.1 External SSD , Blue ](https://www.amazon.com/Samsung-T5-Portable-SSD-MU-PA500B/dp/B073GZBT36?ref\_=fsclp\_pl\_dp\_3&th=1)
 
 ## 2.Steps
-To set up the lab using a `VirtualBox image for Parrot Linux` and a `VHD image for Windows Server 2019`, follow the steps below. This approach skips the installation process by using pre-configured virtual disk images.
+To set up the lab using a `VirtualBox image for Parrot Linux` and a `VHD image for Windows Server 2025`, follow the steps below. This approach skips the installation process by using pre-configured virtual disk images.
 
 ### **1. Install VirtualBox**
 
@@ -29,7 +29,7 @@ If you haven't already installed VirtualBox, download and install it from the [V
 ### **2. Download the VirtualBox and VHD Images**
 
 - **Parrot Linux**: Download the Parrot Linux VirtualBox image from the [Parrot OS official website](https://www.parrotsec.org). Ensure you choose the `.ova` format, which is a pre-configured VirtualBox appliance.
-- **Windows Server 2019**: Download the VHD image from the [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019).
+- **Windows Server 2025**: Download the VHD image from the [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2025).
 
 ### **3. Import the Parrot Linux VirtualBox Image**
 
@@ -41,16 +41,16 @@ If you haven't already installed VirtualBox, download and install it from the [V
    2. A suggested allocation: 2GB RAM, 60GB disk
 5. After the import completes, you should see the Parrot Linux VM listed in VirtualBox.
 
-### **4. Create the Windows Server 2019 VM Using the VHD Image**
+### **4. Create the Windows Server 2025 VM Using the VHD Image**
 
 1. **Create a New VM**:
    - In VirtualBox, click on **"New"**.
-   - Name the VM (e.g., `WindowsServer2019`), select **Type**: Microsoft Windows, and **Version**: Windows 2019 (64-bit).
+   - Name the VM (e.g., `WindowsServer2025`), select **Type**: Microsoft Windows, and **Version**: Windows 2025 (64-bit).
    - Allocate memory (e.g., 4096 MB).
 
 2. **Attach the VHD Image**:
    - In the **Hard disk** section of the VM creation wizard, choose **Use an existing virtual hard disk file**.
-   - Click on the folder icon and browse to select the downloaded Windows Server 2019 `.vhd` file.
+   - Click on the folder icon and browse to select the downloaded Windows Server 2025 `.vhd` file.
    - Finish creating the VM.
 
 ### **5. Create and Configure the NAT Network**
@@ -62,7 +62,7 @@ If you haven't already installed VirtualBox, download and install it from the [V
    - Edit the NAT Network to ensure it is enabled, and note the IP range (e.g., `10.0.2.0/24`).
 
 2. **Attach VMs to the NAT Network**:
-   - For each VM (Parrot Linux and Windows Server 2019), go to **Settings** > **Network**.
+   - For each VM (Parrot Linux and Windows Server 2025), go to **Settings** > **Network**.
    - Set **Adapter 1** to **Attached to**: NAT Network.
    - Select the NAT Network you just created.
    - Enable **Promiscuous** mode: `All all` or `Allow VMs`.
@@ -70,7 +70,7 @@ If you haven't already installed VirtualBox, download and install it from the [V
 ### **6. Start the VMs**
 
 1. **Start the Parrot Linux VM** by selecting it in VirtualBox and clicking **Start**.
-2. **Start the Windows Server 2019 VM** similarly.
+2. **Start the Windows Server 2025 VM** similarly.
 
 ### **7. Verify Network Configuration**
 
@@ -78,7 +78,7 @@ Once both VMs are running:
 
 #### **Find the IP Addresses**
 
-- **Windows Server 2019**: Open a command prompt and run:
+- **Windows Server 2025**: Open a command prompt and run:
   ```bash
   ipconfig
   ```
@@ -92,17 +92,17 @@ Once both VMs are running:
 
 #### **Test Communication Between VMs**
 
-- From **Parrot Linux**, ping **indows Server 2019**:
+- From **Parrot Linux**, ping **indows Server 2025**:
   ```bash
   # To enable ping without sudo
   sudo setcap cap_net_raw+p $(which ping)
 
-  ping <Windows Server 2019 IP>
+  ping <Windows Server 2025 IP>
   ```
-  - By default, Windows server 2019 disabled its ping echo service. Following this [link](https://kb.iu.edu/d/aopy) to turn on its echo services
+  - By default, Windows server 2025 disabled its ping echo service. Following this [link](https://kb.iu.edu/d/aopy) to turn on its echo services
     - File and Printer Sharing (Echo Request - ICMPv4-In), and
     - File and Printer Sharing (Echo Request - ICMPv6-In)
-- From **Windows Server 2019**, ping **Parrot Linux**:
+- From **Windows Server 2025**, ping **Parrot Linux**:
   ```bash
   ping <Parrot Linux IP>
   ```
@@ -110,7 +110,7 @@ Once both VMs are running:
 
 ### **8. Install VirtualBox Guest Additions**
 
-Guest Additions need to be installed on both VMs to enable bidirectional copy-paste and shared folders. The steps differ slightly for Parrot Linux and Windows Server 2019.
+Guest Additions need to be installed on both VMs to enable bidirectional copy-paste and shared folders. The steps differ slightly for Parrot Linux and Windows Server 2025.
 
 #### **For Parrot Linux**
 
@@ -146,9 +146,9 @@ Guest Additions need to be installed on both VMs to enable bidirectional copy-pa
      sudo reboot
      ```
 
-#### **For Windows Server 2019**
+#### **For Windows Server 2025**
 
-1. **Start the Windows Server 2019 VM**.
+1. **Start the Windows Server 2025 VM**.
 2. **Insert the Guest Additions CD**:
    - In VirtualBox, with the VM running, go to **Devices** > **Insert Guest Additions CD Image**.
 3. **Install Guest Additions**:
@@ -164,7 +164,7 @@ Guest Additions need to be installed on both VMs to enable bidirectional copy-pa
    - Go to **Devices** > **Drag and Drop**.
    - Select **Bidirectional**.
 
-Repeat these steps for both the Parrot Linux and Windows Server 2019 VMs.
+Repeat these steps for both the Parrot Linux and Windows Server 2025 VMs.
 
 ### **10. Create Shared Folders**
 
@@ -179,7 +179,7 @@ Shared folders allow you to share files between your host system and the guest V
    - Set the **Folder Name** (this is how it will appear in the VM).
    - Check **Auto-mount** and optionally **Make Permanent**.
 
-   Repeat this for both the Parrot Linux and Windows Server 2019 VMs.
+   Repeat this for both the Parrot Linux and Windows Server 2025 VMs.
 
 #### **Access Shared Folders in Parrot Linux**
 
@@ -191,7 +191,7 @@ Shared folders allow you to share files between your host system and the guest V
      ```
    - Log out and log back in, or reboot the VM to apply the changes.
 
-#### **Access Shared Folders in Windows Server 2019**
+#### **Access Shared Folders in Windows Server 2025**
 
 1. **After Booting the VM**:
    - Open **File Explorer**.
@@ -207,7 +207,7 @@ After setting up the shared folders and enabling bidirectional copy-paste:
 
 ### **Conclusion**
 
-By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Windows Server 2019, you save time on OS installation and quickly set up a virtual lab. After importing the images and configuring the NAT network, the VMs should be able to communicate with each other, which you can verify using ping commands. You've enabled bidirectional copy-paste and configured shared folders for easy file transfer between the host and the guest VMs, improving the usability of your virtual environment.
+By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Windows Server 2025, you save time on OS installation and quickly set up a virtual lab. After importing the images and configuring the NAT network, the VMs should be able to communicate with each other, which you can verify using ping commands. You've enabled bidirectional copy-paste and configured shared folders for easy file transfer between the host and the guest VMs, improving the usability of your virtual environment.
 
 
 
