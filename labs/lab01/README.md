@@ -209,7 +209,101 @@ After setting up the shared folders and enabling bidirectional copy-paste:
 
 By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Windows Server 2025, you save time on OS installation and quickly set up a virtual lab. After importing the images and configuring the NAT network, the VMs should be able to communicate with each other, which you can verify using ping commands. You've enabled bidirectional copy-paste and configured shared folders for easy file transfer between the host and the guest VMs, improving the usability of your virtual environment.
 
+---
 
+## Alternative environment on [Google Cloud Platform (GCP)](https://cloud.google.com/)
+
+### Create 2 VMs on GCP
+- Create a Windows server 2025 VM
+- Create a Ubuntu 24.04 LTS VM
+
+### Setup ubuntu user
+- Install [Google Cloud SDK (which includes Google Cloud CLI)](https://cloud.google.com/sdk/docs/install)
+  - On windows, run the installation file with all default options
+  - On Linux
+  ```bash
+  ## A. on ubuntu/debian
+  # Add Google Cloud SDK repository
+  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+  # Import public key
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+  # update then install
+  sudo apt update && sudo apt install google-cloud-sdk -y
+
+  ## B. other linux distribution
+  sudo snap install google-cloud-sdk --classic
+  ```
+- Initialize GC CLI
+  ```bash
+  gcloud init
+  ```
+- Logon ubuntu vm through SSH
+  ```bash
+  # with gcloud
+  gcloud compute ssh USERNAME@VM_NAME --zone ZONE
+  # or on webpage
+  ```
+- Setup a password for a user in SSH
+  ```bash
+    sudo passwd USERNAME
+  ```
+
+### Install and enable rdp on ubuntu
+```bash
+#!/bin/bash
+
+# update system
+sudo apt update && sudo apt upgrade -y
+
+# install XFCE desktop and necessary plugins
+sudo apt install xfce4 xfce4-goodies -y
+
+# install xrdp
+sudo apt install xrdp -y
+
+# enable then start xrdp service
+sudo systemctl enable xrdp
+sudo systemctl start xrdp
+
+# configure xrdp to use XFCE session
+echo "startxfce4" > ~/.xsession
+sudo sed -i.bak '/^new_cursors=true/ s/true/false/' /etc/xrdp/xrdp.ini
+
+# restart xrdp service to apply configuration
+sudo systemctl restart xrdp
+
+# create firewall rule (not recommended)
+#gcloud compute firewall-rules create allow-rdp \
+#    --allow tcp:3389 \
+#    --network default \
+#    --source-ranges 0.0.0.0/0 \
+#    --description "Allow RDP"
+
+echo "Installation done！"
+echo "GCP IAP Desktop or SSH tunnelling for RDP is recommended，avoid exposing port 3389."
+```
+
+### Access RDP by GCP IAP
+```bash
+# 1. login gcloud CLI
+gcloud auth login
+
+# 2. enable IAP
+gcloud services enable iap.googleapis.com
+
+# 3. Create tunnel via IAP to access RDP
+# Change vm name my-vm and zone to yours
+gcloud compute start-iap-tunnel my-vm 3389 --local-host-port=localhost:4000 --zone=us-central1-a
+
+# 4. Tunnel to the VM: localhost:4000 → VM:3389
+# With RDP client, username/pass: vm logon account
+```
+
+⚠️ Remember to POWER OFF all your VMs every time.
+
+---
 
 
 ## References
