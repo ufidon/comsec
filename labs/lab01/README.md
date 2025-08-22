@@ -223,13 +223,16 @@ By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Window
   - On Linux
   ```bash
   ## A. on ubuntu/debian
-  # Add Google Cloud SDK repository
+  # 0.  Install required network tools
+  sudo apt-get install apt-transport-https ca-certificates gnupg curl
+
+  # 1. Add Google Cloud SDK repository
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 
-  # Import public key
+  # 2. Import public key
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
-  # update then install
+  # 3. update then install
   sudo apt update && sudo apt install google-cloud-sdk -y
 
   ## B. other linux distribution
