@@ -371,3 +371,8 @@ gcloud compute start-iap-tunnel my-vm 3389 --local-host-port=localhost:4000 --zo
   * Windows user/pass: Lab250/toor, Administrator/Admin123
   * Kali user/pass: root/toor
 * [Immersive learning games](https://drive.google.com/drive/folders/1lrMrlt7txA1VviePt4koUjyxB6nedtLg)
+* _Mac m1/m2/m3/m4_
+  * [How to Install and use UTM on Mac: A Guide to Virtual Machines on Mac M1/M2 Apple Silicon Chips](https://youtu.be/i8yUvohhAXw)
+    * [How to Install Windows 11 VM on a Mac (M1 / M2 / M3 / M4) with UTM?](https://youtu.be/uis3pvt4wBU)
+  * [Install Windows Server 2025 on macOS ARM 64 bit](https://youtu.be/K3QfTnYePxM)
+  * [How to Install Parrot Security OS in UTM on MacOS, 2025?](https://youtu.be/_mBuvZIbHl4)
