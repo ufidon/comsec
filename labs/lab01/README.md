@@ -220,6 +220,7 @@ By using a pre-configured VirtualBox image for Parrot Linux and a VHD for Window
 ### Setup ubuntu user
 - Install [Google Cloud SDK (which includes Google Cloud CLI)](https://cloud.google.com/sdk/docs/install)
   - On windows, run the installation file with all default options
+    - refer to this [video](https://youtu.be/rpmOM5jJJfY?si=Jm8RDhbWXsc2zjRZ)
   - On Linux
   ```bash
   ## A. on ubuntu/debian
