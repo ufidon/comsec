@@ -279,6 +279,7 @@ sudo sed -i.bak '/^new_cursors=true/ s/true/false/' /etc/xrdp/xrdp.ini
 sudo systemctl restart xrdp
 
 # 7. allow xrdp sudo
+# How to use vim? refer to [Give Me 20 Minutes and I’ll Make You a Vim Motions Expert](https://youtu.be/z4eA2eC28qg)
 sudo vim /etc/polkit-1/localauthority.conf.d/02-allow-sudoers.conf
 # add the following 4 lines to 02-allow-sudoers.conf
 [Allow Sudoers]
