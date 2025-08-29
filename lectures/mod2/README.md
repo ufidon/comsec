@@ -263,7 +263,7 @@ Message Authentication using a hash function and a shared key
   - send out: $M + H$
 - for the receiver
   - recalculate the hash tag $H''$ of the received message $M': Hash(K+M'+K)$
-  - compare $H'$ with the received $H''$
+  - compare $H'$ with $H''$
     - if $H'=H''$, message is authentic
 
 
